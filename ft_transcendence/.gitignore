@@ -1,0 +1,45 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Python
+__pycache__/
+*.py[cod]
+.venv
+.mypy_cache
+.pytest_cache
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# secrets
+/secrets
+
+# scratch files — `test__*` with two underscores on purpose:
+# `test_*` would swallow every pytest module
+test.md
+test__*
+
+# Session claude
+graphify-out/
+CLAUDE.md
+
+.pnpm*

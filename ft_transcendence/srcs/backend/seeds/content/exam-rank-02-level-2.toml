@@ -1,0 +1,453 @@
+# Exam Rank 02, level 2: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank02-l2-primality-test"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1200
+tags = ["number-theory", "complexity"]
+key_points = [
+  "Numbers below 2 are not prime; for n >= 2, try the divisors from 2 upward.",
+  "It is enough to try divisors up to the square root of n: if n = a × b with a <= b, then a <= √n, so a divisor above √n would pair with one already tried.",
+  "The bound is best written i <= n / i rather than i * i <= n, which can overflow for n close to INT_MAX.",
+  "The test costs O(√n) divisions instead of O(n).",
+]
+
+[questions.translations.en]
+title = "Testing whether a number is prime"
+stem = "To decide whether an integer `n` is prime by trying divisors, where do you start, where can you stop, and why is that bound enough? How should the loop condition be written so that it works up to `INT_MAX`, and what does the test cost?"
+explanation = "Numbers below 2 are not prime. For `n >= 2`, try the divisors from 2 upward, and stop at the square root of `n`: if `n = a × b` with `a <= b`, then `a <= √n`, so any divisor larger than `√n` pairs with a smaller one that was already tried. Written `i * i <= n`, the condition can overflow when `n` is close to `INT_MAX`; `i <= n / i` expresses the same bound without the product. The test then costs `O(√n)` divisions instead of `O(n)`: about 46 000 for `INT_MAX` instead of two billion."
+
+[questions.translations.fr]
+title = "Tester si un nombre est premier"
+stem = "Pour décider si un entier `n` est premier en essayant des diviseurs, où commencer, où peut-on s'arrêter, et pourquoi cette borne suffit-elle ? Comment écrire la condition de la boucle pour qu'elle fonctionne jusqu'à `INT_MAX`, et que coûte le test ?"
+explanation = "Les nombres inférieurs à 2 ne sont pas premiers. Pour `n >= 2`, on essaie les diviseurs à partir de 2, et on s'arrête à la racine carrée de `n` : si `n = a × b` avec `a <= b`, alors `a <= √n`, donc tout diviseur plus grand que `√n` va de pair avec un plus petit, déjà essayé. Écrite `i * i <= n`, la condition peut déborder quand `n` est proche de `INT_MAX` ; `i <= n / i` exprime la même borne sans produit. Le test coûte alors `O(√n)` divisions au lieu de `O(n)` : environ 46 000 pour `INT_MAX` au lieu de deux milliards."
+
+[questions.translations.es]
+title = "Comprobar si un número es primo"
+stem = "Para decidir si un entero `n` es primo probando divisores, ¿dónde empiezas, dónde puedes parar y por qué basta ese límite? ¿Cómo debe escribirse la condición del bucle para que funcione hasta `INT_MAX`, y cuánto cuesta la comprobación?"
+explanation = "Los números menores que 2 no son primos. Para `n >= 2`, se prueban los divisores desde 2 hacia arriba y se para en la raíz cuadrada de `n`: si `n = a × b` con `a <= b`, entonces `a <= √n`, así que cualquier divisor mayor que `√n` va emparejado con uno menor que ya se probó. Escrita `i * i <= n`, la condición puede desbordar cuando `n` está cerca de `INT_MAX`; `i <= n / i` expresa el mismo límite sin el producto. La comprobación cuesta entonces `O(√n)` divisiones en lugar de `O(n)`: unas 46 000 para `INT_MAX` en lugar de dos mil millones."
+
+[[questions.choices]]
+correct = true
+text = { en = "From 2 up to the square root of `n`, written `i <= n / i` so that nothing overflows: O(√n) divisions", fr = "De 2 jusqu'à la racine carrée de `n`, écrit `i <= n / i` pour que rien ne déborde : O(√n) divisions", es = "De 2 hasta la raíz cuadrada de `n`, escrito `i <= n / i` para que nada desborde: O(√n) divisiones" }
+
+[[questions.choices]]
+text = { en = "Up to `n - 1`: stopping any earlier could declare a composite number prime", fr = "Jusqu'à `n - 1` : s'arrêter avant risquerait de déclarer premier un nombre composé", es = "Hasta `n - 1`: parar antes podría declarar primo a un número compuesto" }
+
+[[questions.choices]]
+text = { en = "Up to the square root, written `i * i <= n`, which is safe whatever the value of `n`", fr = "Jusqu'à la racine, écrit `i * i <= n`, ce qui est sûr quelle que soit la valeur de `n`", es = "Hasta la raíz, escrito `i * i <= n`, lo que es seguro sea cual sea el valor de `n`" }
+
+[[questions.choices]]
+text = { en = "Up to the square root, and 1 is prime since nothing divides it but itself", fr = "Jusqu'à la racine, et 1 est premier puisque rien ne le divise à part lui-même", es = "Hasta la raíz, y 1 es primo ya que nada lo divide salvo él mismo" }
+
+[[questions]]
+slug = "rank02-l2-prime-sieve"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1200
+tags = ["number-theory", "algorithms"]
+key_points = [
+  "The sieve of Eratosthenes keeps one flag per number up to n, all marked as possibly prime at first.",
+  "Take the smallest number still marked, which is prime, and cross out all its multiples; repeat with the next marked number.",
+  "Crossing out can start at p × p, because smaller multiples of p have a smaller prime factor and are already crossed out.",
+  "It finds every prime up to n in about O(n log log n), far less than testing each number by trial division.",
+]
+
+[questions.translations.en]
+title = "Finding every prime up to n"
+stem = "When you need every prime number up to `n`, for instance to count them, testing each number separately repeats a lot of work. How does the sieve of Eratosthenes proceed, why can each crossing-out start at `p × p`, and what does it cost?"
+explanation = "The sieve keeps one flag per number from 2 to `n`, all marked as possibly prime. The smallest number still marked is prime; you then cross out all its multiples, and move on to the next number still marked. Crossing out can start at `p × p`, because every smaller multiple of `p` also has a smaller prime factor and was crossed out already. The whole sieve costs about `O(n log log n)`, against roughly `O(n√n)` for trial division of every number; for `n = 10`, it leaves 2, 3, 5 and 7."
+
+[questions.translations.fr]
+title = "Trouver tous les nombres premiers jusqu'à n"
+stem = "Quand on a besoin de tous les nombres premiers jusqu'à `n`, par exemple pour les compter, tester chaque nombre séparément refait beaucoup de travail. Comment procède le crible d'Ératosthène, pourquoi chaque élimination peut-elle commencer à `p × p`, et que coûte-t-il ?"
+explanation = "Le crible garde un indicateur par nombre de 2 à `n`, tous marqués comme possiblement premiers. Le plus petit nombre encore marqué est premier ; on raye alors tous ses multiples, puis on passe au nombre suivant encore marqué. L'élimination peut commencer à `p × p`, parce que chaque multiple plus petit de `p` a aussi un facteur premier plus petit et a déjà été rayé. Tout le crible coûte environ `O(n log log n)`, contre à peu près `O(n√n)` en testant chaque nombre par divisions ; pour `n = 10`, il reste 2, 3, 5 et 7."
+
+[questions.translations.es]
+title = "Encontrar todos los primos hasta n"
+stem = "Cuando necesitas todos los números primos hasta `n`, por ejemplo para contarlos, comprobar cada número por separado repite mucho trabajo. ¿Cómo procede la criba de Eratóstenes, por qué cada tachado puede empezar en `p × p` y cuánto cuesta?"
+explanation = "La criba guarda un indicador por cada número de 2 a `n`, todos marcados como posiblemente primos. El menor número que sigue marcado es primo; se tachan entonces todos sus múltiplos y se pasa al siguiente número marcado. El tachado puede empezar en `p × p`, porque cada múltiplo menor de `p` tiene también un factor primo menor y ya está tachado. Toda la criba cuesta unos `O(n log log n)`, frente a aproximadamente `O(n√n)` probando divisores para cada número; para `n = 10`, quedan 2, 3, 5 y 7."
+
+[[questions.choices]]
+correct = true
+text = { en = "Cross out the multiples of each number still marked, starting at `p × p`: about O(n log log n) for every prime up to `n`", fr = "Rayer les multiples de chaque nombre encore marqué, à partir de `p × p` : environ O(n log log n) pour tous les premiers jusqu'à `n`", es = "Tachar los múltiplos de cada número aún marcado, empezando en `p × p`: unos O(n log log n) para todos los primos hasta `n`" }
+
+[[questions.choices]]
+text = { en = "Crossing out must begin at `2p`, otherwise `2p` and `3p` are never crossed out", fr = "Le rayage doit commencer à `2p`, sinon `2p` et `3p` ne sont jamais rayés", es = "El tachado debe empezar en `2p`, si no `2p` y `3p` nunca se tachan" }
+
+[[questions.choices]]
+text = { en = "The sieve tests each number by trial division and stores the answers so as not to repeat them", fr = "Le crible teste chaque nombre par divisions successives et range les réponses pour ne pas les refaire", es = "La criba prueba cada número por divisiones sucesivas y guarda las respuestas para no repetirlas" }
+
+[[questions.choices]]
+text = { en = "It costs O(n²), since every number has to be compared with every other one", fr = "Il coûte O(n²), puisque chaque nombre doit être comparé à tous les autres", es = "Cuesta O(n²), ya que cada número debe compararse con todos los demás" }
+
+[[questions]]
+slug = "rank02-l2-euclid-gcd"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1200
+tags = ["number-theory"]
+key_points = [
+  "Euclid's algorithm relies on gcd(a, b) = gcd(b, a % b): a common divisor of a and b also divides a % b, and the other way round.",
+  "Repeat until the second number is 0; the first number is then the greatest common divisor.",
+  "The order of a and b does not matter: if a < b, the first step simply swaps them.",
+  "The remainders shrink quickly, so the number of steps is logarithmic, far fewer than trying every candidate divisor.",
+]
+
+[questions.translations.en]
+title = "The greatest common divisor"
+stem = "How does Euclid's algorithm compute the greatest common divisor of two positive integers? On what equality does it rely, when does it stop, what happens when the first number is the smaller one, and why is it fast?"
+explanation = "The algorithm relies on `gcd(a, b) = gcd(b, a % b)`: any number dividing `a` and `b` also divides the remainder `a % b`, and conversely. You replace the pair `(a, b)` with `(b, a % b)` until the second number is 0; the first is then the answer: `gcd(42, 10)` goes through `(10, 2)` then `(2, 0)` and gives 2. If `a < b`, the first step just swaps them, since `a % b` is `a`. The remainders shrink fast, so the number of steps grows only logarithmically, far fewer than trying every possible divisor."
+
+[questions.translations.fr]
+title = "Le plus grand diviseur commun"
+stem = "Comment l'algorithme d'Euclide calcule-t-il le plus grand diviseur commun de deux entiers positifs ? Sur quelle égalité repose-t-il, quand s'arrête-t-il, que se passe-t-il quand le premier nombre est le plus petit, et pourquoi est-il rapide ?"
+explanation = "L'algorithme repose sur `gcd(a, b) = gcd(b, a % b)`, `gcd` désignant le plus grand diviseur commun : tout nombre qui divise `a` et `b` divise aussi le reste `a % b`, et réciproquement. On remplace la paire `(a, b)` par `(b, a % b)` jusqu'à ce que le second nombre vaille 0 ; le premier est alors la réponse : `gcd(42, 10)` passe par `(10, 2)` puis `(2, 0)` et donne 2. Si `a < b`, le premier pas les échange simplement, puisque `a % b` vaut `a`. Les restes diminuent vite, donc le nombre d'étapes ne croît que de façon logarithmique, bien moins qu'en essayant tous les diviseurs possibles."
+
+[questions.translations.es]
+title = "El máximo común divisor"
+stem = "¿Cómo calcula el algoritmo de Euclides el máximo común divisor de dos enteros positivos? ¿En qué igualdad se basa, cuándo se detiene, qué pasa cuando el primer número es el menor y por qué es rápido?"
+explanation = "El algoritmo se basa en `mcd(a, b) = mcd(b, a % b)`: cualquier número que divide a `a` y a `b` divide también el resto `a % b`, y a la inversa. Se sustituye el par `(a, b)` por `(b, a % b)` hasta que el segundo número vale 0; el primero es entonces la respuesta: `mcd(42, 10)` pasa por `(10, 2)` y luego `(2, 0)`, y da 2. Si `a < b`, el primer paso simplemente los intercambia, ya que `a % b` vale `a`. Los restos disminuyen deprisa, así que el número de pasos solo crece de forma logarítmica, muchos menos que probando todos los divisores posibles."
+
+[[questions.choices]]
+correct = true
+text = { en = "`gcd(a, b) = gcd(b, a % b)`, repeated until the second is 0; the order does not matter, since the first step swaps them", fr = "`pgcd(a, b) = pgcd(b, a % b)`, répété jusqu'à ce que le second soit 0 ; l'ordre importe peu, le premier pas les échange", es = "`mcd(a, b) = mcd(b, a % b)`, repetido hasta que el segundo sea 0; el orden da igual, el primer paso los intercambia" }
+
+[[questions.choices]]
+text = { en = "`a` has to be the larger of the two, otherwise the algorithm never stops", fr = "`a` doit être le plus grand des deux, sinon l'algorithme ne s'arrête jamais", es = "`a` debe ser el mayor de los dos, si no el algoritmo no termina nunca" }
+
+[[questions.choices]]
+text = { en = "It stops when the second number reaches 1, since 1 divides everything", fr = "Il s'arrête quand le second nombre atteint 1, puisque 1 divise tout", es = "Se detiene cuando el segundo número llega a 1, ya que 1 divide todo" }
+
+[[questions.choices]]
+text = { en = "`gcd(a, b) = gcd(b, a / b)`, the quotient taking the place of the remainder", fr = "`pgcd(a, b) = pgcd(b, a / b)`, le quotient prenant la place du reste", es = "`mcd(a, b) = mcd(b, a / b)`, el cociente en lugar del resto" }
+
+[[questions]]
+slug = "rank02-l2-least-common-multiple"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1200
+tags = ["number-theory"]
+key_points = [
+  "The product of two positive integers equals their greatest common divisor times their least common multiple, so the least common multiple is a × b / gcd(a, b).",
+  "Computing a × b first can overflow even when the least common multiple itself fits, so divide first: a / gcd(a, b) × b, which is exact because gcd(a, b) divides a.",
+  "If either number is 0, the least common multiple is taken as 0, and the division by the gcd must not be attempted.",
+]
+
+[questions.translations.en]
+title = "The least common multiple"
+stem = "How can the least common multiple of two positive integers be computed from their greatest common divisor? In what order must the operations be done so that no intermediate result overflows, and what about 0?"
+explanation = "For two positive integers, the product equals the greatest common divisor times the least common multiple, so the latter is `a × b / gcd(a, b)`. Written in that order, `a × b` may overflow although the result fits: with `int`, the least common multiple of 100 000 and 100 000 comes out as 14 100 instead of 100 000. Dividing first, `a / gcd(a, b) × b`, is exact, since `gcd(a, b)` divides `a`, and keeps the numbers small. When one of the numbers is 0, the least common multiple is taken as 0 by convention, and the computation is not attempted."
+
+[questions.translations.fr]
+title = "Le plus petit multiple commun"
+stem = "Comment calculer le plus petit multiple commun de deux entiers positifs à partir de leur plus grand diviseur commun ? Dans quel ordre faire les opérations pour qu'aucun résultat intermédiaire ne déborde, et que faire de 0 ?"
+explanation = "Pour deux entiers positifs, le produit vaut le plus grand diviseur commun multiplié par le plus petit multiple commun, donc ce dernier vaut `a × b / gcd(a, b)`. Écrit dans cet ordre, `a × b` peut déborder alors que le résultat tient : en `int`, le plus petit multiple commun de 100 000 et 100 000 sort à 14 100 au lieu de 100 000. Diviser d'abord, `a / gcd(a, b) × b`, est exact, puisque `gcd(a, b)` divise `a`, et garde des nombres petits. Quand l'un des nombres vaut 0, le plus petit multiple commun vaut 0 par convention, et on ne tente pas le calcul."
+
+[questions.translations.es]
+title = "El mínimo común múltiplo"
+stem = "Dados dos enteros positivos, ¿cómo se obtiene su mínimo común múltiplo a partir de su máximo común divisor? ¿En qué orden deben hacerse las operaciones para que ningún resultado intermedio desborde, y qué pasa con el 0?"
+explanation = "Para dos enteros positivos, el producto es igual al máximo común divisor por el mínimo común múltiplo, así que este último vale `a × b / gcd(a, b)`. Escrito en ese orden, `a × b` puede desbordar aunque el resultado quepa: con `int`, el mínimo común múltiplo de 100 000 y 100 000 sale 14 100 en lugar de 100 000. Dividir primero, `a / gcd(a, b) × b`, es exacto, ya que `gcd(a, b)` divide a `a`, y mantiene los números pequeños. Cuando uno de los números es 0, el mínimo común múltiplo vale 0 por convención y no se intenta el cálculo."
+
+[[questions.choices]]
+correct = true
+text = { en = "`a / gcd(a, b) × b`: dividing first is exact and keeps the intermediate result small; 0 is handled apart", fr = "`a / pgcd(a, b) × b` : diviser d'abord est exact et garde le résultat intermédiaire petit ; 0 se traite à part", es = "`a / mcd(a, b) × b`: dividir primero es exacto y mantiene pequeño el resultado intermedio; 0 se trata aparte" }
+
+[[questions.choices]]
+text = { en = "`a × b / gcd(a, b)`, in that order: the division at the end keeps the result exact", fr = "`a × b / pgcd(a, b)`, dans cet ordre : la division à la fin garde le résultat exact", es = "`a × b / mcd(a, b)`, en ese orden: la división al final mantiene el resultado exacto" }
+
+[[questions.choices]]
+text = { en = "`a × b`, since any common multiple is a multiple of the product", fr = "`a × b`, puisque tout multiple commun est un multiple du produit", es = "`a × b`, ya que todo múltiplo común es múltiplo del producto" }
+
+[[questions.choices]]
+text = { en = "`a / gcd(a, b) × b`, and 0 needs no special case since it divides everything", fr = "`a / pgcd(a, b) × b`, et 0 ne demande aucun cas à part puisqu'il divise tout", es = "`a / mcd(a, b) × b`, y 0 no necesita ningún caso aparte ya que divide todo" }
+
+[[questions]]
+slug = "rank02-l2-reading-a-number-in-any-base"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1200
+tags = ["conversions", "input-parsing"]
+key_points = [
+  "Each character becomes a digit value: '0'-'9' give 0 to 9, 'a'-'f' and 'A'-'F' give 10 to 15.",
+  "The value is built left to right with value = value * base + digit, exactly as in base 10.",
+  "A character whose digit value is not below the base (or that is not a digit at all) ends the number: in base 8, \"19\" reads as 1.",
+  "An optional leading '-' makes the result negative.",
+]
+
+[questions.translations.en]
+title = "Reading a number in any base"
+stem = "How do you turn a string such as `\"12fdb3\"` into an integer when the base can be anything from 2 to 16? How does a character become a digit, how is the value built, and what happens with a character that is not valid in the chosen base, as in `\"19\"` in base 8?"
+explanation = "Each character is first turned into a digit value: `'0'` to `'9'` give 0 to 9, and `'a'` to `'f'`, like `'A'` to `'F'`, give 10 to 15. The value is then built from left to right with `value = value * base + digit`, the same rule as in base 10: `\"1A\"` in base 16 is 26, and `\"12fdb3\"` is 1 244 595 whatever the case of its letters. A digit must be smaller than the base, so the first character that is not, or that is no digit at all, ends the number: `\"19\"` in base 8 reads as 1. A leading `'-'` makes the result negative."
+
+[questions.translations.fr]
+title = "Lire un nombre dans n'importe quelle base"
+stem = "Comment transformer une chaîne comme `\"12fdb3\"` en entier quand la base peut aller de 2 à 16 ? Comment un caractère devient-il un chiffre, comment construit-on la valeur, et que se passe-t-il avec un caractère qui n'est pas valide dans la base choisie, comme dans `\"19\"` en base 8 ?"
+explanation = "Chaque caractère est d'abord transformé en valeur de chiffre : `'0'` à `'9'` donnent 0 à 9, et `'a'` à `'f'`, comme `'A'` à `'F'`, donnent 10 à 15. La valeur se construit ensuite de gauche à droite avec `valeur = valeur * base + chiffre`, la même règle qu'en base 10 : `\"1A\"` en base 16 vaut 26, et `\"12fdb3\"` vaut 1 244 595, quelle que soit la casse de ses lettres. Un chiffre doit être inférieur à la base, donc le premier caractère qui ne l'est pas, ou qui n'est pas un chiffre du tout, termine le nombre : `\"19\"` en base 8 se lit 1. Un `'-'` en tête rend le résultat négatif."
+
+[questions.translations.es]
+title = "Leer un número en cualquier base"
+stem = "¿Cómo conviertes una cadena como `\"12fdb3\"` en un entero cuando la base puede ir de 2 a 16? ¿Cómo se convierte un carácter en cifra, cómo se construye el valor y qué pasa con un carácter que no es válido en la base elegida, como en `\"19\"` en base 8?"
+explanation = "Cada carácter se convierte primero en un valor de cifra: `'0'` a `'9'` dan 0 a 9, y `'a'` a `'f'`, igual que `'A'` a `'F'`, dan 10 a 15. El valor se construye después de izquierda a derecha con `valor = valor * base + cifra`, la misma regla que en base 10: `\"1A\"` en base 16 vale 26, y `\"12fdb3\"` vale 1 244 595, sea cual sea la caja de sus letras. Una cifra debe ser menor que la base, así que el primer carácter que no lo es, o que no es una cifra, termina el número: `\"19\"` en base 8 se lee 1. Un `'-'` inicial hace negativo el resultado."
+
+[[questions.choices]]
+correct = true
+text = { en = "`value = value * base + digit`, left to right; a character outside the base ends the number, so `\"19\"` in base 8 reads 1", fr = "`valeur = valeur * base + chiffre`, de gauche à droite ; un caractère hors de la base termine le nombre, donc `\"19\"` en base 8 vaut 1", es = "`valor = valor * base + cifra`, de izquierda a derecha; un carácter fuera de la base termina el número, así que `\"19\"` en base 8 vale 1" }
+
+[[questions.choices]]
+text = { en = "`\"19\"` in base 8 gives 0: one invalid character makes the whole conversion fail", fr = "`\"19\"` en base 8 donne 0 : un seul caractère invalide fait échouer toute la conversion", es = "`\"19\"` en base 8 da 0: un solo carácter inválido hace fallar toda la conversión" }
+
+[[questions.choices]]
+text = { en = "`\"19\"` in base 8 gives 9: an invalid character is skipped and reading carries on", fr = "`\"19\"` en base 8 donne 9 : un caractère invalide est sauté et la lecture continue", es = "`\"19\"` en base 8 da 9: un carácter inválido se salta y la lectura sigue" }
+
+[[questions.choices]]
+text = { en = "`value = value + digit * base`, applied to each character in turn", fr = "`valeur = valeur + chiffre * base`, appliqué à chaque caractère l'un après l'autre", es = "`valor = valor + cifra * base`, aplicado a cada carácter uno tras otro" }
+
+[[questions]]
+slug = "rank02-l2-printing-in-hexadecimal"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1000
+tags = ["conversions", "recursion"]
+key_points = [
+  "The last hexadecimal digit is n % 16 and n / 16 removes it; the digit is turned into a character with a lookup string \"0123456789abcdef\".",
+  "Digits come out least significant first, so print them in reverse: recurse on n / 16 before printing n % 16, or fill a buffer from the end.",
+  "0 must still print one digit, \"0\": a loop that runs while n != 0 prints nothing for it.",
+]
+
+[questions.translations.en]
+title = "Printing in hexadecimal"
+stem = "How do you print a non-negative integer in base 16 with lowercase letters, using only `write`? How do you get each digit and its character, how do you print them in the right order, and which value is easy to forget?"
+explanation = "The last digit in base 16 is `n % 16`, and `n / 16` removes it. Indexing the string `\"0123456789abcdef\"` with that digit gives its character directly, letters included. Digits come out least significant first, so they are printed in reverse: either by recursing on `n / 16` before printing `n % 16`, or by filling a buffer from the end. The value that is easy to forget is 0: a loop written `while (n != 0)` prints nothing at all for it, whereas the recursive version prints `0`. 255 prints as `ff`."
+
+[questions.translations.fr]
+title = "Afficher en hexadécimal"
+stem = "Comment afficher un entier positif ou nul en base 16, avec des lettres minuscules, en n'utilisant que `write` ? Comment obtenir chaque chiffre et son caractère, comment les afficher dans le bon ordre, et quelle valeur est facile à oublier ?"
+explanation = "Le dernier chiffre en base 16 est `n % 16`, et `n / 16` le retire. Indexer la chaîne `\"0123456789abcdef\"` avec ce chiffre donne directement son caractère, lettres comprises. Les chiffres sortent du moins significatif au plus significatif, donc on les affiche à l'envers : soit par récursion sur `n / 16` avant d'afficher `n % 16`, soit en remplissant un tampon par la fin. La valeur facile à oublier est 0 : une boucle écrite `while (n != 0)` n'affiche rien du tout, alors que la version récursive affiche `0`. 255 s'affiche `ff`."
+
+[questions.translations.es]
+title = "Mostrar en hexadecimal"
+stem = "¿Cómo muestras un entero no negativo en base 16, con letras minúsculas, usando solo `write`? ¿Cómo obtienes cada cifra y su carácter, cómo las muestras en el orden correcto y qué valor es fácil de olvidar?"
+explanation = "La última cifra en base 16 es `n % 16`, y `n / 16` la quita. Indexar la cadena `\"0123456789abcdef\"` con esa cifra da directamente su carácter, letras incluidas. Las cifras salen de la menos significativa a la más significativa, así que se muestran al revés: con una recursión sobre `n / 16` antes de mostrar `n % 16`, o llenando un búfer desde el final. El valor fácil de olvidar es 0: un bucle escrito `while (n != 0)` no muestra nada, mientras que la versión recursiva muestra `0`. 255 se muestra como `ff`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`n % 16` gives the last digit and `n / 16` removes it, so recurse on `n / 16` before printing; 0 must still print one digit", fr = "`n % 16` donne le dernier chiffre et `n / 16` l'enlève, donc on récursive sur `n / 16` avant d'afficher ; 0 doit quand même afficher un chiffre", es = "`n % 16` da la última cifra y `n / 16` la quita, así que se recursiona sobre `n / 16` antes de mostrar; 0 debe mostrar aun así una cifra" }
+
+[[questions.choices]]
+text = { en = "A `while (n != 0)` loop covers every case, 0 included", fr = "Une boucle `while (n != 0)` couvre tous les cas, 0 compris", es = "Un bucle `while (n != 0)` cubre todos los casos, 0 incluido" }
+
+[[questions.choices]]
+text = { en = "Print `n % 16` first, then recurse on `n / 16`: the digits already come out in the right order", fr = "Afficher `n % 16` d'abord, puis récursiver sur `n / 16` : les chiffres sortent déjà dans le bon ordre", es = "Mostrar `n % 16` primero y luego recursionar sobre `n / 16`: las cifras ya salen en el orden correcto" }
+
+[[questions.choices]]
+text = { en = "Divide by 10 and add `'a'` to the values above 9, which gives the letters", fr = "Diviser par 10 et ajouter `'a'` aux valeurs au-dessus de 9, ce qui donne les lettres", es = "Dividir entre 10 y sumar `'a'` a los valores por encima de 9, lo que da las letras" }
+
+[[questions]]
+slug = "rank02-l2-detecting-overflow-while-parsing"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1400
+tags = ["input-parsing", "conversions"]
+key_points = [
+  "A program that must accept only positive numbers checks that the argument is made only of digits, with no sign or other character, and is not empty.",
+  "The overflow must be detected before it happens, because signed overflow is undefined behaviour: checking the result afterwards is too late.",
+  "Before value = value * 10 + d, check value > (INT_MAX - d) / 10; if true, the number does not fit in an int.",
+  "Alternatively, accumulate in a wider type such as long and compare with INT_MAX at every step.",
+]
+
+[questions.translations.en]
+title = "Detecting overflow while parsing"
+stem = "A program must accept its argument only if it is a positive number within the range of an `int`, such as `\"2147483647\"`, and reject `\"2147483648\"`. What must be checked about the characters, and how do you detect that the value no longer fits without ever letting the computation overflow?"
+explanation = "The argument must be non-empty and made only of digits: no sign, no space, no other character. The value is then built with `value = value * 10 + d`, but checking the result afterwards is too late, because signed overflow is undefined behaviour: the compiler may assume it never happens. The test must come before the step: if `value > (INT_MAX - d) / 10`, the new value would exceed `INT_MAX`, so the input is rejected. Another way is to accumulate in a `long` and compare with `INT_MAX` at every step, which works as long as the wider type has room."
+
+[questions.translations.fr]
+title = "Détecter un dépassement pendant la lecture"
+stem = "Un programme ne doit accepter son argument que s'il s'agit d'un nombre positif compris dans l'intervalle d'un `int`, comme `\"2147483647\"`, et refuser `\"2147483648\"`. Que faut-il vérifier sur les caractères, et comment détecter que la valeur ne tient plus sans jamais laisser le calcul déborder ?"
+explanation = "L'argument doit être non vide et formé uniquement de chiffres : pas de signe, pas d'espace, aucun autre caractère. La valeur se construit ensuite avec `valeur = valeur * 10 + d`, mais vérifier le résultat après coup est trop tard, parce que le dépassement d'un entier signé est un comportement indéfini : le compilateur peut supposer qu'il n'arrive jamais. Le test doit venir avant le pas : si `valeur > (INT_MAX - d) / 10`, la nouvelle valeur dépasserait `INT_MAX`, et l'entrée est refusée. Une autre façon consiste à accumuler dans un `long` et à comparer avec `INT_MAX` à chaque pas, ce qui marche tant que le type plus large a de la marge."
+
+[questions.translations.es]
+title = "Detectar un desbordamiento al leer"
+stem = "Un programa solo debe aceptar su argumento si es un número positivo que cabe en un `int`, como `\"2147483647\"`, y rechazar `\"2147483648\"`. ¿Qué hay que comprobar sobre los caracteres, y cómo detectas que el valor ya no cabe sin dejar nunca que el cálculo desborde?"
+explanation = "El argumento debe ser no vacío y estar formado solo por cifras: sin signo, sin espacios, sin ningún otro carácter. El valor se construye después con `valor = valor * 10 + d`, pero comprobar el resultado a posteriori es demasiado tarde, porque el desbordamiento de un entero con signo es comportamiento indefinido: el compilador puede suponer que nunca ocurre. La comprobación debe ir antes del paso: si `valor > (INT_MAX - d) / 10`, el nuevo valor superaría `INT_MAX` y la entrada se rechaza. Otra forma es acumular en un `long` y comparar con `INT_MAX` en cada paso, lo que funciona mientras el tipo más ancho tenga margen."
+
+[[questions.choices]]
+correct = true
+text = { en = "Digits only, and `value > (INT_MAX - d) / 10` tested before the multiplication: signed overflow is undefined, so checking afterwards is too late", fr = "Uniquement des chiffres, et `valeur > (INT_MAX - d) / 10` testé avant la multiplication : le débordement signé est indéfini, donc vérifier après est trop tard", es = "Solo cifras, y `valor > (INT_MAX - d) / 10` probado antes de la multiplicación: el desbordamiento con signo es indefinido, así que comprobar después es tarde" }
+
+[[questions.choices]]
+text = { en = "Compute the value, then check that it is still positive: an overflow makes it negative", fr = "Calculer la valeur, puis vérifier qu'elle est encore positive : un débordement la rend négative", es = "Calcular el valor y luego comprobar que sigue siendo positivo: un desbordamiento lo vuelve negativo" }
+
+[[questions.choices]]
+text = { en = "Signed overflow wraps around in a defined way, so the result can be compared with `INT_MAX` at the end", fr = "Le débordement signé boucle de façon définie, donc le résultat peut être comparé à `INT_MAX` à la fin", es = "El desbordamiento con signo da la vuelta de forma definida, así que el resultado puede compararse con `INT_MAX` al final" }
+
+[[questions.choices]]
+text = { en = "Counting the characters is enough: ten digits always fit in an `int`", fr = "Compter les caractères suffit : dix chiffres tiennent toujours dans un `int`", es = "Contar los caracteres basta: diez cifras siempre caben en un `int`" }
+
+[[questions]]
+slug = "rank02-l2-separators-between-words"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings"]
+key_points = [
+  "The separator belongs between two words, so it is written before each word except the first, never after a word.",
+  "A flag (or a count of the words already written) tells whether the current word is the first one.",
+  "Runs of spaces and tabs in the input are skipped entirely, so leading, trailing and repeated separators never reach the output.",
+]
+
+[questions.translations.en]
+title = "Separators between words, never around them"
+stem = "A program rewrites a string so that its words are separated by exactly one chosen separator, with none at the start or at the end, whatever the spaces and tabs of the input. What is the simplest way to be sure that no separator ever appears before the first word or after the last one?"
+explanation = "The trick is to see the separator as something that goes between two words, and therefore to write it before each word except the first, never after a word. A flag, or a count of the words already written, says whether the word about to be printed is the first one. The input's spaces and tabs are all skipped; only the words themselves are copied. Leading, trailing and repeated separators then disappear on their own, with no special case to handle at the end of the string."
+
+[questions.translations.fr]
+title = "Des séparateurs entre les mots, jamais autour"
+stem = "Un programme réécrit une chaîne pour que ses mots soient séparés par exactement un séparateur choisi, sans aucun au début ni à la fin, quels que soient les espaces et tabulations de l'entrée. Quelle est la façon la plus simple d'être sûr qu'aucun séparateur n'apparaît avant le premier mot ni après le dernier ?"
+explanation = "L'astuce consiste à voir le séparateur comme quelque chose qui se place entre deux mots, et donc à l'écrire avant chaque mot sauf le premier, jamais après un mot. Un indicateur, ou le nombre de mots déjà écrits, dit si le mot sur le point d'être affiché est le premier. Les espaces et tabulations de l'entrée sont tous sautés ; seuls les mots eux-mêmes sont recopiés. Les séparateurs du début, de la fin et les répétitions disparaissent alors d'eux-mêmes, sans cas particulier à gérer en fin de chaîne."
+
+[questions.translations.es]
+title = "Separadores entre las palabras, nunca alrededor"
+stem = "Un programa reescribe una cadena para que sus palabras queden separadas por exactamente un separador elegido, sin ninguno al principio ni al final, sean cuales sean los espacios y tabulaciones de la entrada. ¿Cuál es la forma más sencilla de asegurarse de que nunca aparece un separador antes de la primera palabra ni después de la última?"
+explanation = "El truco es ver el separador como algo que va entre dos palabras y, por tanto, escribirlo antes de cada palabra salvo la primera, nunca después de una palabra. Un indicador, o el número de palabras ya escritas, dice si la palabra que se va a mostrar es la primera. Todos los espacios y tabulaciones de la entrada se saltan; solo se copian las palabras. Los separadores del principio, del final y las repeticiones desaparecen solos, sin ningún caso especial al final de la cadena."
+
+[[questions.choices]]
+correct = true
+text = { en = "Write the separator before each word except the first, and skip runs of spaces and tabs entirely", fr = "Écrire le séparateur avant chaque mot sauf le premier, et sauter entièrement les suites d'espaces et de tabulations", es = "Escribir el separador antes de cada palabra salvo la primera, y saltar por completo las series de espacios y tabulaciones" }
+
+[[questions.choices]]
+text = { en = "Write a separator after each word: the one left at the end is harmless", fr = "Écrire un séparateur après chaque mot : celui qui reste à la fin est sans conséquence", es = "Escribir un separador tras cada palabra: el que queda al final no molesta" }
+
+[[questions.choices]]
+text = { en = "Replace every space or tab of the input by the separator, one for one", fr = "Remplacer chaque espace ou tabulation de l'entrée par le séparateur, un pour un", es = "Sustituir cada espacio o tabulación de la entrada por el separador, uno por uno" }
+
+[[questions.choices]]
+text = { en = "Write the separator before every word, the first one included, so the output simply starts with it", fr = "Écrire le séparateur avant chaque mot, le premier compris, la sortie commence donc par lui", es = "Escribir el separador antes de cada palabra, la primera incluida, así la salida empieza por él" }
+
+[[questions]]
+slug = "rank02-l2-first-and-last-letter-of-a-word"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings", "characters"]
+key_points = [
+  "A character starts a word when it is not a separator and it is at index 0 or the character before it is a separator.",
+  "A character ends a word when it is not a separator and the character after it is a separator or the terminating '\\0'.",
+  "A one-letter word is both the first and the last character of its word, so both rules apply to it.",
+  "Case changes apply only to letters: digits and punctuation are left as they are.",
+]
+
+[questions.translations.en]
+title = "The first and last letter of each word"
+stem = "Some string transformations treat the first or the last character of each word differently from the others, for instance to change its case. While walking the string once, how do you know that a character starts a word, or ends one? What about a word of a single letter?"
+explanation = "A character starts a word when it is not a separator and it is either at index 0 or preceded by a space or a tab. It ends a word when it is not a separator and the next character is a separator or the final `'\\0'`: looking one character ahead is enough, and the terminator makes the last word end naturally. A one-letter word is both the first and the last character of its word, so both rules apply to it. Only letters change case: a digit or a punctuation mark at the start of a word stays as it is."
+
+[questions.translations.fr]
+title = "La première et la dernière lettre de chaque mot"
+stem = "Certaines transformations de chaînes traitent le premier ou le dernier caractère de chaque mot autrement que les autres, par exemple pour changer sa casse. En parcourant la chaîne une seule fois, comment savoir qu'un caractère commence un mot, ou en termine un ? Et pour un mot d'une seule lettre ?"
+explanation = "Un caractère commence un mot quand il n'est pas un séparateur et qu'il est soit à l'indice 0, soit précédé d'un espace ou d'une tabulation. Il termine un mot quand il n'est pas un séparateur et que le caractère suivant est un séparateur ou le `'\\0'` final : regarder un caractère plus loin suffit, et le terminateur fait se terminer naturellement le dernier mot. Un mot d'une seule lettre est à la fois le premier et le dernier caractère de son mot, donc les deux règles s'appliquent. Seules les lettres changent de casse : un chiffre ou une ponctuation en début de mot reste tel quel."
+
+[questions.translations.es]
+title = "La primera y la última letra de cada palabra"
+stem = "Algunas transformaciones de cadenas tratan el primer o el último carácter de cada palabra de forma distinta a los demás, por ejemplo para cambiar su caja. Recorriendo la cadena una sola vez, ¿cómo sabes que un carácter empieza una palabra, o que la termina? ¿Y con una palabra de una sola letra?"
+explanation = "Un carácter empieza una palabra cuando no es un separador y está en el índice 0 o va precedido de un espacio o una tabulación. Termina una palabra cuando no es un separador y el carácter siguiente es un separador o el `'\\0'` final: basta con mirar un carácter más allá, y el terminador hace que la última palabra termine de forma natural. Una palabra de una sola letra es a la vez el primer y el último carácter de su palabra, así que se le aplican las dos reglas. Solo las letras cambian de caja: una cifra o un signo de puntuación al principio de una palabra se queda como está."
+
+[[questions.choices]]
+correct = true
+text = { en = "It starts a word if it is not a separator and sits at index 0 or after a separator; it ends one if the next character is a separator or the terminator, and a one-letter word is both", fr = "Il commence un mot s'il n'est pas un séparateur et se trouve à l'indice 0 ou après un séparateur ; il en finit un si le caractère suivant est un séparateur ou le terminateur, et un mot d'une lettre est les deux", es = "Empieza una palabra si no es separador y está en el índice 0 o tras un separador; termina una si el siguiente carácter es un separador o el terminador, y una palabra de una letra es ambas" }
+
+[[questions.choices]]
+text = { en = "A one-letter word is neither the first nor the last character of a word, so neither rule applies to it", fr = "Un mot d'une seule lettre n'est ni le premier ni le dernier caractère d'un mot, donc aucune des deux règles ne s'y applique", es = "Una palabra de una sola letra no es ni el primer ni el último carácter de una palabra, así que no se le aplica ninguna regla" }
+
+[[questions.choices]]
+text = { en = "Only the character before can be looked at: the end of a word cannot be known while walking forward", fr = "On ne peut regarder que le caractère précédent : la fin d'un mot est impossible à connaître en avançant", es = "Solo se puede mirar el carácter anterior: el final de una palabra no se puede saber avanzando" }
+
+[[questions.choices]]
+text = { en = "The last character of the string always ends a word, whatever it is", fr = "Le dernier caractère de la chaîne termine toujours un mot, quel qu'il soit", es = "El último carácter de la cadena siempre termina una palabra, sea cual sea" }
+
+[[questions]]
+slug = "rank02-l2-length-of-a-linked-list"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1000
+tags = ["linked-lists"]
+key_points = [
+  "A singly linked list is a chain of nodes where each node holds a pointer to the next one, and the last node points to NULL.",
+  "Its length is found by following the next pointers from the head and counting nodes until NULL is reached.",
+  "An empty list is a NULL head, whose length is 0, and the loop must handle it without dereferencing NULL.",
+  "Unlike an array, a list stores no size, so counting costs O(n).",
+]
+
+[questions.translations.en]
+title = "The length of a linked list"
+stem = "A singly linked list is given by a pointer to its first node. How do you count its elements, how does the loop know when to stop, what is the length of an empty list, and why is this more costly than getting the size of an array?"
+explanation = "Each node holds a pointer to the next one, and the last node's pointer is `NULL`. Counting means starting from the head and following `next` while the current pointer is not `NULL`, adding one per node. An empty list is simply a `NULL` head: the loop does not run, the length is 0, and nothing is dereferenced. A list stores no size anywhere, so its length can only be found by walking it, in `O(n)`, whereas an array's length is known in advance."
+
+[questions.translations.fr]
+title = "La longueur d'une liste chaînée"
+stem = "Une liste simplement chaînée est donnée par un pointeur vers son premier maillon. Comment compter ses éléments, comment la boucle sait-elle quand s'arrêter, quelle est la longueur d'une liste vide, et pourquoi est-ce plus coûteux qu'obtenir la taille d'un tableau ?"
+explanation = "Chaque maillon contient un pointeur vers le suivant, et celui du dernier maillon vaut `NULL`. Compter, c'est partir de la tête et suivre `next` tant que le pointeur courant n'est pas `NULL`, en ajoutant un par maillon. Une liste vide est simplement une tête `NULL` : la boucle ne tourne pas, la longueur vaut 0, et rien n'est déréférencé. Une liste ne stocke sa taille nulle part, donc on ne peut la connaître qu'en la parcourant, en `O(n)`, alors que la longueur d'un tableau est connue d'avance."
+
+[questions.translations.es]
+title = "La longitud de una lista enlazada"
+stem = "Una lista simplemente enlazada se da mediante un puntero a su primer nodo. ¿Cómo cuentas sus elementos, cómo sabe el bucle cuándo parar, cuál es la longitud de una lista vacía y por qué es más costoso que obtener el tamaño de un array?"
+explanation = "Cada nodo contiene un puntero al siguiente, y el del último nodo vale `NULL`. Contar consiste en partir de la cabeza y seguir `next` mientras el puntero actual no sea `NULL`, sumando uno por nodo. Una lista vacía es simplemente una cabeza `NULL`: el bucle no se ejecuta, la longitud es 0 y no se desreferencia nada. Una lista no guarda su tamaño en ninguna parte, así que solo se puede conocer recorriéndola, en `O(n)`, mientras que la longitud de un array se conoce de antemano."
+
+[[questions.choices]]
+correct = true
+text = { en = "Follow the `next` pointers from the head until `NULL`, counting as you go; an empty list is a `NULL` head of length 0, and the count costs O(n)", fr = "Suivre les pointeurs `next` depuis la tête jusqu'à `NULL` en comptant ; une liste vide est une tête `NULL` de longueur 0, et le comptage coûte O(n)", es = "Seguir los punteros `next` desde la cabeza hasta `NULL` contando; una lista vacía es una cabeza `NULL` de longitud 0, y contar cuesta O(n)" }
+
+[[questions.choices]]
+text = { en = "Stop when `node->next` is `NULL`, which also covers the empty list", fr = "S'arrêter quand `node->next` vaut `NULL`, ce qui couvre aussi la liste vide", es = "Parar cuando `node->next` vale `NULL`, lo que también cubre la lista vacía" }
+
+[[questions.choices]]
+text = { en = "An empty list has length 1: the head node is always there", fr = "Une liste vide a une longueur de 1 : le nœud de tête est toujours présent", es = "Una lista vacía tiene longitud 1: el nodo de cabeza siempre está" }
+
+[[questions.choices]]
+text = { en = "The length is stored in the list and kept up to date, so reading it costs O(1)", fr = "La longueur est rangée dans la liste et tenue à jour, donc la lire coûte O(1)", es = "La longitud se guarda en la lista y se mantiene al día, así que leerla cuesta O(1)" }
+
+[[questions]]
+slug = "rank02-l2-allocating-a-range"
+topic = "exam-rank-02-level-2"
+kind = "free_text"
+difficulty = 1200
+tags = ["memory"]
+key_points = [
+  "The number of values in a range from start to end, both included, is |end - start| + 1, whatever the direction.",
+  "The step is +1 or -1 depending on whether end is above or below start.",
+  "The difference end - start can overflow an int for extreme bounds (from INT_MIN to INT_MAX it is 4 294 967 296 values), so it must be computed in a wider type.",
+  "malloc's result must be checked for NULL before the array is filled.",
+]
+
+[questions.translations.en]
+title = "Allocating an array holding a range"
+stem = "A function allocates an array holding every integer from `start` to `end`, both included, in either direction. How many elements must it allocate, how does it fill them, and which bounds make the size computation itself dangerous?"
+explanation = "The range holds `|end - start| + 1` values whatever the direction: 3 for 1 to 3, and 4 for 0 to -3. The array is filled from `start` with a step of `+1` or `-1` depending on whether `end` is above or below `start`. The dangerous case is the size itself: with extreme bounds, `end - start` does not fit in an `int`, and the range from `INT_MIN` to `INT_MAX` holds 4 294 967 296 values. The difference must be computed in a wider type, and `malloc`'s result checked against `NULL` before anything is written."
+
+[questions.translations.fr]
+title = "Allouer un tableau contenant une plage"
+stem = "Une fonction alloue un tableau contenant tous les entiers de `start` à `end`, bornes comprises, dans un sens comme dans l'autre. Combien d'éléments doit-elle allouer, comment les remplit-elle, et quelles bornes rendent dangereux le calcul de la taille lui-même ?"
+explanation = "La plage contient `|end - start| + 1` valeurs quel que soit le sens : 3 de 1 à 3, et 4 de 0 à -3. Le tableau se remplit à partir de `start` avec un pas de `+1` ou de `-1`, selon que `end` est au-dessus ou au-dessous de `start`. Le cas dangereux est la taille elle-même : avec des bornes extrêmes, `end - start` ne tient pas dans un `int`, et la plage de `INT_MIN` à `INT_MAX` contient 4 294 967 296 valeurs. La différence doit se calculer dans un type plus large, et le résultat de `malloc` être comparé à `NULL` avant toute écriture."
+
+[questions.translations.es]
+title = "Reservar un array que contiene un rango"
+stem = "Una función reserva un array con todos los enteros de `start` a `end`, ambos incluidos, en un sentido o en el otro. ¿Cuántos elementos debe reservar, cómo los rellena y qué límites hacen peligroso el propio cálculo del tamaño?"
+explanation = "El rango contiene `|end - start| + 1` valores sea cual sea el sentido: 3 de 1 a 3, y 4 de 0 a -3. El array se rellena a partir de `start` con un paso de `+1` o `-1`, según `end` esté por encima o por debajo de `start`. El caso peligroso es el propio tamaño: con límites extremos, `end - start` no cabe en un `int`, y el rango de `INT_MIN` a `INT_MAX` contiene 4 294 967 296 valores. La diferencia debe calcularse en un tipo más ancho, y el resultado de `malloc` compararse con `NULL` antes de escribir nada."
+
+[[questions.choices]]
+correct = true
+text = { en = "`|end - start| + 1` elements, a step of +1 or -1, the difference computed in a wider type, and `malloc` checked", fr = "`|fin - début| + 1` éléments, un pas de +1 ou -1, la différence calculée dans un type plus large, et `malloc` vérifié", es = "`|fin - inicio| + 1` elementos, un paso de +1 o -1, la diferencia calculada en un tipo más ancho y `malloc` comprobado" }
+
+[[questions.choices]]
+text = { en = "`end - start` elements, both bounds being included", fr = "`fin - début` éléments, les deux bornes étant incluses", es = "`fin - inicio` elementos, con las dos cotas incluidas" }
+
+[[questions.choices]]
+text = { en = "`|end - start| + 1`, computed in an `int`: the difference of two `int` always fits in an `int`", fr = "`|fin - début| + 1`, calculé dans un `int` : la différence de deux `int` tient toujours dans un `int`", es = "`|fin - inicio| + 1`, calculado en un `int`: la diferencia de dos `int` siempre cabe en un `int`" }
+
+[[questions.choices]]
+text = { en = "`start` has to be below `end`, otherwise the range is empty and nothing is allocated", fr = "`début` doit être inférieur à `fin`, sinon l'intervalle est vide et rien n'est alloué", es = "`inicio` debe ser menor que `fin`, si no el intervalo está vacío y no se reserva nada" }

@@ -1,0 +1,493 @@
+# Exam Rank 02, level 0: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank02-l0-write-system-call"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["file-descriptors"]
+key_points = [
+  "write takes a file descriptor, the address of the bytes to send and their count; it writes raw bytes, with no formatting and no terminator added.",
+  "File descriptor 1 is the standard output (0 is the standard input, 2 the standard error).",
+  "To print one character c, pass its address and a count of 1: write(1, &c, 1).",
+  "write returns the number of bytes written, or -1 on error.",
+]
+
+[questions.translations.en]
+title = "Printing with write"
+stem = "The system call `write(fd, buf, n)` is often the only output function allowed. What do its three parameters mean, which descriptor is the standard output, and how do you print a single character stored in a `char c`?"
+explanation = "`write` sends `n` raw bytes, read from the address `buf`, to the file descriptor `fd`: nothing is formatted and no terminator is added. Descriptor 1 is the standard output, 0 the standard input and 2 the standard error. To print one character, you pass its address and a count of one: `write(1, &c, 1)`. The call returns the number of bytes actually written, or `-1` on error, for instance on a closed descriptor."
+
+[questions.translations.fr]
+title = "Afficher avec write"
+stem = "L'appel système `write(fd, buf, n)` est souvent la seule fonction d'affichage autorisée. Que signifient ses trois paramètres, quel descripteur correspond à la sortie standard, et comment afficher un seul caractère rangé dans un `char c` ?"
+explanation = "`write` envoie `n` octets bruts, lus à l'adresse `buf`, vers le descripteur de fichier `fd` : rien n'est mis en forme et aucun terminateur n'est ajouté. Le descripteur 1 est la sortie standard, 0 l'entrée standard et 2 la sortie d'erreur. Pour afficher un caractère, on passe son adresse et un nombre d'octets égal à un : `write(1, &c, 1)`. L'appel renvoie le nombre d'octets réellement écrits, ou `-1` en cas d'erreur, par exemple sur un descripteur fermé."
+
+[questions.translations.es]
+title = "Mostrar con write"
+stem = "La llamada al sistema `write(fd, buf, n)` suele ser la única función de salida permitida. ¿Qué significan sus tres parámetros, qué descriptor corresponde a la salida estándar y cómo muestras un solo carácter guardado en un `char c`?"
+explanation = "`write` envía `n` bytes en bruto, leídos en la dirección `buf`, al descriptor de fichero `fd`: no se formatea nada ni se añade ningún terminador. El descriptor 1 es la salida estándar, el 0 la entrada estándar y el 2 la salida de error. Para mostrar un carácter se pasa su dirección y una cantidad de uno: `write(1, &c, 1)`. La llamada devuelve el número de bytes escritos de verdad, o `-1` si hay un error, por ejemplo con un descriptor cerrado."
+
+[[questions.choices]]
+correct = true
+text = { en = "A descriptor, the address of the bytes and how many to write; 1 is the standard output", fr = "Un descripteur, l'adresse des octets et leur nombre ; 1 est la sortie standard", es = "Un descriptor, la dirección de los bytes y cuántos escribir; 1 es la salida estándar" }
+
+[[questions.choices]]
+text = { en = "A descriptor, a string and a format, like printf", fr = "Un descripteur, une chaîne et un format, comme printf", es = "Un descriptor, una cadena y un formato, como printf" }
+
+[[questions.choices]]
+text = { en = "The address of the bytes, how many, then the descriptor, in that order", fr = "L'adresse des octets, leur nombre, puis le descripteur, dans cet ordre", es = "La dirección de los bytes, cuántos y después el descriptor, en ese orden" }
+
+[[questions.choices]]
+text = { en = "A descriptor, the address of the bytes and their count; 0 is the standard output", fr = "Un descripteur, l'adresse des octets et leur nombre ; 0 est la sortie standard", es = "Un descriptor, la dirección de los bytes y su número; 0 es la salida estándar" }
+
+[[questions]]
+slug = "rank02-l0-string-terminator"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings"]
+key_points = [
+  "A C string is a sequence of characters ended by the null character '\\0'; nothing stores its length.",
+  "The length is found by walking the characters until '\\0', which costs time proportional to the length.",
+  "The terminator is not counted in the length: \"abc\" has length 3 but occupies 4 bytes.",
+  "Without the terminator, code that walks the string reads past its end, which is undefined behaviour.",
+]
+
+[questions.translations.en]
+title = "The end of a C string"
+stem = "How does C know where a string ends? How is its length computed, what does that cost, and why do `strlen(\"abc\")` and `sizeof(\"abc\")` give different results?"
+explanation = "A C string is only a sequence of characters followed by the null character `'\\0'`: no field stores its length. To know the length, you walk the characters one by one until the terminator, which costs time proportional to the length. The terminator itself is not counted: `strlen(\"abc\")` is 3, whereas the literal occupies 4 bytes, which `sizeof(\"abc\")` shows. A character array without its terminator is not a string: any code that walks it keeps reading past its end, which is undefined behaviour."
+
+[questions.translations.fr]
+title = "La fin d'une chaîne en C"
+stem = "Comment le C sait-il où se termine une chaîne ? Comment calcule-t-on sa longueur, que cela coûte-t-il, et pourquoi `strlen(\"abc\")` et `sizeof(\"abc\")` donnent-ils des résultats différents ?"
+explanation = "Une chaîne en C n'est qu'une suite de caractères suivie du caractère nul `'\\0'` : aucun champ ne stocke sa longueur. Pour la connaître, on parcourt les caractères un à un jusqu'au terminateur, ce qui coûte un temps proportionnel à la longueur. Le terminateur lui-même n'est pas compté : `strlen(\"abc\")` vaut 3, alors que le littéral occupe 4 octets, ce que montre `sizeof(\"abc\")`. Un tableau de caractères sans terminateur n'est pas une chaîne : tout code qui le parcourt continue de lire au-delà de sa fin, ce qui est un comportement indéfini."
+
+[questions.translations.es]
+title = "El final de una cadena en C"
+stem = "¿Cómo sabe C dónde termina una cadena? ¿Cómo se calcula su longitud, cuánto cuesta y por qué `strlen(\"abc\")` y `sizeof(\"abc\")` dan resultados distintos?"
+explanation = "Una cadena en C no es más que una secuencia de caracteres seguida del carácter nulo `'\\0'`: ningún campo guarda su longitud. Para conocerla, se recorren los caracteres uno a uno hasta el terminador, lo que cuesta un tiempo proporcional a la longitud. El terminador no se cuenta: `strlen(\"abc\")` vale 3, mientras que el literal ocupa 4 bytes, como muestra `sizeof(\"abc\")`. Un array de caracteres sin terminador no es una cadena: cualquier código que lo recorra sigue leyendo más allá de su final, lo que es comportamiento indefinido."
+
+[[questions.choices]]
+correct = true
+text = { en = "A byte worth zero marks the end; the length is found by walking the characters", fr = "Un octet valant zéro marque la fin ; la longueur se compte en parcourant les caractères", es = "Un byte con valor cero marca el final; la longitud se cuenta recorriendo los caracteres" }
+
+[[questions.choices]]
+text = { en = "The length is stored in the first byte of the string", fr = "La longueur est rangée dans le premier octet de la chaîne", es = "La longitud se guarda en el primer byte de la cadena" }
+
+[[questions.choices]]
+text = { en = "The compiler keeps the length next to the pointer", fr = "Le compilateur garde la longueur à côté du pointeur", es = "El compilador guarda la longitud junto al puntero" }
+
+[[questions.choices]]
+text = { en = "The end is marked by the character zero, the digit you can print", fr = "La fin est marquée par le caractère zéro, le chiffre que l'on peut afficher", es = "El final se marca con el carácter cero, la cifra que se puede mostrar" }
+
+[[questions]]
+slug = "rank02-l0-copying-a-string"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings", "memory"]
+key_points = [
+  "The destination must already have room for every character plus the terminator: length + 1 bytes.",
+  "The copy goes character by character and must copy the '\\0' too, otherwise the destination is not a valid string.",
+  "The copy function cannot check the size of the destination; too small a destination is overwritten past its end, a buffer overflow.",
+  "strcpy returns the address of the destination, which allows chaining calls.",
+]
+
+[questions.translations.en]
+title = "Copying a string"
+stem = "What must be true of the destination before copying a C string into it with a `strcpy`-like function? What exactly must the copy write, and what does `strcpy` return?"
+explanation = "The destination must already exist and hold every character of the source plus the terminator, that is length + 1 bytes: the copy function has no way to know how large it is. The copy goes character by character and must also write the final `'\\0'`, without which the destination is not a valid string. A destination that is too small gets written past its end: a buffer overflow, one of the most classic security bugs. `strcpy` returns the address of the destination, which is why calls can be chained."
+
+[questions.translations.fr]
+title = "Copier une chaîne"
+stem = "Que faut-il garantir sur la destination avant d'y copier une chaîne C avec une fonction du type de `strcpy` ? Que doit écrire exactement la copie, et que renvoie `strcpy` ?"
+explanation = "La destination doit déjà exister et contenir tous les caractères de la source plus le terminateur, soit longueur + 1 octets : la fonction de copie n'a aucun moyen de connaître sa taille. La copie se fait caractère par caractère et doit aussi écrire le `'\\0'` final, sans lequel la destination n'est pas une chaîne valide. Une destination trop petite est écrite au-delà de sa fin : c'est un dépassement de tampon, l'un des bogues de sécurité les plus classiques. `strcpy` renvoie l'adresse de la destination, ce qui permet d'enchaîner les appels."
+
+[questions.translations.es]
+title = "Copiar una cadena"
+stem = "¿Qué hay que garantizar sobre el destino antes de copiar en él una cadena C con una función como `strcpy`? ¿Qué debe escribir exactamente la copia y qué devuelve `strcpy`?"
+explanation = "El destino debe existir ya y tener sitio para todos los caracteres del origen más el terminador, es decir, longitud + 1 bytes: la función de copia no tiene forma de saber su tamaño. La copia se hace carácter a carácter y también debe escribir el `'\\0'` final, sin el cual el destino no es una cadena válida. Un destino demasiado pequeño se escribe más allá de su final: un desbordamiento de búfer, uno de los errores de seguridad más clásicos. `strcpy` devuelve la dirección del destino, lo que permite encadenar llamadas."
+
+[[questions.choices]]
+correct = true
+text = { en = "The destination needs room for every character plus the terminator: length + 1 bytes", fr = "La destination doit avoir la place de tous les caractères plus le terminateur, soit longueur + 1 octets", es = "El destino necesita sitio para todos los caracteres más el terminador: longitud + 1 bytes" }
+
+[[questions.choices]]
+text = { en = "Room for the characters is enough: the system adds the terminator", fr = "La place des caractères suffit : le système ajoute le terminateur", es = "Basta con el sitio de los caracteres: el sistema añade el terminador" }
+
+[[questions.choices]]
+text = { en = "The copy enlarges the destination when it is too small", fr = "La copie agrandit la destination quand elle est trop petite", es = "La copia agranda el destino cuando es demasiado pequeño" }
+
+[[questions.choices]]
+text = { en = "The copy checks the size of the destination and stops before overflowing it", fr = "La copie vérifie la taille de la destination et s'arrête avant de la déborder", es = "La copia comprueba el tamaño del destino y se detiene antes de desbordarlo" }
+
+[[questions]]
+slug = "rank02-l0-changing-the-callers-variables"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["pointers"]
+key_points = [
+  "C passes arguments by value: the function receives copies, so changing its parameters does not change the caller's variables.",
+  "To modify the caller's variables, the function must receive their addresses (pointers) and write through them with *.",
+  "Exchanging two values needs a temporary variable: save *a, copy *b into *a, then the saved value into *b.",
+]
+
+[questions.translations.en]
+title = "Changing the caller's variables"
+stem = "A function `void f(int a, int b)` exchanges `a` and `b`, yet after `f(x, y)` the variables `x` and `y` of the caller are unchanged. Why? How must the function be written so that the exchange is visible to the caller?"
+explanation = "C passes arguments by value: `a` and `b` are copies of `x` and `y`, local to the function, and exchanging them changes nothing for the caller. For a function to change the caller's variables, it must receive their addresses, `f(&x, &y)`, and write through those pointers with `*`. The exchange itself needs a temporary variable: save `*a`, copy `*b` into `*a`, then copy the saved value into `*b`."
+
+[questions.translations.fr]
+title = "Modifier les variables de l'appelant"
+stem = "Une fonction `void f(int a, int b)` échange `a` et `b`, et pourtant, après `f(x, y)`, les variables `x` et `y` de l'appelant n'ont pas changé. Pourquoi ? Comment écrire la fonction pour que l'échange soit visible de l'appelant ?"
+explanation = "Le C passe les arguments par valeur : `a` et `b` sont des copies de `x` et `y`, locales à la fonction, et les échanger ne change rien pour l'appelant. Pour qu'une fonction modifie les variables de l'appelant, elle doit recevoir leurs adresses, `f(&x, &y)`, et écrire à travers ces pointeurs avec `*`. L'échange lui-même demande une variable temporaire : on sauvegarde `*a`, on copie `*b` dans `*a`, puis la valeur sauvegardée dans `*b`."
+
+[questions.translations.es]
+title = "Modificar las variables de quien llama"
+stem = "Una función `void f(int a, int b)` intercambia `a` y `b` y, sin embargo, después de `f(x, y)` las variables `x` e `y` de quien llama no han cambiado. ¿Por qué? ¿Cómo hay que escribir la función para que el intercambio sea visible para quien llama?"
+explanation = "C pasa los argumentos por valor: `a` y `b` son copias de `x` e `y`, locales a la función, e intercambiarlas no cambia nada para quien llama. Para que una función modifique las variables de quien llama, debe recibir sus direcciones, `f(&x, &y)`, y escribir a través de esos punteros con `*`. El intercambio necesita una variable temporal: se guarda `*a`, se copia `*b` en `*a` y después el valor guardado en `*b`."
+
+[[questions.choices]]
+correct = true
+text = { en = "C passes arguments by value: the function must receive the addresses and write through them", fr = "Le C passe les arguments par valeur : la fonction doit recevoir les adresses et écrire à travers elles", es = "C pasa los argumentos por valor: la función debe recibir las direcciones y escribir a través de ellas" }
+
+[[questions.choices]]
+text = { en = "The parameters must be declared const for the exchange to be visible", fr = "Il faut déclarer les paramètres const pour que l'échange soit visible", es = "Hay que declarar los parámetros const para que el intercambio se vea" }
+
+[[questions.choices]]
+text = { en = "A function can never change the caller's variables: it has to return them", fr = "Une fonction ne peut jamais modifier les variables de l'appelant : elle doit les renvoyer", es = "Una función nunca puede cambiar las variables de quien la llama: tiene que devolverlas" }
+
+[[questions.choices]]
+text = { en = "C passes arguments by reference, so the exchange should work: the bug is elsewhere", fr = "Le C passe les arguments par référence, l'échange devrait marcher : le bogue est ailleurs", es = "C pasa los argumentos por referencia, el intercambio debería funcionar: el fallo está en otro sitio" }
+
+[[questions]]
+slug = "rank02-l0-program-arguments"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["command-line"]
+key_points = [
+  "argc counts the arguments including the program name, so a program called with two arguments gets argc == 3.",
+  "argv[0] is the program name, the arguments are argv[1] to argv[argc - 1], and argv[argc] is a null pointer.",
+  "A program expecting exactly one argument must check argc == 2 before reading argv[1].",
+]
+
+[questions.translations.en]
+title = "argc and argv"
+stem = "In `int main(int argc, char **argv)`, what do `argc` and `argv` contain? If a program expects exactly one argument, what should it check before using it, and where is that argument?"
+explanation = "`argc` counts the words of the command line, the program name included: a program run with two arguments receives `argc == 3`. `argv[0]` is the program name, the arguments are `argv[1]` to `argv[argc - 1]`, and `argv[argc]` is always a null pointer. A program that expects exactly one argument therefore checks `argc == 2` before reading `argv[1]`; reading an argument that was not given is an access past the end of the arguments."
+
+[questions.translations.fr]
+title = "argc et argv"
+stem = "Dans `int main(int argc, char **argv)`, que contiennent `argc` et `argv` ? Si un programme attend exactement un argument, que doit-il vérifier avant de l'utiliser, et où se trouve cet argument ?"
+explanation = "`argc` compte les mots de la ligne de commande, nom du programme compris : un programme lancé avec deux arguments reçoit `argc == 3`. `argv[0]` est le nom du programme, les arguments vont de `argv[1]` à `argv[argc - 1]`, et `argv[argc]` est toujours un pointeur nul. Un programme qui attend exactement un argument vérifie donc `argc == 2` avant de lire `argv[1]` ; lire un argument qui n'a pas été donné, c'est accéder au-delà de la fin des arguments."
+
+[questions.translations.es]
+title = "argc y argv"
+stem = "En `int main(int argc, char **argv)`, ¿qué contienen `argc` y `argv`? Si un programa espera exactamente un argumento, ¿qué debe comprobar antes de usarlo y dónde está ese argumento?"
+explanation = "`argc` cuenta las palabras de la línea de comandos, incluido el nombre del programa: un programa lanzado con dos argumentos recibe `argc == 3`. `argv[0]` es el nombre del programa, los argumentos van de `argv[1]` a `argv[argc - 1]` y `argv[argc]` es siempre un puntero nulo. Un programa que espera exactamente un argumento comprueba por tanto `argc == 2` antes de leer `argv[1]`; leer un argumento que no se ha pasado es acceder más allá del final de los argumentos."
+
+[[questions.choices]]
+correct = true
+text = { en = "argc counts the program name too, so one expected argument means checking argc == 2", fr = "argc compte aussi le nom du programme : pour un seul argument attendu, on vérifie argc == 2", es = "argc cuenta también el nombre del programa: para un solo argumento se comprueba argc == 2" }
+
+[[questions.choices]]
+text = { en = "argc counts only the arguments, so one expected argument means checking argc == 1", fr = "argc ne compte que les arguments : pour un seul argument attendu, on vérifie argc == 1", es = "argc solo cuenta los argumentos: para un solo argumento se comprueba argc == 1" }
+
+[[questions.choices]]
+text = { en = "argv[0] is the first argument and argv[argc] the last one", fr = "argv[0] est le premier argument et argv[argc] le dernier", es = "argv[0] es el primer argumento y argv[argc] el último" }
+
+[[questions.choices]]
+text = { en = "argc == 2 means the program was given two arguments", fr = "argc == 2 signifie que le programme a reçu deux arguments", es = "argc == 2 significa que el programa recibió dos argumentos" }
+
+[[questions]]
+slug = "rank02-l0-letter-case-in-ascii"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["characters"]
+key_points = [
+  "In ASCII the letters 'a' to 'z' and 'A' to 'Z' are two contiguous ranges, so a letter is tested with c >= 'a' && c <= 'z' (and the same for capitals).",
+  "Each lowercase letter is its capital plus 32, the value of 'a' - 'A'.",
+  "Changing the case adds or subtracts 32 ('a' - 'A'), which amounts to flipping one bit (c ^ 32), and only letters may be changed.",
+]
+
+[questions.translations.en]
+title = "Letter case in ASCII"
+stem = "Without any library function, how do you tell whether a `char` is a lowercase or a capital letter, and how do you switch its case? Why must the other characters be left alone?"
+explanation = "In ASCII, `'a'` to `'z'` and `'A'` to `'Z'` form two contiguous ranges, so `c >= 'a' && c <= 'z'` tests for a lowercase letter, and likewise for capitals. Each lowercase letter equals its capital plus 32, the value of `'a' - 'A'`: you subtract it to go to capitals and add it to go back. Since 32 is a single bit, switching the case is also `c ^ 32`. That arithmetic only makes sense for letters: applied to `'['` or to a digit, it would produce an unrelated character, so everything else is left untouched."
+
+[questions.translations.fr]
+title = "La casse des lettres en ASCII"
+stem = "Sans fonction de bibliothèque, comment savoir si un `char` est une lettre minuscule ou majuscule, et comment changer sa casse ? Pourquoi faut-il laisser les autres caractères tranquilles ?"
+explanation = "En ASCII, `'a'` à `'z'` et `'A'` à `'Z'` forment deux plages contiguës : `c >= 'a' && c <= 'z'` teste une minuscule, et de même pour les majuscules. Chaque minuscule vaut sa majuscule plus 32, la valeur de `'a' - 'A'` : on la retranche pour passer en majuscule et on l'ajoute pour revenir. Comme 32 est un seul bit, changer la casse s'écrit aussi `c ^ 32`. Ce calcul n'a de sens que pour les lettres : appliqué à `'['` ou à un chiffre, il donnerait un caractère sans rapport, donc tout le reste est laissé intact."
+
+[questions.translations.es]
+title = "Mayúsculas y minúsculas en ASCII"
+stem = "Sin ninguna función de biblioteca, ¿cómo sabes si un `char` es una letra minúscula o mayúscula, y cómo le cambias la caja? ¿Por qué hay que dejar en paz los demás caracteres?"
+explanation = "En ASCII, `'a'` a `'z'` y `'A'` a `'Z'` forman dos rangos contiguos, así que `c >= 'a' && c <= 'z'` comprueba una minúscula, y lo mismo con las mayúsculas. Cada minúscula vale su mayúscula más 32, el valor de `'a' - 'A'`: se resta para pasar a mayúscula y se suma para volver. Como 32 es un solo bit, cambiar la caja también se escribe `c ^ 32`. Ese cálculo solo tiene sentido para las letras: aplicado a `'['` o a una cifra, daría un carácter sin relación, así que todo lo demás se deja intacto."
+
+[[questions.choices]]
+correct = true
+text = { en = "A lowercase letter is its capital plus 32; the case changes by adding or subtracting 32, on letters only", fr = "Une minuscule vaut sa majuscule plus 32 ; on change la casse en ajoutant ou retranchant 32, et seulement sur des lettres", es = "Una minúscula es su mayúscula más 32; se cambia sumando o restando 32, y solo en letras" }
+
+[[questions.choices]]
+text = { en = "The case changes by adding or subtracting 26, the size of the alphabet", fr = "On change la casse en ajoutant ou retranchant 26, la taille de l'alphabet", es = "Se cambia sumando o restando 26, el tamaño del alfabeto" }
+
+[[questions.choices]]
+text = { en = "Adding 32 to any character is safe: the ones that are not letters stay as they are", fr = "Ajouter 32 à n'importe quel caractère est sans risque : ceux qui ne sont pas des lettres ne changent pas", es = "Sumar 32 a cualquier carácter no tiene riesgo: los que no son letras no cambian" }
+
+[[questions.choices]]
+text = { en = "A capital letter is its lowercase plus 32", fr = "Une majuscule vaut sa minuscule plus 32", es = "Una mayúscula es su minúscula más 32" }
+
+[[questions]]
+slug = "rank02-l0-rotating-letters"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["characters", "number-theory"]
+key_points = [
+  "Convert the letter to its position in the alphabet (c - 'a'), add the shift, take the result modulo 26, then convert back by adding 'a' (the same with 'A' for capitals).",
+  "The modulo makes the alphabet wrap around, so shifting 'z' by one gives 'a'.",
+  "Capitals and lowercase letters are handled separately so the case is kept, and non-letters are left unchanged.",
+  "A shift of 13 is its own inverse: applying it twice gives 26, a full turn, so the same function encodes and decodes.",
+]
+
+[questions.translations.en]
+title = "Shifting letters around the alphabet"
+stem = "You want to replace each letter by the one `k` places further in the alphabet, wrapping around from `z` back to `a` and keeping the case. What computation does that for one character? And why does a shift of 13, applied twice, give back the original text?"
+explanation = "Turn the letter into its position, `c - 'a'`, add `k`, take the result modulo 26 and turn it back into a letter by adding `'a'`: `(c - 'a' + k) % 26 + 'a'`. The modulo is what makes the alphabet wrap around, so that `'z'` shifted by one gives `'a'`. Capitals get the same formula with `'A'`, which keeps the case, and anything that is not a letter is copied unchanged. With `k = 13`, two shifts add up to 26, a full turn of the alphabet: the same function both encodes and decodes."
+
+[questions.translations.fr]
+title = "Décaler des lettres dans l'alphabet"
+stem = "On veut remplacer chaque lettre par celle qui se trouve `k` rangs plus loin dans l'alphabet, en repartant de `a` après `z` et en gardant la casse. Quel calcul le fait pour un caractère ? Et pourquoi un décalage de 13, appliqué deux fois, redonne-t-il le texte d'origine ?"
+explanation = "On transforme la lettre en position, `c - 'a'`, on ajoute `k`, on prend le résultat modulo 26 et on revient à une lettre en ajoutant `'a'` : `(c - 'a' + k) % 26 + 'a'`. C'est le modulo qui fait boucler l'alphabet, de sorte que `'z'` décalée d'un rang donne `'a'`. Les majuscules suivent la même formule avec `'A'`, ce qui conserve la casse, et tout ce qui n'est pas une lettre est recopié tel quel. Avec `k = 13`, deux décalages font 26, un tour complet de l'alphabet : la même fonction sert à coder et à décoder."
+
+[questions.translations.es]
+title = "Desplazar letras en el alfabeto"
+stem = "Quieres sustituir cada letra por la que está `k` posiciones más adelante en el alfabeto, volviendo a `a` después de `z` y conservando la caja. ¿Qué cálculo lo hace para un carácter? ¿Y por qué un desplazamiento de 13, aplicado dos veces, devuelve el texto original?"
+explanation = "Se convierte la letra en su posición, `c - 'a'`, se suma `k`, se toma el resultado módulo 26 y se vuelve a una letra sumando `'a'`: `(c - 'a' + k) % 26 + 'a'`. El módulo es lo que hace que el alfabeto dé la vuelta, de modo que `'z'` desplazada una posición da `'a'`. Las mayúsculas siguen la misma fórmula con `'A'`, lo que conserva la caja, y todo lo que no es una letra se copia sin cambios. Con `k = 13`, dos desplazamientos suman 26, una vuelta completa del alfabeto: la misma función sirve para codificar y para decodificar."
+
+[[questions.choices]]
+correct = true
+text = { en = "Take the letter's rank in the alphabet, add the shift, take it modulo 26, then go back to a character", fr = "On ramène la lettre à son rang dans l'alphabet, on ajoute le décalage, on prend le reste modulo 26, puis on revient à un caractère", es = "Se pasa la letra a su posición en el alfabeto, se suma el desplazamiento, se toma módulo 26 y se vuelve a un carácter" }
+
+[[questions.choices]]
+text = { en = "Just add the shift to the character: past the last letter it lands back on the right ones", fr = "On ajoute simplement le décalage au caractère : au-delà de la dernière lettre, on retombe sur les bonnes", es = "Basta con sumar el desplazamiento al carácter: más allá de la última letra se vuelve a las correctas" }
+
+[[questions.choices]]
+text = { en = "Take the result modulo 128, the size of the ASCII table", fr = "On prend le reste modulo 128, la taille de la table ASCII", es = "Se toma el módulo 128, el tamaño de la tabla ASCII" }
+
+[[questions.choices]]
+text = { en = "Capitals and lowercase letters are handled together, over the 52 letters", fr = "Les majuscules et les minuscules se traitent ensemble, sur les 52 lettres", es = "Las mayúsculas y las minúsculas se tratan juntas, sobre las 52 letras" }
+
+[[questions]]
+slug = "rank02-l0-divisibility-tests"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["number-theory"]
+key_points = [
+  "n is a multiple of d exactly when n % d == 0.",
+  "A number divisible by both 3 and 5 is divisible by 15, because 3 and 5 have no common factor.",
+  "In an if / else if chain the first true condition wins, so the case 'multiple of both' must be tested first (n % 15 == 0); testing 'multiple of 3' first would catch 15, 30, 45… with the wrong branch.",
+]
+
+[questions.translations.en]
+title = "Testing multiples"
+stem = "A program must treat numbers differently depending on whether they are multiples of 3, of 5, or of both. How do you test that a number is a multiple of another, and in which order must the tests of an `if / else if` chain come? Why?"
+explanation = "`n` is a multiple of `d` exactly when the remainder of the division is zero: `n % d == 0`. A number divisible by both 3 and 5 is divisible by 15, since 3 and 5 share no factor, so `n % 15 == 0` tests both at once. In an `if / else if` chain the first true condition wins, so the most specific case must come first: tested first, `n % 3 == 0` would also catch 15, 30, 45 and the other multiples of 15, which is six wrong answers between 1 and 100."
+
+[questions.translations.fr]
+title = "Tester des multiples"
+stem = "Un programme doit traiter des nombres différemment selon qu'ils sont multiples de 3, de 5, ou des deux. Comment tester qu'un nombre est multiple d'un autre, et dans quel ordre placer les tests d'une chaîne `if / else if` ? Pourquoi ?"
+explanation = "`n` est un multiple de `d` exactement quand le reste de la division est nul : `n % d == 0`. Un nombre divisible par 3 et par 5 est divisible par 15, puisque 3 et 5 n'ont aucun facteur commun : `n % 15 == 0` teste donc les deux à la fois. Dans une chaîne `if / else if`, la première condition vraie l'emporte, donc le cas le plus précis doit venir en premier : testé d'abord, `n % 3 == 0` attraperait aussi 15, 30, 45 et les autres multiples de 15, soit six mauvaises réponses entre 1 et 100."
+
+[questions.translations.es]
+title = "Comprobar múltiplos"
+stem = "Un programa debe tratar los números de forma distinta según sean múltiplos de 3, de 5 o de ambos. ¿Cómo compruebas que un número es múltiplo de otro, y en qué orden deben ir las condiciones de una cadena `if / else if`? ¿Por qué?"
+explanation = "`n` es múltiplo de `d` exactamente cuando el resto de la división es cero: `n % d == 0`. Un número divisible por 3 y por 5 es divisible por 15, ya que 3 y 5 no tienen ningún factor común, así que `n % 15 == 0` comprueba ambas cosas a la vez. En una cadena `if / else if` gana la primera condición verdadera, así que el caso más específico debe ir primero: comprobada antes, `n % 3 == 0` atraparía también 15, 30, 45 y los demás múltiplos de 15, seis respuestas erróneas entre 1 y 100."
+
+[[questions.choices]]
+correct = true
+text = { en = "n % d == 0; and since a multiple of 3 and of 5 is a multiple of 15, that case is tested first", fr = "n % d == 0 ; et comme un multiple de 3 et de 5 est multiple de 15, ce cas se teste en premier", es = "n % d == 0; y como un múltiplo de 3 y de 5 lo es de 15, ese caso se comprueba primero" }
+
+[[questions.choices]]
+text = { en = "n % d == 0; the order of the tests in an if / else if chain does not matter", fr = "n % d == 0 ; l'ordre des tests dans une chaîne if / else if n'a pas d'importance", es = "n % d == 0; el orden de las comprobaciones en un if / else if no importa" }
+
+[[questions.choices]]
+text = { en = "n / d == 0 tells that n is a multiple of d", fr = "n / d == 0 indique que n est multiple de d", es = "n / d == 0 indica que n es múltiplo de d" }
+
+[[questions.choices]]
+text = { en = "A multiple of 3 and of 5 is a multiple of 8, their sum", fr = "Un multiple de 3 et de 5 est multiple de 8, leur somme", es = "Un múltiplo de 3 y de 5 lo es de 8, su suma" }
+
+[[questions]]
+slug = "rank02-l0-printing-a-number"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["conversions", "recursion"]
+key_points = [
+  "Digits come out least significant first with n % 10 and n / 10, so they must be printed in reverse order: recursion on n / 10 before printing n % 10, or a buffer filled backwards.",
+  "A digit d becomes its character with '0' + d.",
+  "A negative number prints '-' and then its absolute value.",
+  "The most negative int (INT_MIN) cannot be negated in an int, since its opposite does not fit (overflow): work in a wider type such as long, or handle it separately.",
+]
+
+[questions.translations.en]
+title = "Printing a number character by character"
+stem = "With only `write` available, how do you print an `int`? How do you get its digits in the right order, turn a digit into a character, and handle negative numbers, including the most negative `int`?"
+explanation = "`n % 10` gives the last digit and `n / 10` removes it, so the digits come out least significant first; they must be printed the other way round, either by recursing on `n / 10` before printing `n % 10`, or by filling a small buffer from the end. A digit `d` becomes a character with `'0' + d`. For a negative number, you print `'-'` and then its absolute value. The trap is `INT_MIN`, -2147483648: its opposite does not fit in an `int`, and negating it overflows. Working in a `long`, or handling that value separately, avoids it."
+
+[questions.translations.fr]
+title = "Afficher un nombre caractère par caractère"
+stem = "Avec seulement `write`, comment afficher un `int` ? Comment obtenir ses chiffres dans le bon ordre, transformer un chiffre en caractère, et traiter les nombres négatifs, y compris le plus petit `int` ?"
+explanation = "`n % 10` donne le dernier chiffre et `n / 10` le retire : les chiffres sortent donc du moins significatif au plus significatif, et il faut les afficher dans l'autre sens, soit par récursion sur `n / 10` avant d'afficher `n % 10`, soit en remplissant un petit tampon par la fin. Un chiffre `d` devient un caractère avec `'0' + d`. Pour un nombre négatif, on affiche `'-'` puis sa valeur absolue. Le piège est `INT_MIN`, -2147483648 : son opposé ne tient pas dans un `int`, et le calculer provoque un dépassement. Travailler dans un `long`, ou traiter cette valeur à part, l'évite."
+
+[questions.translations.es]
+title = "Mostrar un número carácter a carácter"
+stem = "Con solo `write` disponible, ¿cómo muestras un `int`? ¿Cómo obtienes sus cifras en el orden correcto, conviertes una cifra en carácter y tratas los números negativos, incluido el `int` más negativo?"
+explanation = "`n % 10` da la última cifra y `n / 10` la quita, así que las cifras salen de la menos significativa a la más significativa; hay que mostrarlas al revés, con una recursión sobre `n / 10` antes de mostrar `n % 10`, o llenando un pequeño búfer desde el final. Una cifra `d` se convierte en carácter con `'0' + d`. Para un número negativo se muestra `'-'` y después su valor absoluto. La trampa es `INT_MIN`, -2147483648: su opuesto no cabe en un `int` y calcularlo desborda. Trabajar en un `long`, o tratar ese valor aparte, lo evita."
+
+[[questions.choices]]
+correct = true
+text = { en = "Digits come out backwards with % 10 and / 10, so they are printed on the way back, and adding them to the character zero gives the digit", fr = "Les chiffres sortent à l'envers avec % 10 et / 10 : on les affiche en remontant, et les ajouter au caractère zéro donne le chiffre", es = "Las cifras salen al revés con % 10 y / 10: se muestran al volver, y sumarlas al carácter cero da la cifra" }
+
+[[questions.choices]]
+text = { en = "write is given the integer and converts it to text itself", fr = "On donne l'entier à write, qui le convertit lui-même en texte", es = "Se le da el entero a write, que lo convierte él mismo en texto" }
+
+[[questions.choices]]
+text = { en = "Digits come out in the right order with % 10: printing them as they come is enough", fr = "Les chiffres sortent dans le bon ordre avec % 10 : il suffit de les afficher au fur et à mesure", es = "Las cifras salen en el orden correcto con % 10: basta con mostrarlas según llegan" }
+
+[[questions.choices]]
+text = { en = "For a negative number, printing the minus sign then its opposite always works", fr = "Pour un nombre négatif, afficher le signe moins puis son opposé marche toujours", es = "Para un número negativo, mostrar el signo menos y luego su opuesto siempre funciona" }
+
+[[questions]]
+slug = "rank02-l0-words-and-separators"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings"]
+key_points = [
+  "A word starts at a non-separator character that is either at the start of the string or preceded by a separator (space or tab).",
+  "A word ends just before the next separator or at the terminating '\\0'.",
+  "Separators can be repeated, and they can appear at the start and at the end of the string.",
+  "A string with no word at all (empty, or only separators) is a case to handle explicitly.",
+]
+
+[questions.translations.en]
+title = "Words and separators"
+stem = "Many string exercises work on words separated by spaces or tabs. How do you recognise where a word starts and where it ends while walking the string, and which inputs must you think of so that the code does not break?"
+explanation = "A word starts at a character that is not a separator and that is either at the start of the string or right after a separator; it ends just before the next separator, or at the final `'\\0'`. A robust loop therefore skips separators, notes where the word starts, then advances while it is not on a separator. The inputs that break naive code are repeated separators, separators at the start or at the end, tabs as well as spaces, and strings with no word at all, empty or made only of separators, which must be handled explicitly."
+
+[questions.translations.fr]
+title = "Mots et séparateurs"
+stem = "Beaucoup d'exercices sur les chaînes travaillent sur des mots séparés par des espaces ou des tabulations. En parcourant la chaîne, comment reconnaître où un mot commence et où il se termine, et à quelles entrées faut-il penser pour que le code ne casse pas ?"
+explanation = "Un mot commence sur un caractère qui n'est pas un séparateur et qui se trouve soit en début de chaîne, soit juste après un séparateur ; il se termine juste avant le séparateur suivant, ou sur le `'\\0'` final. Une boucle robuste saute donc les séparateurs, note où commence le mot, puis avance tant qu'elle n'est pas sur un séparateur. Les entrées qui cassent un code naïf sont les séparateurs répétés, les séparateurs en début ou en fin de chaîne, les tabulations autant que les espaces, et les chaînes sans aucun mot, vides ou faites uniquement de séparateurs, qu'il faut traiter explicitement."
+
+[questions.translations.es]
+title = "Palabras y separadores"
+stem = "Muchos ejercicios con cadenas trabajan con palabras separadas por espacios o tabulaciones. Al recorrer la cadena, ¿cómo reconoces dónde empieza y dónde termina una palabra, y en qué entradas tienes que pensar para que el código no falle?"
+explanation = "Una palabra empieza en un carácter que no es un separador y que está al principio de la cadena o justo después de un separador; termina justo antes del separador siguiente, o en el `'\\0'` final. Un bucle robusto se salta los separadores, anota dónde empieza la palabra y luego avanza mientras no esté sobre un separador. Las entradas que rompen un código ingenuo son los separadores repetidos, los separadores al principio o al final, las tabulaciones tanto como los espacios, y las cadenas sin ninguna palabra, vacías o formadas solo por separadores, que hay que tratar explícitamente."
+
+[[questions.choices]]
+correct = true
+text = { en = "A word starts at a non-separator that is either first in the string or preceded by a separator", fr = "Un mot commence à un caractère non séparateur placé en début de chaîne ou précédé d'un séparateur", es = "Una palabra empieza en un carácter no separador situado al principio de la cadena o precedido por un separador" }
+
+[[questions.choices]]
+text = { en = "Counting the spaces and adding one gives the number of words", fr = "Compter les espaces et ajouter un donne le nombre de mots", es = "Contar los espacios y sumar uno da el número de palabras" }
+
+[[questions.choices]]
+text = { en = "Separators never appear at the start or at the end of the string", fr = "Les séparateurs n'apparaissent jamais au début ni à la fin de la chaîne", es = "Los separadores nunca aparecen al principio ni al final de la cadena" }
+
+[[questions.choices]]
+text = { en = "A word only ends at the end of the string", fr = "Un mot ne se termine qu'à la fin de la chaîne", es = "Una palabra solo termina al final de la cadena" }
+
+[[questions]]
+slug = "rank02-l0-walking-backwards"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings"]
+key_points = [
+  "First find the length, then go from index length - 1 down to 0; the '\\0' itself is not part of the text.",
+  "With an unsigned index (size_t), the condition i >= 0 is always true: after 0 the index wraps around to a huge value and the loop reads out of bounds.",
+  "Fixes: a signed index, or a loop such as `while (i > 0) { i--; ... }` that tests before decrementing.",
+  "On an empty string, length - 1 computed in size_t is already a huge value, so the empty case must work too.",
+]
+
+[questions.translations.en]
+title = "Walking a string backwards"
+stem = "To go through a string from its last character to its first, where does the loop start and stop? Why is `for (size_t i = len - 1; i >= 0; i--)` a bug, and how do you write the loop correctly, including for an empty string?"
+explanation = "You first find the length, then go from index `len - 1` down to 0: the `'\\0'` is not part of the text. With a `size_t`, which is unsigned, the condition `i >= 0` is always true, and compilers warn about it: after 0, `i--` wraps around to a huge value and the loop reads far out of bounds. The same wrap-around hits the empty string, where `len - 1` is already a huge number. Either use a signed index, or test before decrementing: `size_t i = len; while (i > 0) { i--; ... }`, which also does nothing on an empty string."
+
+[questions.translations.fr]
+title = "Parcourir une chaîne à l'envers"
+stem = "Pour parcourir une chaîne de son dernier caractère au premier, où la boucle commence-t-elle et s'arrête-t-elle ? Pourquoi `for (size_t i = len - 1; i >= 0; i--)` est-il un bogue, et comment écrire la boucle correctement, y compris pour une chaîne vide ?"
+explanation = "On cherche d'abord la longueur, puis on va de l'indice `len - 1` jusqu'à 0 : le `'\\0'` ne fait pas partie du texte. Avec un `size_t`, qui est non signé, la condition `i >= 0` est toujours vraie, et les compilateurs le signalent : après 0, `i--` repart à une valeur énorme et la boucle lit très loin hors du tableau. Le même rebouclage frappe la chaîne vide, où `len - 1` est déjà un nombre énorme. On utilise soit un indice signé, soit un test avant la décrémentation : `size_t i = len; while (i > 0) { i--; ... }`, qui ne fait rien sur une chaîne vide."
+
+[questions.translations.es]
+title = "Recorrer una cadena al revés"
+stem = "Para recorrer una cadena desde su último carácter hasta el primero, ¿dónde empieza y dónde termina el bucle? ¿Por qué `for (size_t i = len - 1; i >= 0; i--)` es un error, y cómo escribes el bucle correctamente, también para una cadena vacía?"
+explanation = "Primero se busca la longitud y después se va del índice `len - 1` hasta 0: el `'\\0'` no forma parte del texto. Con un `size_t`, que no tiene signo, la condición `i >= 0` siempre es verdadera, y los compiladores lo avisan: después de 0, `i--` da la vuelta a un valor enorme y el bucle lee muy fuera de los límites. La misma vuelta afecta a la cadena vacía, donde `len - 1` ya es un número enorme. Se usa un índice con signo, o se comprueba antes de decrementar: `size_t i = len; while (i > 0) { i--; ... }`, que no hace nada con una cadena vacía."
+
+[[questions.choices]]
+correct = true
+text = { en = "Start at index length - 1 and go down to 0; with an unsigned index, the test i >= 0 is always true", fr = "On part de l'indice longueur - 1 et on descend jusqu'à 0 ; avec un indice non signé, le test i >= 0 est toujours vrai", es = "Se parte del índice longitud - 1 y se baja hasta 0; con un índice sin signo, la prueba i >= 0 siempre es cierta" }
+
+[[questions.choices]]
+text = { en = "Start at index length, to print the terminator as well", fr = "On part de l'indice longueur, pour afficher aussi le terminateur", es = "Se parte del índice longitud, para mostrar también el terminador" }
+
+[[questions.choices]]
+text = { en = "With an unsigned index, i >= 0 becomes false after 0 and the loop stops", fr = "Avec un indice non signé, i >= 0 devient faux après 0 et la boucle s'arrête", es = "Con un índice sin signo, i >= 0 se vuelve falso tras 0 y el bucle se detiene" }
+
+[[questions.choices]]
+text = { en = "An empty string is harmless: length - 1 is -1 and the loop simply does not run", fr = "Une chaîne vide est sans danger : longueur - 1 vaut -1 et la boucle ne s'exécute pas", es = "Una cadena vacía no tiene peligro: longitud - 1 es -1 y el bucle no se ejecuta" }
+
+[[questions]]
+slug = "rank02-l0-modifiable-strings"
+topic = "exam-rank-02-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "memory"]
+key_points = [
+  "A string literal may be stored in read-only memory: modifying it through a char * is undefined behaviour, and usually crashes (segmentation fault).",
+  "char s[] = \"abc\" creates an array initialised with a copy of the literal, which can be modified.",
+  "The strings of argv belong to the program and may be modified.",
+  "Pointing a const char * at a literal lets the compiler catch accidental writes.",
+]
+
+[questions.translations.en]
+title = "Which strings can be modified"
+stem = "A function changes the characters of the string it receives in place. Why does it crash when called with `char *s = \"hello\";`, but work with `char s[] = \"hello\";` or with `argv[1]`?"
+explanation = "A string literal may be stored in read-only memory: `char *s = \"hello\"` only points at it, and writing through `s` is undefined behaviour, which in practice usually ends in a segmentation fault. `char s[] = \"hello\"` is something else: an array, on the stack for a local variable, initialised with a copy of the literal, which you can modify freely. The strings of `argv` belong to the program as well, and the C standard allows modifying them. Declaring `const char *s = \"hello\"` makes the compiler reject accidental writes to a literal."
+
+[questions.translations.fr]
+title = "Quelles chaînes peut-on modifier"
+stem = "Une fonction modifie sur place les caractères de la chaîne qu'elle reçoit. Pourquoi plante-t-elle quand on l'appelle avec `char *s = \"hello\";`, mais fonctionne-t-elle avec `char s[] = \"hello\";` ou avec `argv[1]` ?"
+explanation = "Un littéral de chaîne peut être rangé en mémoire en lecture seule : `char *s = \"hello\"` ne fait que pointer dessus, et écrire à travers `s` est un comportement indéfini, qui se termine en pratique le plus souvent par une erreur de segmentation. `char s[] = \"hello\"` est autre chose : un tableau, sur la pile pour une variable locale, initialisé avec une copie du littéral, qu'on peut modifier librement. Les chaînes de `argv` appartiennent elles aussi au programme, et la norme C autorise à les modifier. Déclarer `const char *s = \"hello\"` fait refuser par le compilateur toute écriture accidentelle dans un littéral."
+
+[questions.translations.es]
+title = "Qué cadenas se pueden modificar"
+stem = "Una función modifica en el sitio los caracteres de la cadena que recibe. ¿Por qué falla cuando se llama con `char *s = \"hello\";`, pero funciona con `char s[] = \"hello\";` o con `argv[1]`?"
+explanation = "Un literal de cadena puede guardarse en memoria de solo lectura: `char *s = \"hello\"` solo apunta a él, y escribir a través de `s` es comportamiento indefinido, que en la práctica suele acabar en un fallo de segmentación. `char s[] = \"hello\"` es otra cosa: un array, en la pila si es una variable local, inicializado con una copia del literal, que se puede modificar libremente. Las cadenas de `argv` también pertenecen al programa, y el estándar de C permite modificarlas. Declarar `const char *s = \"hello\"` hace que el compilador rechace cualquier escritura accidental en un literal."
+
+[[questions.choices]]
+correct = true
+text = { en = "A literal may sit in read-only memory; an array initialised from it holds a copy that can be modified", fr = "Un littéral peut être en mémoire seulement lisible ; un tableau initialisé avec lui en contient une copie modifiable", es = "Un literal puede estar en memoria de solo lectura; un array inicializado con él contiene una copia modificable" }
+
+[[questions.choices]]
+text = { en = "A pointer to a literal and an array initialised from it are two ways of writing the same thing", fr = "Un pointeur vers un littéral et un tableau initialisé avec lui sont deux façons d'écrire la même chose", es = "Un puntero a un literal y un array inicializado con él son dos formas de escribir lo mismo" }
+
+[[questions.choices]]
+text = { en = "The strings of argv are read-only and must never be modified", fr = "Les chaînes de argv sont en lecture seule et ne doivent jamais être modifiées", es = "Las cadenas de argv son de solo lectura y nunca deben modificarse" }
+
+[[questions.choices]]
+text = { en = "Declaring the pointer const keeps the program from crashing at run time", fr = "Déclarer le pointeur const empêche le programme de planter à l'exécution", es = "Declarar el puntero const evita que el programa falle en ejecución" }

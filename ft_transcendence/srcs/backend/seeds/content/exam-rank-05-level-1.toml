@@ -1,0 +1,491 @@
+# Exam Rank 05, level 1: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank05-l1-square-recurrence"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["dynamic-programming", "algorithms"]
+key_points = [
+  "A blocked cell ends no square: s[i][j] is 0.",
+  "A free cell on the first row or the first column can only end a square of side 1.",
+  "Otherwise s[i][j] = 1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1]), taken over the cell above, the cell to the left and the diagonal cell.",
+  "A square of side k ending at (i, j) contains squares of side k - 1 ending at those three neighbours, and those three squares plus (i, j) cover it, so the smallest of the three sets the limit; the answer is the largest s[i][j] in the grid.",
+]
+
+[questions.translations.en]
+title = "The largest free square"
+stem = "In a grid where every cell is either free or blocked, you look for the largest square made only of free cells. Let `s[i][j]` be the side of the largest free square whose bottom-right corner is the cell `(i, j)`. Give the recurrence that computes `s[i][j]` and explain why it is correct."
+explanation = "A blocked cell ends no square, so `s[i][j] = 0`. On the first row or the first column, a free cell can only end a square of side 1. Everywhere else, `s[i][j] = 1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1])`. A square of side `k` ending at `(i, j)` contains three squares of side `k - 1`, ending at the cell above, the cell to the left and the diagonal cell. Conversely, when those three squares exist, together with `(i, j)` they cover the whole square of side `k`. The smallest of the three values is therefore what limits the square, and the largest `s[i][j]` in the grid is the side of the answer."
+
+[questions.translations.fr]
+title = "Le plus grand carré libre"
+stem = "Dans une grille dont chaque case est libre ou bloquée, on cherche le plus grand carré formé uniquement de cases libres. On note `s[i][j]` le côté du plus grand carré libre dont le coin inférieur droit est la case `(i, j)`. Donnez la relation de récurrence qui calcule `s[i][j]` et expliquez pourquoi elle est juste."
+explanation = "Une case bloquée ne termine aucun carré : `s[i][j] = 0`. Sur la première ligne ou la première colonne, une case libre ne peut terminer qu'un carré de côté 1. Partout ailleurs, `s[i][j] = 1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1])`. Un carré de côté `k` qui se termine en `(i, j)` contient trois carrés de côté `k - 1`, qui se terminent sur la case du dessus, celle de gauche et celle de la diagonale. Inversement, quand ces trois carrés existent, ils couvrent avec `(i, j)` tout le carré de côté `k`. La plus petite des trois valeurs est donc ce qui limite le carré, et la plus grande valeur de `s` dans la grille donne le côté de la réponse."
+
+[questions.translations.es]
+title = "El mayor cuadrado libre"
+stem = "En una cuadrícula donde cada casilla está libre o bloqueada, se busca el mayor cuadrado formado solo por casillas libres. Sea `s[i][j]` el lado del mayor cuadrado libre cuya esquina inferior derecha es la casilla `(i, j)`. Da la relación de recurrencia que calcula `s[i][j]` y explica por qué es correcta."
+explanation = "Una casilla bloqueada no termina ningún cuadrado: `s[i][j] = 0`. En la primera fila o la primera columna, una casilla libre solo puede terminar un cuadrado de lado 1. En el resto, `s[i][j] = 1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1])`. Un cuadrado de lado `k` que termina en `(i, j)` contiene tres cuadrados de lado `k - 1`, que terminan en la casilla de arriba, la de la izquierda y la de la diagonal. A la inversa, cuando esos tres cuadrados existen, junto con `(i, j)` cubren todo el cuadrado de lado `k`. El menor de los tres valores es por tanto lo que limita el cuadrado, y el mayor valor de `s` en la cuadrícula es el lado de la respuesta."
+
+[[questions.choices]]
+correct = true
+text = { en = "0 on a blocked cell, 1 on the first row or column, otherwise `1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1])`: the smallest of the three neighbours sets the limit", fr = "0 sur une case bloquée, 1 sur la première ligne ou colonne, sinon `1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1])` : le plus petit des trois voisins fixe la limite", es = "0 en una casilla bloqueada, 1 en la primera fila o columna, si no `1 + min(s[i-1][j], s[i][j-1], s[i-1][j-1])`: el menor de los tres vecinos fija el límite" }
+
+[[questions.choices]]
+text = { en = "`1 + max(s[i-1][j], s[i][j-1], s[i-1][j-1])`: the largest neighbour gives the square that can be extended", fr = "`1 + max(s[i-1][j], s[i][j-1], s[i-1][j-1])` : le plus grand voisin donne le carré qu'on peut étendre", es = "`1 + max(s[i-1][j], s[i][j-1], s[i-1][j-1])`: el mayor vecino da el cuadrado que se puede ampliar" }
+
+[[questions.choices]]
+text = { en = "`1 + min(s[i-1][j], s[i][j-1])`: the diagonal cell is covered by the other two", fr = "`1 + min(s[i-1][j], s[i][j-1])` : la case diagonale est couverte par les deux autres", es = "`1 + min(s[i-1][j], s[i][j-1])`: la casilla diagonal la cubren las otras dos" }
+
+[[questions.choices]]
+text = { en = "The answer is `s[R-1][C-1]`, the value of the last cell of the grid", fr = "La réponse est `s[R-1][C-1]`, la valeur de la dernière case de la grille", es = "La respuesta es `s[R-1][C-1]`, el valor de la última casilla de la rejilla" }
+
+[[questions]]
+slug = "rank05-l1-square-complexity"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["complexity", "dynamic-programming"]
+key_points = [
+  "The naive search tries every corner and every size and rereads the cells of each candidate square, so it repeats the same checks many times and costs far more than R·C (about R·C·m³ with m = min(R, C)).",
+  "A table giving, for each cell, the side of the largest square ending there is filled with one constant-time step per cell, from three values already computed.",
+  "The whole grid is therefore processed in O(R·C) time, each cell once.",
+  "The gain comes from reusing the results of neighbouring cells instead of recomputing them, which is what dynamic programming is.",
+]
+
+[questions.translations.en]
+title = "Cost of searching for a square"
+stem = "To find the largest free square in a grid of `R` rows and `C` columns, a naive program tries every top-left corner and every size, and checks every cell of each candidate square. Roughly what does it cost? What does a table storing, for each cell, the side of the largest square ending there bring that cost down to, and why?"
+explanation = "The naive program tries `R·C` corners and up to `m = min(R, C)` sizes, and checking a square of side `k` reads `k²` cells: on a free grid that adds up to about `R·C·m³` reads, most of them rereading cells already checked for a smaller size. With the table, each cell's value comes from three values already computed (above, left and diagonal) in a constant number of operations, so the grid is processed in a single pass, in `O(R·C)`. The whole gain comes from reusing the answers to smaller subproblems instead of recomputing them: that is dynamic programming."
+
+[questions.translations.fr]
+title = "Coût de la recherche d'un carré"
+stem = "Pour chercher le carré libre de côté maximal dans une grille de `R` lignes et `C` colonnes, un programme naïf essaie chaque coin supérieur gauche et chaque taille, et vérifie chaque case de chaque carré candidat. Que coûte-t-il, à peu près ? À combien descend ce coût avec un tableau qui donne, pour chaque case, le côté du plus grand carré qui s'y termine, et pourquoi ?"
+explanation = "Le programme naïf essaie `R·C` coins et jusqu'à `m = min(R, C)` tailles, et vérifier un carré de côté `k` lit `k²` cases : sur une grille libre, cela fait environ `R·C·m³` lectures, dont la plupart relisent des cases déjà vérifiées pour une taille plus petite. Avec le tableau, la valeur de chaque case se calcule à partir de trois valeurs déjà connues (au-dessus, à gauche et en diagonale), en un nombre constant d'opérations : la grille se traite en un seul passage, en `O(R·C)`. Tout le gain vient de la réutilisation des réponses à des sous-problèmes plus petits au lieu de les recalculer : c'est la programmation dynamique."
+
+[questions.translations.es]
+title = "Coste de buscar un cuadrado"
+stem = "Para encontrar el mayor cuadrado libre en una cuadrícula de `R` filas y `C` columnas, un programa ingenuo prueba cada esquina superior izquierda y cada tamaño, y comprueba cada casilla de cada cuadrado candidato. ¿Cuánto cuesta, más o menos? ¿A cuánto baja ese coste con una tabla que guarda, para cada casilla, el lado del mayor cuadrado que termina en ella, y por qué?"
+explanation = "El programa ingenuo prueba `R·C` esquinas y hasta `m = min(R, C)` tamaños, y comprobar un cuadrado de lado `k` lee `k²` casillas: en una cuadrícula libre eso suma unas `R·C·m³` lecturas, la mayoría releyendo casillas ya comprobadas para un tamaño menor. Con la tabla, el valor de cada casilla se calcula a partir de tres valores ya conocidos (arriba, izquierda y diagonal) en un número constante de operaciones, así que la cuadrícula se recorre una sola vez, en `O(R·C)`. Toda la ganancia viene de reutilizar las respuestas a subproblemas más pequeños en lugar de recalcularlas: eso es la programación dinámica."
+
+[[questions.choices]]
+correct = true
+text = { en = "The naive search rereads the cells of every candidate and costs far more than `R·C`; the table fills each cell in constant time from three already computed values, so O(R·C)", fr = "La recherche naïve relit les cases de chaque candidat et coûte bien plus que `R·C` ; la table remplit chaque case en temps constant depuis trois valeurs déjà calculées, donc O(R·C)", es = "La búsqueda ingenua relee las casillas de cada candidato y cuesta mucho más que `R·C`; la tabla rellena cada casilla en tiempo constante a partir de tres valores ya calculados, así que O(R·C)" }
+
+[[questions.choices]]
+text = { en = "Both cost the same: the table only moves the work elsewhere", fr = "Les deux coûtent pareil : la table ne fait que déplacer le travail ailleurs", es = "Las dos cuestan lo mismo: la tabla solo mueve el trabajo a otro sitio" }
+
+[[questions.choices]]
+text = { en = "The table brings it down to O(R + C), one step per row and per column", fr = "La table ramène le coût à O(R + C), une étape par ligne et par colonne", es = "La tabla lo baja a O(R + C), un paso por fila y por columna" }
+
+[[questions.choices]]
+text = { en = "The gain comes from stopping the search early, not from reusing neighbouring results", fr = "Le gain vient d'un arrêt anticipé de la recherche, pas de la réutilisation des résultats voisins", es = "La ganancia viene de parar pronto la búsqueda, no de reutilizar los resultados vecinos" }
+
+[[questions]]
+slug = "rank05-l1-dp-memory"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["dynamic-programming", "memory"]
+key_points = [
+  "Each value only depends on the previous row (above and diagonal) and on the current row (left), so older rows are never read again.",
+  "Two rows of C values, swapped after each row, are enough: O(C) memory instead of O(R·C); one row plus a variable keeping the old diagonal value also works.",
+  "To locate the answer at the end, it is enough to remember the best side found and the cell where that square ends; its top-left corner is that cell minus (side - 1) on both axes.",
+]
+
+[questions.translations.en]
+title = "Memory of a row-by-row table"
+stem = "A table `s[i][j]` is filled row by row, and each value depends on the cell above, the cell to the left and the diagonal cell. Must the whole table stay in memory? What is the minimum, and what must you remember to still know where the best result is at the end?"
+explanation = "Row `i` only reads row `i - 1` (above and diagonal) and itself (left): once a row is finished, the rows before the previous one are never read again. Two rows of `C` values are enough, swapped after each row, which lowers memory from `O(R·C)` to `O(C)`; a single row plus one variable saving the old diagonal value also works. The table no longer exists at the end, so you keep the best value found and the cell where it was found as you go. For a square, that cell is the bottom-right corner, and the top-left corner is found by subtracting `side - 1` from the row and the column."
+
+[questions.translations.fr]
+title = "Mémoire d'un tableau rempli ligne par ligne"
+stem = "Un tableau `s[i][j]` est rempli ligne par ligne, et chaque valeur dépend de la case au-dessus, de celle de gauche et de celle de la diagonale. Faut-il garder tout le tableau en mémoire ? Quel est le minimum, et que faut-il retenir pour savoir encore, à la fin, où se trouve le meilleur résultat ?"
+explanation = "La ligne `i` ne lit que la ligne `i - 1` (au-dessus et en diagonale) et elle-même (à gauche) : une fois une ligne terminée, les lignes antérieures à la précédente ne sont plus jamais lues. Deux lignes de `C` valeurs suffisent, échangées après chaque ligne, ce qui fait passer la mémoire de `O(R·C)` à `O(C)` ; une seule ligne plus une variable qui garde l'ancienne valeur de la diagonale convient aussi. Le tableau n'existe plus à la fin : on retient donc au fil du calcul la meilleure valeur trouvée et la case où elle l'a été. Pour un carré, cette case est le coin inférieur droit, et le coin supérieur gauche s'obtient en retirant `côté - 1` à la ligne et à la colonne."
+
+[questions.translations.es]
+title = "Memoria de una tabla fila a fila"
+stem = "Una tabla `s[i][j]` se rellena fila a fila, y cada valor depende de la casilla de arriba, la de la izquierda y la de la diagonal. ¿Hay que mantener toda la tabla en memoria? ¿Cuál es el mínimo, y qué hay que recordar para saber todavía, al final, dónde está el mejor resultado?"
+explanation = "La fila `i` solo lee la fila `i - 1` (arriba y diagonal) y a sí misma (izquierda): una vez terminada una fila, las anteriores a la previa no se vuelven a leer. Bastan dos filas de `C` valores, intercambiadas después de cada fila, lo que baja la memoria de `O(R·C)` a `O(C)`; también sirve una sola fila más una variable que guarda el valor antiguo de la diagonal. La tabla ya no existe al final, así que se guarda sobre la marcha el mejor valor encontrado y la casilla donde apareció. Para un cuadrado, esa casilla es la esquina inferior derecha, y la esquina superior izquierda se obtiene restando `lado - 1` a la fila y a la columna."
+
+[[questions.choices]]
+correct = true
+text = { en = "Two rows are enough, swapped after each one: O(C) instead of O(R·C); keeping the best side and the cell where that square ends locates its top-left corner", fr = "Deux lignes suffisent, échangées après chacune : O(C) au lieu de O(R·C) ; garder le meilleur côté et la case où ce carré se termine localise son coin en haut à gauche", es = "Bastan dos filas, intercambiadas tras cada una: O(C) en vez de O(R·C); guardar el mejor lado y la casilla donde termina ese cuadrado localiza su esquina superior izquierda" }
+
+[[questions.choices]]
+text = { en = "The whole table must stay: the answer is rebuilt by walking it backwards at the end", fr = "Toute la table doit rester : la réponse se reconstruit en la parcourant à l'envers à la fin", es = "Toda la tabla debe quedarse: la respuesta se reconstruye recorriéndola al revés al final" }
+
+[[questions.choices]]
+text = { en = "One single row is enough with no extra variable, since the left value is the only one needed", fr = "Une seule ligne suffit sans variable supplémentaire, puisque la valeur de gauche est la seule nécessaire", es = "Basta una sola fila sin variable extra, ya que el valor de la izquierda es el único necesario" }
+
+[[questions.choices]]
+text = { en = "Keeping the best side alone is enough: the position is deduced from the size", fr = "Garder le meilleur côté seul suffit : la position se déduit de la taille", es = "Basta con guardar el mejor lado: la posición se deduce del tamaño" }
+
+[[questions]]
+slug = "rank05-l1-breaking-ties"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["algorithms"]
+key_points = [
+  "Visit the cells in reading order (row by row, left to right) and replace the best result only when a strictly larger side is found: > rather than >=.",
+  "With a strict comparison, the first square of the maximum size met in reading order is the one kept; with >= the last one would be kept instead.",
+  "All tied squares have the same side k, and a square's top row is its bottom row minus (k - 1), same for columns, so ordering them by bottom-right corner gives the same order as by top-left corner.",
+]
+
+[questions.translations.en]
+title = "Breaking ties between equal squares"
+stem = "Several free squares of a grid can share the maximum size. You must keep the one whose top-left corner is on the highest row, and among those the leftmost one. The table `s[i][j]` gives the side of the largest square ending at `(i, j)`, its bottom-right corner, and is filled row by row, left to right. How do you keep the right square, and why does it work although the table indexes squares by their bottom-right corner?"
+explanation = "Walk the cells in reading order and replace the best result only when `s[i][j]` is strictly greater than the best side so far. With `>`, the first square of maximum size met in that order is kept; `>=` would keep the last one. It is the right one because all tied squares have the same side `k`: a square's top row is its bottom row minus `k - 1`, and the same goes for columns. For squares of equal size, ordering by bottom-right corner is therefore the same as ordering by top-left corner, and the first one met in reading order is the highest, then the leftmost."
+
+[questions.translations.fr]
+title = "Départager des carrés égaux"
+stem = "Plusieurs carrés libres d'une grille peuvent avoir la taille maximale. Il faut garder celui dont le coin supérieur gauche est sur la ligne la plus haute, et parmi ceux-là le plus à gauche. Le tableau `s[i][j]` donne le côté du plus grand carré qui se termine en `(i, j)`, son coin inférieur droit, et il est rempli ligne par ligne, de gauche à droite. Comment garder le bon carré, et pourquoi cela marche-t-il alors que le tableau repère les carrés par leur coin inférieur droit ?"
+explanation = "On parcourt les cases dans l'ordre de lecture et on ne remplace le meilleur résultat que si `s[i][j]` est strictement plus grand que le meilleur côté trouvé. Avec `>`, c'est le premier carré de taille maximale rencontré dans cet ordre qui est gardé ; `>=` garderait le dernier. C'est bien le bon, parce que tous les carrés à égalité ont le même côté `k` : la ligne du haut d'un carré est sa ligne du bas moins `k - 1`, et de même pour les colonnes. Pour des carrés de même taille, trier par coin inférieur droit revient donc à trier par coin supérieur gauche, et le premier rencontré dans l'ordre de lecture a le coin supérieur gauche situé sur la ligne la plus haute, et à égalité dans la colonne la plus à gauche."
+
+[questions.translations.es]
+title = "Desempatar cuadrados iguales"
+stem = "Varios cuadrados libres de una cuadrícula pueden tener el tamaño máximo. Hay que quedarse con aquel cuya esquina superior izquierda está en la fila más alta y, entre esos, el que está más a la izquierda. La tabla `s[i][j]` da el lado del mayor cuadrado que termina en `(i, j)`, su esquina inferior derecha, y se rellena fila a fila, de izquierda a derecha. ¿Cómo te quedas con el cuadrado correcto, y por qué funciona aunque la tabla identifique los cuadrados por su esquina inferior derecha?"
+explanation = "Se recorren las casillas en orden de lectura y solo se reemplaza el mejor resultado si `s[i][j]` es estrictamente mayor que el mejor lado encontrado. Con `>`, se conserva el primer cuadrado de tamaño máximo encontrado en ese orden; con `>=` se conservaría el último. Es el correcto porque todos los cuadrados empatados tienen el mismo lado `k`: la fila superior de un cuadrado es su fila inferior menos `k - 1`, y lo mismo con las columnas. Para cuadrados del mismo tamaño, ordenar por esquina inferior derecha equivale a ordenar por esquina superior izquierda, y el primero encontrado en orden de lectura es el más alto y, luego, el más a la izquierda."
+
+[[questions.choices]]
+correct = true
+text = { en = "Visit in reading order and replace the best only on a **strictly** larger side: tied squares share the side, so ordering by bottom-right corner matches ordering by top-left one", fr = "Parcourir dans l'ordre de lecture et ne remplacer le meilleur que sur un côté **strictement** plus grand : les carrés ex æquo ont le même côté, donc l'ordre par coin bas-droite est celui par coin haut-gauche", es = "Recorrer en orden de lectura y sustituir el mejor solo con un lado **estrictamente** mayor: los cuadrados empatados comparten el lado, así que ordenar por esquina inferior derecha coincide con ordenar por la superior izquierda" }
+
+[[questions.choices]]
+text = { en = "Use `>=`, so that the last square of the maximum size found is the one kept", fr = "Utiliser `>=`, pour que le dernier carré de taille maximale trouvé soit celui qu'on garde", es = "Usar `>=`, para que el último cuadrado del tamaño máximo hallado sea el que se conserva" }
+
+[[questions.choices]]
+text = { en = "Every tied square must be stored, then sorted by top-left corner at the end", fr = "Tous les carrés ex æquo doivent être stockés, puis triés par coin haut-gauche à la fin", es = "Hay que guardar todos los cuadrados empatados y ordenarlos por esquina superior izquierda al final" }
+
+[[questions.choices]]
+text = { en = "Ordering by bottom-right corner gives a different order, so the table must be scanned backwards", fr = "L'ordre par coin bas-droite est différent, donc la table doit être parcourue à l'envers", es = "Ordenar por esquina inferior derecha da otro orden, así que hay que recorrer la tabla al revés" }
+
+[[questions]]
+slug = "rank05-l1-grid-layout-in-c"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["data-structures", "memory"]
+key_points = [
+  "An array of row pointers takes R + 1 allocations and R + 1 frees, and if an allocation fails midway the rows already allocated must be freed.",
+  "It allows grid[i][j] and rows of different lengths, but the rows may be scattered in memory and each access goes through an extra pointer.",
+  "A single block takes one allocation and one free, and its cells are contiguous, which is friendlier to the processor cache.",
+  "The single block is indexed with i * C + j, so the width C must be known.",
+]
+
+[questions.translations.en]
+title = "Laying out a grid in C"
+stem = "In C, a grid of `R` rows and `C` columns can be stored as an array of `R` row pointers (`char **`), each row allocated on its own, or as a single block of `R * C` bytes indexed with `i * C + j`. Compare the two: allocations and frees, handling an allocation failure, and speed of access."
+explanation = "The array of row pointers costs `R + 1` calls to `malloc` and as many to `free`; if one allocation fails halfway, every row already allocated must be freed before giving up. In return it reads naturally as `grid[i][j]` and lets rows have different lengths, but the rows can end up anywhere in memory and each access first reads the row pointer. The single block costs one `malloc` and one `free`, so failure handling is trivial, and its cells are contiguous, which the processor cache rewards when the grid is walked row by row. Its price is the index computation `i * C + j`, which requires knowing the width."
+
+[questions.translations.fr]
+title = "Ranger une grille en C"
+stem = "En C, une grille de `R` lignes et `C` colonnes peut être rangée dans un tableau de `R` pointeurs de ligne (`char **`), chaque ligne étant allouée à part, ou dans un seul bloc de `R * C` octets indexé par `i * C + j`. Comparez les deux : allocations et libérations, gestion d'un échec d'allocation, et vitesse d'accès."
+explanation = "Le tableau de pointeurs de ligne coûte `R + 1` appels à `malloc` et autant à `free` ; si une allocation échoue en cours de route, il faut libérer toutes les lignes déjà allouées avant d'abandonner. En échange, il s'écrit naturellement `grille[i][j]` et permet des lignes de longueurs différentes, mais les lignes peuvent être dispersées en mémoire, et chaque accès lit d'abord le pointeur de ligne. Le bloc unique coûte un seul `malloc` et un seul `free`, donc un échec se gère trivialement, et ses cases sont contiguës, ce que le cache du processeur récompense quand la grille est parcourue ligne par ligne. Son prix est le calcul d'indice `i * C + j`, qui exige de connaître la largeur."
+
+[questions.translations.es]
+title = "Organizar una cuadrícula en C"
+stem = "En C, una cuadrícula de `R` filas y `C` columnas puede guardarse en un array de `R` punteros a fila (`char **`), reservando cada fila por separado, o en un único bloque de `R * C` bytes indexado con `i * C + j`. Compara las dos opciones: reservas y liberaciones, manejo de un fallo de reserva y velocidad de acceso."
+explanation = "El array de punteros a fila cuesta `R + 1` llamadas a `malloc` y otras tantas a `free`; si una reserva falla a medio camino, hay que liberar todas las filas ya reservadas antes de rendirse. A cambio, se escribe con naturalidad como `grid[i][j]` y admite filas de longitudes distintas, pero las filas pueden quedar dispersas en memoria y cada acceso lee primero el puntero de la fila. El bloque único cuesta un solo `malloc` y un solo `free`, así que un fallo se maneja trivialmente, y sus casillas son contiguas, algo que la caché del procesador premia cuando la cuadrícula se recorre fila a fila. Su precio es el cálculo del índice `i * C + j`, que exige conocer el ancho."
+
+[[questions.choices]]
+correct = true
+text = { en = "Row pointers mean `R + 1` allocations and a partial cleanup on failure; a single block takes one allocation, is contiguous and cache-friendly, and is indexed `i * C + j`", fr = "Des pointeurs de lignes, c'est `R + 1` allocations et un nettoyage partiel en cas d'échec ; un bloc unique demande une allocation, est contigu et favorable au cache, et s'indexe `i * C + j`", es = "Punteros de filas significa `R + 1` reservas y una limpieza parcial si falla; un bloque único necesita una reserva, es contiguo y amable con la caché, y se indexa `i * C + j`" }
+
+[[questions.choices]]
+text = { en = "A single block needs `R` allocations too, one per row of the block", fr = "Un bloc unique demande aussi `R` allocations, une par ligne du bloc", es = "Un bloque único necesita también `R` reservas, una por fila del bloque" }
+
+[[questions.choices]]
+text = { en = "Row pointers give contiguous cells, which is what makes `grid[i][j]` possible", fr = "Les pointeurs de lignes donnent des cases contiguës, c'est ce qui rend `grid[i][j]` possible", es = "Los punteros de filas dan celdas contiguas, eso es lo que hace posible `grid[i][j]`" }
+
+[[questions.choices]]
+text = { en = "The single block needs no width, since the index is computed from the pointer", fr = "Le bloc unique n'a pas besoin de la largeur, puisque l'indice se calcule depuis le pointeur", es = "El bloque único no necesita la anchura, ya que el índice se calcula desde el puntero" }
+
+[[questions]]
+slug = "rank05-l1-reading-lines-of-any-length"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["file-io", "memory"]
+key_points = [
+  "When the buffer pointer is NULL or the buffer too small, getline allocates or enlarges it itself and updates the capacity; the next calls reuse it.",
+  "It returns the number of characters read, the newline included, or -1 at end of file or on error.",
+  "The newline stays in the buffer when there is one (the last line may have none), so it must be removed or taken into account when comparing lengths.",
+  "The caller owns the buffer and must free it once at the end, even after getline has returned -1.",
+]
+
+[questions.translations.en]
+title = "Reading lines of any length"
+stem = "The POSIX function `getline(&line, &cap, stream)` reads a line whatever its length. Who allocates the buffer, what does the function return, what happens to the newline, and what must the caller do with the buffer?"
+explanation = "Called with `line` set to `NULL` and `cap` to 0, `getline` allocates the buffer itself, and it enlarges it with `realloc` whenever a longer line comes, updating `cap`; the next calls reuse the same buffer. It returns the number of characters read, the newline included, or `-1` at end of file or on error. The newline is kept when present, and the last line of a file may have none: code that compares line lengths must account for it. The returned length also stays right when the line contains a `'\\0'` byte, unlike `strlen`. The buffer belongs to the caller, who frees it once at the end, even after the call that returned `-1`."
+
+[questions.translations.fr]
+title = "Lire des lignes de n'importe quelle longueur"
+stem = "La fonction POSIX `getline(&line, &cap, stream)` lit une ligne quelle que soit sa longueur. Qui alloue le tampon, que renvoie la fonction, que devient le retour à la ligne, et que doit faire l'appelant du tampon ?"
+explanation = "Appelée avec `line` à `NULL` et `cap` à 0, `getline` alloue elle-même le tampon, et l'agrandit avec `realloc` dès qu'une ligne plus longue arrive, en mettant `cap` à jour ; les appels suivants réutilisent le même tampon. Elle renvoie le nombre de caractères lus, retour à la ligne compris, ou `-1` en fin de fichier ou en cas d'erreur. Le retour à la ligne est conservé quand il existe, et la dernière ligne d'un fichier peut ne pas en avoir : un code qui compare des longueurs de ligne doit en tenir compte. La longueur renvoyée reste juste même si la ligne contient un octet `'\\0'`, contrairement à `strlen`. Le tampon appartient à l'appelant, qui le libère une seule fois à la fin, même après l'appel qui a renvoyé `-1`."
+
+[questions.translations.es]
+title = "Leer líneas de cualquier longitud"
+stem = "La función POSIX `getline(&line, &cap, stream)` lee una línea sea cual sea su longitud. ¿Quién reserva el búfer, qué devuelve la función, qué pasa con el salto de línea y qué debe hacer quien la llama con el búfer?"
+explanation = "Llamada con `line` a `NULL` y `cap` a 0, `getline` reserva ella misma el búfer, y lo agranda con `realloc` cuando llega una línea más larga, actualizando `cap`; las llamadas siguientes reutilizan el mismo búfer. Devuelve el número de caracteres leídos, salto de línea incluido, o `-1` al final del fichero o si hay un error. El salto de línea se conserva cuando existe, y la última línea de un fichero puede no tenerlo: el código que compara longitudes de línea debe tenerlo en cuenta. La longitud devuelta sigue siendo correcta aunque la línea contenga un byte `'\\0'`, a diferencia de `strlen`. El búfer pertenece a quien llama, que lo libera una sola vez al final, incluso después de la llamada que devolvió `-1`."
+
+[[questions.choices]]
+correct = true
+text = { en = "It allocates or enlarges the buffer itself and updates the capacity, returns the count read (newline included) or -1, and the caller frees the buffer once at the end", fr = "Elle alloue ou agrandit elle-même le tampon et met à jour la capacité, renvoie le nombre lu (saut de ligne compris) ou -1, et l'appelant libère le tampon une fois à la fin", es = "Reserva o agranda ella misma el búfer y actualiza la capacidad, devuelve la cuenta leída (salto de línea incluido) o -1, y quien llama libera el búfer una vez al final" }
+
+[[questions.choices]]
+text = { en = "The caller must allocate the buffer beforehand and size it to the longest line", fr = "L'appelant doit allouer le tampon au préalable et le dimensionner à la ligne la plus longue", es = "Quien llama debe reservar el búfer de antemano y dimensionarlo a la línea más larga" }
+
+[[questions.choices]]
+text = { en = "The newline is removed, so the buffer always holds the line alone", fr = "Le saut de ligne est retiré, donc le tampon ne contient jamais que la ligne", es = "El salto de línea se quita, así que el búfer solo contiene la línea" }
+
+[[questions.choices]]
+text = { en = "After a return of -1 the buffer has been freed, so freeing it again would be a mistake", fr = "Après un retour à -1 le tampon a été libéré, donc le libérer à nouveau serait une faute", es = "Tras un retorno de -1 el búfer ya se ha liberado, así que liberarlo otra vez sería un error" }
+
+[[questions]]
+slug = "rank05-l1-growing-an-array"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["memory"]
+key_points = [
+  "When realloc fails it returns NULL and leaves the old block untouched; assigning the result straight to p loses the only pointer to that block, which then leaks.",
+  "The result must go into a temporary pointer, be checked against NULL, and only then be assigned to p.",
+  "realloc may move the block, so any pointer into the old block is invalid after a successful call.",
+  "Doubling the capacity whenever it is full makes n additions cost O(n) copies in total (amortized O(1) each), while growing by a fixed amount costs O(n²).",
+]
+
+[questions.translations.en]
+title = "Growing an array with realloc"
+stem = "A program stores items whose number it does not know in advance, in an array it enlarges with `realloc`. Why is `p = realloc(p, new_size);` a bug? And how should the capacity grow so that adding `n` items stays cheap?"
+explanation = "When `realloc` cannot satisfy the request, it returns `NULL` and leaves the old block where it was. Written as `p = realloc(p, new_size)`, the failure overwrites the only pointer to that block, which can then never be freed: a leak, on top of losing the data. The result goes into a temporary pointer, checked against `NULL`, then assigned to `p`. Even on success the block may have moved, so no pointer into the old block may be kept. As for growth, doubling the capacity whenever it is full costs about `n` element copies for `n` additions, an amortized constant cost per addition; growing one slot at a time costs about `n²/2` copies, around 500 billion for a million additions."
+
+[questions.translations.fr]
+title = "Agrandir un tableau avec realloc"
+stem = "Un programme range des éléments dont il ne connaît pas le nombre à l'avance, dans un tableau qu'il agrandit avec `realloc`. Pourquoi `p = realloc(p, nouvelle_taille);` est-il un bogue ? Et comment faire grandir la capacité pour qu'ajouter `n` éléments reste peu coûteux ?"
+explanation = "Quand `realloc` ne peut pas satisfaire la demande, elle renvoie `NULL` et laisse l'ancien bloc en place. Écrit `p = realloc(p, nouvelle_taille)`, l'échec écrase le seul pointeur vers ce bloc, qui ne pourra plus jamais être libéré : une fuite, en plus de la perte des données. Le résultat va dans un pointeur temporaire, comparé à `NULL`, puis affecté à `p`. Même en cas de succès, le bloc a pu être déplacé : aucun pointeur vers l'ancien bloc ne doit être conservé. Quant à la croissance, doubler la capacité chaque fois qu'elle est pleine coûte environ `n` copies d'éléments pour `n` ajouts, soit un coût constant amorti par ajout ; grandir d'une case à la fois coûte environ `n²/2` copies, de l'ordre de 500 milliards pour un million d'ajouts."
+
+[questions.translations.es]
+title = "Agrandar un array con realloc"
+stem = "Un programa guarda elementos cuyo número no conoce de antemano, en un array que agranda con `realloc`. ¿Por qué `p = realloc(p, nuevo_tam);` es un error? ¿Y cómo debe crecer la capacidad para que añadir `n` elementos siga siendo barato?"
+explanation = "Cuando `realloc` no puede atender la petición, devuelve `NULL` y deja el bloque antiguo donde estaba. Escrito `p = realloc(p, nuevo_tam)`, el fallo sobrescribe el único puntero a ese bloque, que ya nunca podrá liberarse: una fuga, además de perder los datos. El resultado va a un puntero temporal, se compara con `NULL` y después se asigna a `p`. Incluso si tiene éxito, el bloque puede haberse movido, así que no debe conservarse ningún puntero al bloque antiguo. En cuanto al crecimiento, duplicar la capacidad cada vez que se llena cuesta unas `n` copias de elementos para `n` inserciones, un coste constante amortizado por inserción; crecer de una casilla en una cuesta unas `n²/2` copias, del orden de 500 000 millones para un millón de inserciones."
+
+[[questions.choices]]
+correct = true
+text = { en = "On failure `realloc` returns `NULL` and leaves the old block, whose only pointer is then lost: use a temporary, check it, then assign; and double the capacity to keep `n` additions at O(n)", fr = "En cas d'échec `realloc` renvoie `NULL` et laisse l'ancien bloc, dont on perd alors le seul pointeur : passer par un temporaire, le vérifier, puis affecter ; et doubler la capacité pour garder `n` ajouts en O(n)", es = "Si falla, `realloc` devuelve `NULL` y deja el bloque viejo, cuyo único puntero se pierde: usar un temporal, comprobarlo y después asignar; y doblar la capacidad para mantener `n` añadidos en O(n)" }
+
+[[questions.choices]]
+text = { en = "`realloc` frees the old block when it fails, so nothing leaks", fr = "`realloc` libère l'ancien bloc quand il échoue, donc rien n'est perdu", es = "`realloc` libera el bloque viejo cuando falla, así que no se pierde nada" }
+
+[[questions.choices]]
+text = { en = "The block never moves, so pointers into it stay valid after a successful call", fr = "Le bloc ne bouge jamais, donc les pointeurs dedans restent valides après un appel réussi", es = "El bloque nunca se mueve, así que los punteros dentro siguen válidos tras una llamada correcta" }
+
+[[questions.choices]]
+text = { en = "Growing by a fixed amount is cheaper, since it allocates less at a time", fr = "Agrandir d'une quantité fixe coûte moins cher, puisqu'on alloue moins à la fois", es = "Crecer una cantidad fija cuesta menos, ya que se reserva menos cada vez" }
+
+[[questions]]
+slug = "rank05-l1-validating-structured-input"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["input-parsing", "error-handling"]
+key_points = [
+  "Parse the header completely and reject it if a number is malformed, out of range or followed by extra characters; strtol with an end pointer can detect this, atoi cannot.",
+  "Check that the data matches what the header announced: the number of records, the same number of fields in every record, only allowed values, nothing missing or extra.",
+  "Every error path must free everything allocated so far; pointers initialized to NULL and a single cleanup path make that reliable.",
+  "Report the error on stderr and do not process a file that is only partly valid.",
+]
+
+[questions.translations.en]
+title = "Validating structured input"
+stem = "A C program reads a data file whose first line announces how the rest is laid out, for instance how many records follow and how many fields each record has. Before processing anything, what should it check? And how should it handle a file that fails a check without leaking memory?"
+explanation = "The header comes first: each number must be parsed completely and be in range. `atoi` returns 0 for `abc` just as for `0`, and 12 for `12abc` just as for `12`, whereas `strtol` with an end pointer shows whether the whole field was a number. Then the data must match the header: as many records as announced, the same number of fields in each, only allowed values, nothing missing and nothing extra. The error paths are where leaks happen: initializing every pointer to `NULL` and funnelling every failure to a single cleanup path that frees whatever was allocated makes them reliable. The error is reported on `stderr`, and a file that is only partly valid is not processed."
+
+[questions.translations.fr]
+title = "Valider une entrée structurée"
+stem = "Un programme C lit un fichier de données dont la première ligne annonce comment le reste est organisé, par exemple combien d'enregistrements suivent et combien de champs compte chacun. Que doit-il vérifier avant de traiter quoi que ce soit ? Et comment gérer un fichier qui échoue à une vérification, sans fuite de mémoire ?"
+explanation = "L'en-tête d'abord : chaque nombre doit être lu en entier et se trouver dans les bornes. `atoi` renvoie 0 pour `abc` comme pour `0`, et 12 pour `12abc` comme pour `12`, alors que `strtol` avec un pointeur de fin montre si tout le champ était un nombre. Ensuite, les données doivent correspondre à l'en-tête : autant d'enregistrements qu'annoncé, le même nombre de champs dans chacun, seulement des valeurs autorisées, rien qui manque et rien en trop. C'est dans les chemins d'erreur que naissent les fuites : initialiser chaque pointeur à `NULL` et faire converger chaque échec vers un seul chemin de nettoyage, qui libère ce qui a été alloué, les rend fiables. L'erreur est signalée sur `stderr`, et un fichier valide seulement en partie n'est pas traité."
+
+[questions.translations.es]
+title = "Validar una entrada estructurada"
+stem = "Un programa en C lee un fichero de datos cuya primera línea anuncia cómo está organizado el resto, por ejemplo cuántos registros siguen y cuántos campos tiene cada uno. ¿Qué debe comprobar antes de procesar nada? ¿Y cómo debe manejar un fichero que falla una comprobación sin perder memoria?"
+explanation = "Primero la cabecera: cada número debe leerse entero y estar dentro de los límites. `atoi` devuelve 0 para `abc` igual que para `0`, y 12 para `12abc` igual que para `12`, mientras que `strtol` con un puntero de fin muestra si todo el campo era un número. Después, los datos deben coincidir con la cabecera: tantos registros como se anunciaron, el mismo número de campos en cada uno, solo valores permitidos, sin que falte ni sobre nada. Las fugas nacen en los caminos de error: inicializar cada puntero a `NULL` y llevar cada fallo a un único camino de limpieza, que libera lo que se reservó, los hace fiables. El error se informa en `stderr`, y un fichero solo parcialmente válido no se procesa."
+
+[[questions.choices]]
+correct = true
+text = { en = "Parse the header fully with `strtol` and an end pointer, check the data against what it announced, and free everything on every error path before reporting on `stderr`", fr = "Analyser complètement l'en-tête avec `strtol` et un pointeur de fin, vérifier que les données correspondent à ce qu'il annonce, et tout libérer sur chaque chemin d'erreur avant de signaler sur `stderr`", es = "Analizar del todo la cabecera con `strtol` y un puntero de fin, comprobar que los datos coinciden con lo anunciado, y liberar todo en cada camino de error antes de informar por `stderr`" }
+
+[[questions.choices]]
+text = { en = "`atoi` is enough to validate the header, since it returns 0 on a malformed number", fr = "`atoi` suffit à valider l'en-tête, puisqu'il renvoie 0 sur un nombre mal formé", es = "`atoi` basta para validar la cabecera, ya que devuelve 0 con un número mal formado" }
+
+[[questions.choices]]
+text = { en = "A partly valid file can be processed up to the first error, which loses nothing", fr = "Un fichier partiellement valide peut être traité jusqu'à la première erreur, ce qui ne perd rien", es = "Un fichero parcialmente válido puede procesarse hasta el primer error, lo que no pierde nada" }
+
+[[questions.choices]]
+text = { en = "Freeing on an error path is pointless, since the program is about to end anyway", fr = "Libérer sur un chemin d'erreur est inutile, puisque le programme va se terminer de toute façon", es = "Liberar en un camino de error es inútil, ya que el programa va a terminar de todos modos" }
+
+[[questions]]
+slug = "rank05-l1-standard-streams"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["file-io", "error-handling"]
+key_points = [
+  "stdout carries the program's results and is often redirected to a file or a pipe; errors written to stderr still reach the user and do not mix into that output.",
+  "stderr is unbuffered, so an error shows up at once, while stdout is fully buffered when redirected and may come out later.",
+  "stdin is already an open FILE *, so a function taking a FILE * reads a file opened with fopen and the standard input the same way; only the file the program opened itself must be closed.",
+]
+
+[questions.translations.en]
+title = "The three standard streams"
+stem = "Why should a program write its error messages to `stderr` rather than to `stdout`? And if a function reads its input from a `FILE *`, how can the same code read either a file named on the command line or the standard input?"
+explanation = "`stdout` carries the results, which are often redirected to a file or piped into another program; an error written there would end up mixed into those results and could go unnoticed. Written to `stderr`, it still reaches the terminal. `stderr` is also unbuffered while `stdout` is fully buffered once redirected, so an error can come out before results printed earlier. `stdin` is a `FILE *` opened before `main` starts: a function that takes a `FILE *` reads a file opened with `fopen` or the standard input without any difference. Only the file the program opened itself must be closed with `fclose`."
+
+[questions.translations.fr]
+title = "Les trois flux standard"
+stem = "Pourquoi un programme doit-il écrire ses messages d'erreur sur `stderr` plutôt que sur `stdout` ? Et si une fonction lit son entrée depuis un `FILE *`, comment le même code peut-il lire soit un fichier nommé sur la ligne de commande, soit l'entrée standard ?"
+explanation = "`stdout` porte les résultats, souvent redirigés vers un fichier ou envoyés à un autre programme par un tube ; une erreur écrite là se retrouverait mêlée à ces résultats et pourrait passer inaperçue. Écrite sur `stderr`, elle atteint toujours le terminal. `stderr` n'a pas de tampon, alors que `stdout` en a un complet dès qu'il est redirigé : une erreur peut donc sortir avant des résultats pourtant écrits plus tôt. `stdin` est un `FILE *` ouvert avant même `main` : une fonction qui prend un `FILE *` lit indifféremment un fichier ouvert avec `fopen` ou l'entrée standard. Seul le fichier que le programme a ouvert lui-même doit être fermé avec `fclose`."
+
+[questions.translations.es]
+title = "Los tres flujos estándar"
+stem = "¿Por qué un programa debe escribir sus mensajes de error en `stderr` y no en `stdout`? Y si una función lee su entrada desde un `FILE *`, ¿cómo puede el mismo código leer un fichero indicado en la línea de comandos o la entrada estándar?"
+explanation = "`stdout` lleva los resultados, que a menudo se redirigen a un fichero o se pasan a otro programa por una tubería; un error escrito ahí acabaría mezclado con esos resultados y podría pasar desapercibido. Escrito en `stderr`, sigue llegando a la terminal. Además, `stderr` no tiene búfer, mientras que `stdout` lo tiene completo en cuanto se redirige, así que un error puede salir antes que resultados escritos antes. `stdin` es un `FILE *` abierto antes incluso de `main`: una función que recibe un `FILE *` lee igual un fichero abierto con `fopen` o la entrada estándar. Solo el fichero que el propio programa abrió debe cerrarse con `fclose`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`stdout` carries the results and is often redirected, while `stderr` still reaches the user and is unbuffered; `stdin` being an open `FILE *`, one function handles both sources", fr = "`stdout` porte les résultats et est souvent redirigée, alors que `stderr` atteint encore l'utilisateur et n'est pas tamponnée ; `stdin` étant un `FILE *` déjà ouvert, une seule fonction gère les deux sources", es = "`stdout` lleva los resultados y suele redirigirse, mientras que `stderr` sigue llegando al usuario y no está tamponada; siendo `stdin` un `FILE *` ya abierto, una sola función maneja las dos fuentes" }
+
+[[questions.choices]]
+text = { en = "`stderr` is buffered like `stdout`, so the order of the two outputs is always kept", fr = "`stderr` est tamponnée comme `stdout`, donc l'ordre des deux sorties est toujours respecté", es = "`stderr` está tamponada como `stdout`, así que el orden de las dos salidas siempre se respeta" }
+
+[[questions.choices]]
+text = { en = "`stdin` must be opened with `fopen` before it can be passed as a `FILE *`", fr = "`stdin` doit être ouverte avec `fopen` avant de pouvoir être passée comme `FILE *`", es = "`stdin` hay que abrirla con `fopen` antes de poder pasarla como `FILE *`" }
+
+[[questions.choices]]
+text = { en = "Every stream used must be closed at the end, the standard input included", fr = "Tout flux utilisé doit être fermé à la fin, l'entrée standard comprise", es = "Todo flujo usado debe cerrarse al final, la entrada estándar incluida" }
+
+[[questions]]
+slug = "rank05-l1-read-until-end-of-file"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["file-io"]
+key_points = [
+  "read returns the number of bytes read, 0 at end of file, and -1 on error with errno set.",
+  "It may return fewer bytes than requested before the end, for instance on a pipe or a terminal, so reading must loop until it returns 0.",
+  "Each call is a system call, which is expensive: reading one byte per call makes one system call per byte, while reading a block and then walking the buffer is much faster.",
+]
+
+[questions.translations.en]
+title = "read until the end of the file"
+stem = "With the system call `read(fd, buf, n)`, how do you know that everything has been read, and why is a single call not enough? What does reading one byte per call cost compared with reading a block?"
+explanation = "`read` returns the number of bytes actually read, `0` once the end of file is reached, and `-1` on error, with the cause in `errno`. A positive return does not mean the data is exhausted: on a pipe, a socket or a terminal, `read` hands over what is available, fewer bytes than requested. Asked for 100 bytes on a pipe holding 3, it returns 3. So you loop until it returns `0`. Every call is a system call, a switch into the kernel that costs far more than an ordinary function call: reading byte by byte makes one per byte, while reading a block of a few kilobytes and then walking the buffer makes one per block."
+
+[questions.translations.fr]
+title = "read jusqu'à la fin du fichier"
+stem = "Avec l'appel système `read(fd, buf, n)`, comment savoir que tout a été lu, et pourquoi un seul appel ne suffit-il pas ? Que coûte la lecture d'un octet par appel, comparée à la lecture d'un bloc ?"
+explanation = "`read` renvoie le nombre d'octets réellement lus, `0` une fois la fin du fichier atteinte, et `-1` en cas d'erreur, la cause étant dans `errno`. Un retour positif ne veut pas dire que les données sont épuisées : sur un tube, une socket ou un terminal, `read` rend ce qui est disponible, moins d'octets que demandé. Sur un tube qui en contient 3, un appel qui en demande 100 en renvoie 3. On boucle donc jusqu'à ce qu'il renvoie `0`. Chaque appel est un appel système, un passage dans le noyau qui coûte bien plus qu'un appel de fonction ordinaire : lire octet par octet en fait un par octet, alors que lire un bloc de quelques kilo-octets puis parcourir le tampon en fait un par bloc."
+
+[questions.translations.es]
+title = "read hasta el final del fichero"
+stem = "Con la llamada al sistema `read(fd, buf, n)`, ¿cómo sabes que ya se ha leído todo, y por qué no basta una sola llamada? ¿Qué cuesta leer un byte por llamada comparado con leer un bloque?"
+explanation = "`read` devuelve el número de bytes leídos de verdad, `0` al llegar al final del fichero y `-1` si hay un error, con la causa en `errno`. Un retorno positivo no significa que los datos se hayan agotado: en una tubería, un socket o una terminal, `read` entrega lo que hay disponible, menos bytes de los pedidos. Si pide 100 bytes en una tubería que contiene 3, devuelve 3. Por eso se repite la llamada hasta que devuelva `0`. Cada llamada es una llamada al sistema, un paso por el núcleo que cuesta mucho más que una llamada a función normal: leer byte a byte hace una por byte, mientras que leer un bloque de unos kilobytes y luego recorrer el búfer hace una por bloque."
+
+[[questions.choices]]
+correct = true
+text = { en = "It returns the count read, 0 at the end and -1 on error; it may return fewer bytes than asked before the end, so reading loops — and one byte per call means one system call per byte", fr = "Il renvoie le nombre lu, 0 à la fin et -1 en cas d'erreur ; il peut renvoyer moins que demandé avant la fin, donc la lecture boucle — et un octet par appel, c'est un appel système par octet", es = "Devuelve la cuenta leída, 0 al final y -1 si hay error; puede devolver menos de lo pedido antes del final, así que la lectura hace bucle — y un byte por llamada es una llamada al sistema por byte" }
+
+[[questions.choices]]
+text = { en = "It always returns exactly the number of bytes asked for, unless the file ends", fr = "Il renvoie toujours exactement le nombre d'octets demandés, sauf si le fichier se termine", es = "Devuelve siempre exactamente el número de bytes pedidos, salvo que el fichero termine" }
+
+[[questions.choices]]
+text = { en = "A return of -1 means the end of the file, and 0 means an error", fr = "Un retour à -1 signifie la fin du fichier, et 0 une erreur", es = "Un retorno de -1 significa el final del fichero, y 0 un error" }
+
+[[questions.choices]]
+text = { en = "Reading byte by byte costs the same, since the kernel buffers the reads anyway", fr = "Lire octet par octet coûte pareil, puisque le noyau tamponne les lectures de toute façon", es = "Leer byte a byte cuesta lo mismo, ya que el núcleo tampona las lecturas de todos modos" }
+
+[[questions]]
+slug = "rank05-l1-simultaneous-update"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["algorithms", "memory"]
+key_points = [
+  "Updating in place makes the cells visited later read neighbours that already hold their new state, mixing two generations, so the result is wrong.",
+  "The next generation must be written into a second grid while the current one is only read: double buffering.",
+  "After each generation the two grid pointers are swapped instead of copying the grid, so a generation costs only its computation.",
+]
+
+[questions.translations.en]
+title = "Updating every cell at once"
+stem = "In a grid simulation, each cell's next state is computed from the current states of its eight neighbours, and all the cells change at once, generation after generation. Why is updating the grid in place, cell by cell, wrong? How do you do it right without copying the whole grid at every generation?"
+explanation = "Updated in place, the cells visited later read neighbours that have already moved to the next generation: each new state is computed from a mix of two generations, and the result is wrong. With classic birth and survival rules, a line of three live cells should turn a quarter at each step; updated in place row by row, it simply disappears. The fix is to read only the current grid and write the next generation into a second one: double buffering. Once the generation is complete, the two pointers are swapped, which costs nothing, instead of copying the new grid into the old one."
+
+[questions.translations.fr]
+title = "Mettre à jour toutes les cases à la fois"
+stem = "Dans une simulation sur grille, l'état suivant de chaque case se calcule à partir de l'état actuel de ses huit voisines, et toutes les cases changent en même temps, génération après génération. Pourquoi mettre à jour la grille sur place, case par case, est-il faux ? Comment faire correctement sans recopier toute la grille à chaque génération ?"
+explanation = "Mise à jour sur place, la grille donne aux cases visitées plus tard des voisines déjà passées à la génération suivante : chaque nouvel état est calculé à partir d'un mélange de deux générations, et le résultat est faux. Avec des règles classiques de naissance et de survie, une ligne de trois cellules vivantes devrait pivoter d'un quart de tour à chaque étape ; mise à jour sur place, ligne par ligne, elle disparaît purement et simplement. La correction consiste à lire seulement la grille actuelle et à écrire la génération suivante dans une seconde grille : c'est le double tampon. Une fois la génération terminée, on échange les deux pointeurs, ce qui ne coûte rien, au lieu de recopier la nouvelle grille dans l'ancienne."
+
+[questions.translations.es]
+title = "Actualizar todas las casillas a la vez"
+stem = "En una simulación sobre una cuadrícula, el estado siguiente de cada casilla se calcula a partir del estado actual de sus ocho vecinas, y todas las casillas cambian a la vez, generación tras generación. ¿Por qué actualizar la cuadrícula en el sitio, casilla por casilla, es incorrecto? ¿Cómo hacerlo bien sin copiar toda la cuadrícula en cada generación?"
+explanation = "Si la cuadrícula se actualiza en el sitio, las casillas visitadas después leen vecinas que ya pasaron a la generación siguiente: cada estado nuevo se calcula con una mezcla de dos generaciones y el resultado es incorrecto. Con reglas clásicas de nacimiento y supervivencia, una línea de tres células vivas debería girar un cuarto de vuelta en cada paso; actualizada en el sitio, fila a fila, simplemente desaparece. La solución es leer solo la cuadrícula actual y escribir la generación siguiente en una segunda cuadrícula: el doble búfer. Al terminar la generación se intercambian los dos punteros, lo que no cuesta nada, en lugar de copiar la cuadrícula nueva sobre la antigua."
+
+[[questions.choices]]
+correct = true
+text = { en = "Cells visited later would read neighbours already holding their new state, mixing two generations; write into a second grid and swap the two pointers after each one", fr = "Les cases visitées ensuite liraient des voisines déjà passées à leur nouvel état, mélangeant deux générations ; écrire dans une seconde grille et échanger les deux pointeurs après chacune", es = "Las casillas visitadas después leerían vecinas ya con su nuevo estado, mezclando dos generaciones; escribir en una segunda rejilla e intercambiar los dos punteros tras cada una" }
+
+[[questions.choices]]
+text = { en = "In place works as long as the grid is walked from the end towards the start", fr = "Sur place fonctionne tant qu'on parcourt la grille de la fin vers le début", es = "En el sitio funciona mientras se recorra la rejilla del final al principio" }
+
+[[questions.choices]]
+text = { en = "The whole grid must be copied at each generation: swapping the pointers would lose the data", fr = "Toute la grille doit être recopiée à chaque génération : échanger les pointeurs perdrait les données", es = "Hay que copiar toda la rejilla en cada generación: intercambiar los punteros perdería los datos" }
+
+[[questions.choices]]
+text = { en = "Saving only the cells that change is enough, since the others do not matter", fr = "Sauvegarder seulement les cases qui changent suffit, puisque les autres n'importent pas", es = "Basta con guardar solo las casillas que cambian, ya que las demás no importan" }
+
+[[questions]]
+slug = "rank05-l1-neighbours-and-borders"
+topic = "exam-rank-05-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["algorithms", "data-structures"]
+key_points = [
+  "Loop over the offsets -1, 0 and 1 on both axes, skip (0, 0), and before each read check that the row is within [0, R) and the column within [0, C); a neighbour outside the grid counts as empty.",
+  "Alternatively, allocate the grid with an extra border of one cell on every side that always stays empty, so every real cell has eight readable neighbours and no check is needed.",
+  "Reading outside the array is undefined behaviour, and wrapping indices with a modulo would make opposite edges neighbours, which is a different rule.",
+]
+
+[questions.translations.en]
+title = "Neighbours at the edges"
+stem = "When you count the eight neighbours of a cell in a grid of `R` rows and `C` columns, how do you avoid reading outside the array at the edges? Give two approaches."
+explanation = "The first approach loops over the offsets `-1`, `0` and `1` for the row and the column, skips `(0, 0)`, and reads a neighbour only if its row is in `[0, R)` and its column in `[0, C)`; a neighbour outside the grid counts as empty. The second one allocates a grid of `(R + 2) × (C + 2)` cells whose outer border always stays empty: every real cell then has eight neighbours that can be read, and the loop needs no test. Without either, the edge cells read outside the array, which is undefined behaviour in C. Wrapping indices with a modulo would not fix it either: opposite edges would become neighbours, which is a different rule."
+
+[questions.translations.fr]
+title = "Voisines au bord de la grille"
+stem = "Quand on compte les huit voisines d'une case dans une grille de `R` lignes et `C` colonnes, comment éviter de lire hors du tableau sur les bords ? Donnez deux approches."
+explanation = "La première boucle sur les décalages `-1`, `0` et `1` pour la ligne et la colonne, saute `(0, 0)`, et ne lit une voisine que si sa ligne est dans `[0, R)` et sa colonne dans `[0, C)` ; une voisine hors de la grille compte comme vide. La seconde alloue une grille de `(R + 2) × (C + 2)` cases dont la bordure extérieure reste toujours vide : chaque vraie case a alors huit voisines lisibles, et la boucle n'a besoin d'aucun test. Sans l'une ou l'autre, les cases du bord lisent hors du tableau, ce qui est un comportement indéfini en C. Ramener les indices avec un modulo ne corrigerait rien non plus : les bords opposés deviendraient voisins, ce qui est une autre règle."
+
+[questions.translations.es]
+title = "Vecinas en el borde de la cuadrícula"
+stem = "Cuando cuentas las ocho vecinas de una casilla en una cuadrícula de `R` filas y `C` columnas, ¿cómo evitas leer fuera del array en los bordes? Da dos enfoques."
+explanation = "El primero recorre los desplazamientos `-1`, `0` y `1` en fila y en columna, se salta `(0, 0)` y solo lee una vecina si su fila está en `[0, R)` y su columna en `[0, C)`; una vecina fuera de la cuadrícula cuenta como vacía. El segundo reserva una cuadrícula de `(R + 2) × (C + 2)` casillas cuyo borde exterior siempre queda vacío: cada casilla real tiene así ocho vecinas legibles y el bucle no necesita ninguna comprobación. Sin ninguno de los dos, las casillas del borde leen fuera del array, lo que es comportamiento indefinido en C. Ajustar los índices con un módulo tampoco lo arreglaría: los bordes opuestos pasarían a ser vecinos, lo que es otra regla."
+
+[[questions.choices]]
+correct = true
+text = { en = "Either check each row and column against `[0, R)` and `[0, C)` before reading, or add an always-empty border of one cell all around so every real cell has eight readable neighbours", fr = "Soit vérifier chaque ligne et colonne contre `[0, R)` et `[0, C)` avant de lire, soit ajouter une bordure toujours vide d'une case tout autour pour que chaque case réelle ait huit voisines lisibles", es = "O comprobar cada fila y columna contra `[0, R)` y `[0, C)` antes de leer, o añadir un borde siempre vacío de una casilla alrededor para que cada casilla real tenga ocho vecinas legibles" }
+
+[[questions.choices]]
+text = { en = "Wrapping the indices with a modulo is the simplest way and changes nothing to the rule", fr = "Replier les indices avec un modulo est le plus simple et ne change rien à la règle", es = "Doblar los índices con un módulo es lo más simple y no cambia nada a la regla" }
+
+[[questions.choices]]
+text = { en = "Reading one cell outside the array is harmless: it just gives an unspecified value", fr = "Lire une case hors du tableau est sans danger : cela donne juste une valeur non spécifiée", es = "Leer una casilla fuera del array no tiene peligro: solo da un valor sin especificar" }
+
+[[questions.choices]]
+text = { en = "Only the four neighbours sharing a side need checking; the diagonals are always inside", fr = "Seules les quatre voisines partageant un côté demandent une vérification ; les diagonales sont toujours à l'intérieur", es = "Solo las cuatro vecinas que comparten un lado necesitan comprobación; las diagonales siempre están dentro" }

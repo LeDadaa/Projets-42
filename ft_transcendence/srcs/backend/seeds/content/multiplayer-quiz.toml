@@ -1,0 +1,1000 @@
+# Multiplayer quiz: single-choice questions, one right answer out of four.
+# Each one is drawn from the notion of a written question of the same level,
+# whose slug it keeps after the `quiz-` prefix, and states only facts that
+# question's explanation already establishes. The order of the choices is the
+# order shown to players, so the right one moves from question to question.
+#
+# A question here is archived once the written question of the same notion
+# carries its own choices: the duel then draws the exam content itself, and
+# the same notion must not be asked twice. Archived rather than deleted, the
+# loader never removes a row it has already written.
+
+[[questions]]
+slug = "quiz-rank02-l0-write-system-call"
+topic = "exam-rank-02-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["file-descriptors"]
+
+[questions.translations.en]
+title = "Printing one character"
+stem = "Which call prints the character stored in `char c` on the standard output?"
+
+[questions.translations.fr]
+title = "Afficher un caractère"
+stem = "Quel appel affiche sur la sortie standard le caractère rangé dans `char c` ?"
+
+[questions.translations.es]
+title = "Mostrar un carácter"
+stem = "¿Qué llamada muestra en la salida estándar el carácter guardado en `char c`?"
+
+[[questions.choices]]
+text = { en = "`write(0, &c, 1)`", fr = "`write(0, &c, 1)`", es = "`write(0, &c, 1)`" }
+
+[[questions.choices]]
+text = { en = "`write(1, c, 1)`", fr = "`write(1, c, 1)`", es = "`write(1, c, 1)`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`write(1, &c, 1)`", fr = "`write(1, &c, 1)`", es = "`write(1, &c, 1)`" }
+
+[[questions.choices]]
+text = { en = "`write(2, &c, 0)`", fr = "`write(2, &c, 0)`", es = "`write(2, &c, 0)`" }
+
+[[questions]]
+slug = "quiz-rank02-l0-string-terminator"
+topic = "exam-rank-02-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["strings"]
+
+[questions.translations.en]
+title = "Length and size of a literal"
+stem = "What do `strlen(\"abc\")` and `sizeof(\"abc\")` give?"
+
+[questions.translations.fr]
+title = "Longueur et taille d'un littéral"
+stem = "Que valent `strlen(\"abc\")` et `sizeof(\"abc\")` ?"
+
+[questions.translations.es]
+title = "Longitud y tamaño de un literal"
+stem = "¿Cuánto valen `strlen(\"abc\")` y `sizeof(\"abc\")`?"
+
+[[questions.choices]]
+correct = true
+text = { en = "3 and 4", fr = "3 et 4", es = "3 y 4" }
+
+[[questions.choices]]
+text = { en = "3 and 3", fr = "3 et 3", es = "3 y 3" }
+
+[[questions.choices]]
+text = { en = "4 and 4", fr = "4 et 4", es = "4 y 4" }
+
+[[questions.choices]]
+text = { en = "4 and 3", fr = "4 et 3", es = "4 y 3" }
+
+[[questions]]
+slug = "quiz-rank02-l0-letter-case-in-ascii"
+topic = "exam-rank-02-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["characters"]
+
+[questions.translations.en]
+title = "From lowercase to capital"
+stem = "In ASCII, `c` holds a lowercase letter. Which expression gives its capital?"
+
+[questions.translations.fr]
+title = "De la minuscule à la majuscule"
+stem = "En ASCII, `c` contient une lettre minuscule. Quelle expression donne sa majuscule ?"
+
+[questions.translations.es]
+title = "De minúscula a mayúscula"
+stem = "En ASCII, `c` contiene una letra minúscula. ¿Qué expresión da su mayúscula?"
+
+[[questions.choices]]
+text = { en = "`c + 32`", fr = "`c + 32`", es = "`c + 32`" }
+
+[[questions.choices]]
+text = { en = "`c - 'a'`", fr = "`c - 'a'`", es = "`c - 'a'`" }
+
+[[questions.choices]]
+text = { en = "`c * 2`", fr = "`c * 2`", es = "`c * 2`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`c - 32`", fr = "`c - 32`", es = "`c - 32`" }
+
+[[questions]]
+slug = "quiz-rank02-l0-modifiable-strings"
+topic = "exam-rank-02-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["strings", "memory"]
+
+[questions.translations.en]
+title = "A string you may modify"
+stem = "Which declaration gives a string whose characters you may safely modify?"
+
+[questions.translations.fr]
+title = "Une chaîne modifiable"
+stem = "Quelle déclaration donne une chaîne dont on peut modifier les caractères sans risque ?"
+
+[questions.translations.es]
+title = "Una cadena modificable"
+stem = "¿Qué declaración da una cadena cuyos caracteres se pueden modificar sin riesgo?"
+
+[[questions.choices]]
+text = { en = "`char *s = \"hello\";`", fr = "`char *s = \"hello\";`", es = "`char *s = \"hello\";`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`char s[] = \"hello\";`", fr = "`char s[] = \"hello\";`", es = "`char s[] = \"hello\";`" }
+
+[[questions.choices]]
+text = { en = "`const char *s = \"hello\";`", fr = "`const char *s = \"hello\";`", es = "`const char *s = \"hello\";`" }
+
+[[questions.choices]]
+text = { en = "`char *s = NULL;`", fr = "`char *s = NULL;`", es = "`char *s = NULL;`" }
+
+[[questions]]
+slug = "quiz-rank02-l1-parsing-an-integer"
+topic = "exam-rank-02-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["conversions", "input-parsing"]
+
+[questions.translations.en]
+title = "What atoi reads"
+stem = "What does `atoi(\"  -42abc\")` return?"
+
+[questions.translations.fr]
+title = "Ce que lit atoi"
+stem = "Que renvoie `atoi(\"  -42abc\")` ?"
+
+[questions.translations.es]
+title = "Lo que lee atoi"
+stem = "¿Qué devuelve `atoi(\"  -42abc\")`?"
+
+[[questions.choices]]
+text = { en = "0", fr = "0", es = "0" }
+
+[[questions.choices]]
+text = { en = "42", fr = "42", es = "42" }
+
+[[questions.choices]]
+correct = true
+text = { en = "-42", fr = "-42", es = "-42" }
+
+[[questions.choices]]
+text = { en = "Nothing: it is undefined behaviour", fr = "Rien : c'est un comportement indéfini", es = "Nada: es comportamiento indefinido" }
+
+[[questions]]
+slug = "quiz-rank02-l1-power-of-two"
+topic = "exam-rank-02-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["bitwise"]
+
+[questions.translations.en]
+title = "Testing a power of two"
+stem = "Which test is true exactly when the unsigned `n` is a power of two?"
+
+[questions.translations.fr]
+title = "Tester une puissance de deux"
+stem = "Quel test est vrai exactement quand l'entier non signé `n` est une puissance de deux ?"
+
+[questions.translations.es]
+title = "Comprobar una potencia de dos"
+stem = "¿Qué prueba es verdadera exactamente cuando el entero sin signo `n` es una potencia de dos?"
+
+[[questions.choices]]
+correct = true
+text = { en = "`n != 0 && (n & (n - 1)) == 0`", fr = "`n != 0 && (n & (n - 1)) == 0`", es = "`n != 0 && (n & (n - 1)) == 0`" }
+
+[[questions.choices]]
+text = { en = "`(n & (n - 1)) == 0`", fr = "`(n & (n - 1)) == 0`", es = "`(n & (n - 1)) == 0`" }
+
+[[questions.choices]]
+text = { en = "`n % 2 == 0`", fr = "`n % 2 == 0`", es = "`n % 2 == 0`" }
+
+[[questions.choices]]
+text = { en = "`(n | (n - 1)) == 0`", fr = "`(n | (n - 1)) == 0`", es = "`(n | (n - 1)) == 0`" }
+
+[[questions]]
+slug = "quiz-rank02-l1-comparing-strings"
+topic = "exam-rank-02-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["strings"]
+
+[questions.translations.en]
+title = "The result of strcmp"
+stem = "What does the standard guarantee about `strcmp(\"abc\", \"abcd\")`?"
+
+[questions.translations.fr]
+title = "Le résultat de strcmp"
+stem = "Que garantit la norme sur `strcmp(\"abc\", \"abcd\")` ?"
+
+[questions.translations.es]
+title = "El resultado de strcmp"
+stem = "¿Qué garantiza la norma sobre `strcmp(\"abc\", \"abcd\")`?"
+
+[[questions.choices]]
+text = { en = "It is exactly -1", fr = "Il vaut exactement -1", es = "Vale exactamente -1" }
+
+[[questions.choices]]
+text = { en = "It is 0, since one string is a prefix of the other", fr = "Il vaut 0, car l'une est un préfixe de l'autre", es = "Vale 0, porque una es prefijo de la otra" }
+
+[[questions.choices]]
+text = { en = "It is positive", fr = "Il est positif", es = "Es positivo" }
+
+[[questions.choices]]
+correct = true
+text = { en = "It is negative", fr = "Il est négatif", es = "Es negativo" }
+
+[[questions]]
+slug = "quiz-rank02-l2-euclid-gcd"
+topic = "exam-rank-02-level-2"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["number-theory"]
+
+[questions.translations.en]
+title = "One step of Euclid"
+stem = "Euclid's algorithm repeats one step until the second number is 0. What does it replace the pair `(a, b)` with?"
+
+[questions.translations.fr]
+title = "Une étape d'Euclide"
+stem = "L'algorithme d'Euclide répète une étape jusqu'à ce que le second nombre vaille 0. Par quoi remplace-t-il la paire `(a, b)` ?"
+
+[questions.translations.es]
+title = "Un paso de Euclides"
+stem = "El algoritmo de Euclides repite un paso hasta que el segundo número vale 0. ¿Por qué sustituye el par `(a, b)`?"
+
+[[questions.choices]]
+text = { en = "`(a % b, a)`", fr = "`(a % b, a)`", es = "`(a % b, a)`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`(b, a % b)`", fr = "`(b, a % b)`", es = "`(b, a % b)`" }
+
+[[questions.choices]]
+text = { en = "`(b, a / b)`", fr = "`(b, a / b)`", es = "`(b, a / b)`" }
+
+[[questions.choices]]
+text = { en = "`(a, b - 1)`", fr = "`(a, b - 1)`", es = "`(a, b - 1)`" }
+
+[[questions]]
+slug = "quiz-rank02-l2-length-of-a-linked-list"
+topic = "exam-rank-02-level-2"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["linked-lists"]
+
+[questions.translations.en]
+title = "Length of an empty list"
+stem = "What should a function counting the nodes of a list do when the head is `NULL`?"
+
+[questions.translations.fr]
+title = "Longueur d'une liste vide"
+stem = "Que doit faire une fonction qui compte les maillons d'une liste quand la tête vaut `NULL` ?"
+
+[questions.translations.es]
+title = "Longitud de una lista vacía"
+stem = "¿Qué debe hacer una función que cuenta los nodos de una lista cuando la cabeza es `NULL`?"
+
+[[questions.choices]]
+text = { en = "Return 1", fr = "Renvoyer 1", es = "Devolver 1" }
+
+[[questions.choices]]
+text = { en = "Return -1 to signal an error", fr = "Renvoyer -1 pour signaler une erreur", es = "Devolver -1 para señalar un error" }
+
+[[questions.choices]]
+correct = true
+text = { en = "Return 0, without dereferencing anything", fr = "Renvoyer 0, sans rien déréférencer", es = "Devolver 0, sin desreferenciar nada" }
+
+[[questions.choices]]
+text = { en = "Nothing special: the caller must never pass `NULL`", fr = "Rien de spécial : l'appelant ne doit jamais passer `NULL`", es = "Nada especial: quien llama nunca debe pasar `NULL`" }
+
+[[questions]]
+slug = "quiz-rank02-l3-function-pointers"
+topic = "exam-rank-02-level-3"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["pointers"]
+
+[questions.translations.en]
+title = "Declaring a function pointer"
+stem = "Which declaration makes `f` a pointer to a function that takes a `void *` and returns nothing?"
+
+[questions.translations.fr]
+title = "Déclarer un pointeur de fonction"
+stem = "Quelle déclaration fait de `f` un pointeur vers une fonction qui prend un `void *` et ne renvoie rien ?"
+
+[questions.translations.es]
+title = "Declarar un puntero a función"
+stem = "¿Qué declaración hace de `f` un puntero a una función que recibe un `void *` y no devuelve nada?"
+
+[[questions.choices]]
+correct = true
+text = { en = "`void (*f)(void *);`", fr = "`void (*f)(void *);`", es = "`void (*f)(void *);`" }
+
+[[questions.choices]]
+text = { en = "`void *f(void *);`", fr = "`void *f(void *);`", es = "`void *f(void *);`" }
+
+[[questions.choices]]
+text = { en = "`void *(*f)(void);`", fr = "`void *(*f)(void);`", es = "`void *(*f)(void);`" }
+
+[[questions.choices]]
+text = { en = "`void f(void *) *;`", fr = "`void f(void *) *;`", es = "`void f(void *) *;`" }
+
+[[questions]]
+slug = "quiz-rank02-l3-generic-void-pointers"
+topic = "exam-rank-02-level-3"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["pointers"]
+
+[questions.translations.en]
+title = "Reading through a void pointer"
+stem = "`p` is a `void *` holding the address of an `int`. How do you read that integer?"
+
+[questions.translations.fr]
+title = "Lire à travers un void *"
+stem = "`p` est un `void *` qui contient l'adresse d'un `int`. Comment lire cet entier ?"
+
+[questions.translations.es]
+title = "Leer a través de un void *"
+stem = "`p` es un `void *` que guarda la dirección de un `int`. ¿Cómo se lee ese entero?"
+
+[[questions.choices]]
+text = { en = "`*p`", fr = "`*p`", es = "`*p`" }
+
+[[questions.choices]]
+text = { en = "`(int)p`", fr = "`(int)p`", es = "`(int)p`" }
+
+[[questions.choices]]
+text = { en = "`*(p + sizeof(int))`", fr = "`*(p + sizeof(int))`", es = "`*(p + sizeof(int))`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`*(int *)p`", fr = "`*(int *)p`", es = "`*(int *)p`" }
+
+[[questions]]
+slug = "quiz-rank03-l0-static-local-variables"
+topic = "exam-rank-03-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["static-storage"]
+
+[questions.translations.en]
+title = "A static counter"
+stem = "A function declares `static int count;` with no initialiser, then runs `return ++count;`. What does its third call return?"
+
+[questions.translations.fr]
+title = "Un compteur static"
+stem = "Une fonction déclare `static int count;` sans initialisation, puis exécute `return ++count;`. Que renvoie son troisième appel ?"
+
+[questions.translations.es]
+title = "Un contador static"
+stem = "Una función declara `static int count;` sin inicializar y luego ejecuta `return ++count;`. ¿Qué devuelve su tercera llamada?"
+
+[[questions.choices]]
+text = { en = "1", fr = "1", es = "1" }
+
+[[questions.choices]]
+correct = true
+text = { en = "3", fr = "3", es = "3" }
+
+[[questions.choices]]
+text = { en = "0", fr = "0", es = "0" }
+
+[[questions.choices]]
+text = { en = "Anything: `count` is uninitialised", fr = "N'importe quoi : `count` n'est pas initialisé", es = "Cualquier cosa: `count` no está inicializado" }
+
+[[questions]]
+slug = "quiz-rank03-l0-reporting-system-errors"
+topic = "exam-rank-03-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["error-handling"]
+
+[questions.translations.en]
+title = "What perror does"
+stem = "What does `perror(\"fopen\")` do after a failed `fopen`?"
+
+[questions.translations.fr]
+title = "Ce que fait perror"
+stem = "Que fait `perror(\"fopen\")` après un `fopen` qui a échoué ?"
+
+[questions.translations.es]
+title = "Lo que hace perror"
+stem = "¿Qué hace `perror(\"fopen\")` después de un `fopen` fallido?"
+
+[[questions.choices]]
+text = { en = "It writes the same message on the standard output", fr = "Il écrit ce même message sur la sortie standard", es = "Escribe ese mismo mensaje en la salida estándar" }
+
+[[questions.choices]]
+text = { en = "It resets `errno` to 0 and returns the message", fr = "Il remet `errno` à 0 et renvoie le message", es = "Pone `errno` a 0 y devuelve el mensaje" }
+
+[[questions.choices]]
+correct = true
+text = { en = "It writes `fopen: ` then the message for `errno` on the standard error", fr = "Il écrit `fopen: ` puis le message de `errno` sur la sortie d'erreur", es = "Escribe `fopen: ` y luego el mensaje de `errno` en la salida de error" }
+
+[[questions.choices]]
+text = { en = "It ends the program with status 1", fr = "Il termine le programme avec le statut 1", es = "Termina el programa con el estado 1" }
+
+[[questions]]
+slug = "quiz-rank03-l0-variadic-functions"
+topic = "exam-rank-03-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["variadic-functions"]
+
+[questions.translations.en]
+title = "A char through ..."
+stem = "A variadic function receives a `char` through `...`. How must it read it?"
+
+[questions.translations.fr]
+title = "Un char à travers ..."
+stem = "Une fonction variadique reçoit un `char` à travers `...`. Comment doit-elle le lire ?"
+
+[questions.translations.es]
+title = "Un char a través de ..."
+stem = "Una función variádica recibe un `char` a través de `...`. ¿Cómo debe leerlo?"
+
+[[questions.choices]]
+correct = true
+text = { en = "`va_arg(ap, int)`, then convert to `char`", fr = "`va_arg(ap, int)`, puis convertir en `char`", es = "`va_arg(ap, int)` y luego convertir a `char`" }
+
+[[questions.choices]]
+text = { en = "`va_arg(ap, char)`", fr = "`va_arg(ap, char)`", es = "`va_arg(ap, char)`" }
+
+[[questions.choices]]
+text = { en = "`va_arg(ap, char *)`", fr = "`va_arg(ap, char *)`", es = "`va_arg(ap, char *)`" }
+
+[[questions.choices]]
+text = { en = "`va_start(ap, char)`", fr = "`va_start(ap, char)`", es = "`va_start(ap, char)`" }
+
+[[questions]]
+slug = "quiz-rank03-l1-size-of-exhaustive-searches"
+topic = "exam-rank-03-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["complexity"]
+
+[questions.translations.en]
+title = "Counting subsets"
+stem = "How many subsets does a set of 20 distinct elements have?"
+
+[questions.translations.fr]
+title = "Compter les sous-ensembles"
+stem = "Combien de sous-ensembles a un ensemble de 20 éléments distincts ?"
+
+[questions.translations.es]
+title = "Contar subconjuntos"
+stem = "¿Cuántos subconjuntos tiene un conjunto de 20 elementos distintos?"
+
+[[questions.choices]]
+text = { en = "20!, more than 10^18", fr = "20!, plus de 10^18", es = "20!, más de 10^18" }
+
+[[questions.choices]]
+text = { en = "20², that is 400", fr = "20², soit 400", es = "20², es decir 400" }
+
+[[questions.choices]]
+text = { en = "40", fr = "40", es = "40" }
+
+[[questions.choices]]
+correct = true
+text = { en = "2^20, more than a million", fr = "2^20, plus d'un million", es = "2^20, más de un millón" }
+
+[[questions]]
+slug = "quiz-rank03-l1-balanced-parentheses"
+topic = "exam-rank-03-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["strings", "algorithms"]
+
+[questions.translations.en]
+title = "Balanced or not"
+stem = "Which of these strings is balanced?"
+
+[questions.translations.fr]
+title = "Équilibrée ou non"
+stem = "Laquelle de ces chaînes est équilibrée ?"
+
+[questions.translations.es]
+title = "Equilibrada o no"
+stem = "¿Cuál de estas cadenas está equilibrada?"
+
+[[questions.choices]]
+text = { en = "`())(()`", fr = "`())(()`", es = "`())(()`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`(()())`", fr = "`(()())`", es = "`(()())`" }
+
+[[questions.choices]]
+text = { en = "`(()`", fr = "`(()`", es = "`(()`" }
+
+[[questions.choices]]
+text = { en = "`)(`", fr = "`)(`", es = "`)(`" }
+
+[[questions]]
+slug = "quiz-rank04-l0-fork-return-values"
+topic = "exam-rank-04-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["processes"]
+
+[questions.translations.en]
+title = "fork in the child"
+stem = "What does `fork` return in the child process?"
+
+[questions.translations.fr]
+title = "fork dans l'enfant"
+stem = "Que renvoie `fork` dans le processus enfant ?"
+
+[questions.translations.es]
+title = "fork en el hijo"
+stem = "¿Qué devuelve `fork` en el proceso hijo?"
+
+[[questions.choices]]
+text = { en = "The pid of the child", fr = "Le pid de l'enfant", es = "El pid del hijo" }
+
+[[questions.choices]]
+text = { en = "The pid of the parent", fr = "Le pid du parent", es = "El pid del padre" }
+
+[[questions.choices]]
+correct = true
+text = { en = "0", fr = "0", es = "0" }
+
+[[questions.choices]]
+text = { en = "-1", fr = "-1", es = "-1" }
+
+[[questions]]
+slug = "quiz-rank04-l0-pipe-ends"
+topic = "exam-rank-04-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["pipes", "file-descriptors"]
+
+[questions.translations.en]
+title = "The read end"
+stem = "After `pipe(fd)`, which descriptor is the read end?"
+
+[questions.translations.fr]
+title = "Le côté lecture"
+stem = "Après `pipe(fd)`, quel descripteur est le côté lecture ?"
+
+[questions.translations.es]
+title = "El extremo de lectura"
+stem = "Después de `pipe(fd)`, ¿qué descriptor es el extremo de lectura?"
+
+[[questions.choices]]
+correct = true
+text = { en = "`fd[0]`", fr = "`fd[0]`", es = "`fd[0]`" }
+
+[[questions.choices]]
+text = { en = "`fd[1]`", fr = "`fd[1]`", es = "`fd[1]`" }
+
+[[questions.choices]]
+text = { en = "Either one: a pipe goes both ways", fr = "N'importe lequel : un pipe va dans les deux sens", es = "Cualquiera: una tubería va en los dos sentidos" }
+
+[[questions.choices]]
+text = { en = "`fd[2]`", fr = "`fd[2]`", es = "`fd[2]`" }
+
+[[questions]]
+slug = "quiz-rank04-l0-redirecting-with-dup2"
+topic = "exam-rank-04-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["file-descriptors", "processes"]
+
+[questions.translations.en]
+title = "Sending output into a pipe"
+stem = "In a child, which call makes the standard output go into the write end of the pipe `fd`?"
+
+[questions.translations.fr]
+title = "Envoyer la sortie dans un pipe"
+stem = "Dans un enfant, quel appel envoie la sortie standard dans le côté écriture du pipe `fd` ?"
+
+[questions.translations.es]
+title = "Enviar la salida a una tubería"
+stem = "En un hijo, ¿qué llamada envía la salida estándar al extremo de escritura de la tubería `fd`?"
+
+[[questions.choices]]
+text = { en = "`dup2(1, fd[1])`", fr = "`dup2(1, fd[1])`", es = "`dup2(1, fd[1])`" }
+
+[[questions.choices]]
+text = { en = "`dup2(fd[0], 1)`", fr = "`dup2(fd[0], 1)`", es = "`dup2(fd[0], 1)`" }
+
+[[questions.choices]]
+text = { en = "`dup2(fd[1], 0)`", fr = "`dup2(fd[1], 0)`", es = "`dup2(fd[1], 0)`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`dup2(fd[1], 1)`", fr = "`dup2(fd[1], 1)`", es = "`dup2(fd[1], 1)`" }
+
+[[questions]]
+slug = "quiz-rank04-l0-zombies-and-wait"
+topic = "exam-rank-04-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["processes"]
+
+[questions.translations.en]
+title = "A child nobody waited for"
+stem = "A child has ended, but its parent, still running, never called `wait`. What is the child now?"
+
+[questions.translations.fr]
+title = "Un enfant que personne n'attend"
+stem = "Un enfant s'est terminé, mais son parent, toujours en vie, n'a jamais appelé `wait`. Qu'est devenu l'enfant ?"
+
+[questions.translations.es]
+title = "Un hijo al que nadie espera"
+stem = "Un hijo ha terminado, pero su padre, que sigue vivo, nunca llamó a `wait`. ¿Qué es ahora el hijo?"
+
+[[questions.choices]]
+text = { en = "An orphan, adopted by process 1", fr = "Un orphelin, adopté par le processus 1", es = "Un huérfano, adoptado por el proceso 1" }
+
+[[questions.choices]]
+correct = true
+text = { en = "A zombie: its entry and exit status stay in the process table", fr = "Un zombie : son entrée et son statut restent dans la table des processus", es = "Un zombi: su entrada y su estado siguen en la tabla de procesos" }
+
+[[questions.choices]]
+text = { en = "Nothing: it disappeared as soon as it ended", fr = "Rien : il a disparu dès sa fin", es = "Nada: desapareció en cuanto terminó" }
+
+[[questions.choices]]
+text = { en = "Still running, blocked on its output", fr = "Il tourne encore, bloqué sur sa sortie", es = "Sigue ejecutándose, bloqueado en su salida" }
+
+[[questions]]
+slug = "quiz-rank04-l0-writing-to-a-pipe-with-no-reader"
+topic = "exam-rank-04-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["signals", "pipes"]
+
+[questions.translations.en]
+title = "Writing with no reader"
+stem = "A process writes into a pipe whose read end nobody holds any more. By default, what happens?"
+
+[questions.translations.fr]
+title = "Écrire sans lecteur"
+stem = "Un processus écrit dans un pipe dont plus personne ne tient le côté lecture. Par défaut, que se passe-t-il ?"
+
+[questions.translations.es]
+title = "Escribir sin lector"
+stem = "Un proceso escribe en una tubería cuyo extremo de lectura ya no tiene nadie. Por defecto, ¿qué pasa?"
+
+[[questions.choices]]
+text = { en = "`write` blocks until a reader appears", fr = "`write` bloque jusqu'à l'arrivée d'un lecteur", es = "`write` se bloquea hasta que aparezca un lector" }
+
+[[questions.choices]]
+text = { en = "`write` returns 0", fr = "`write` renvoie 0", es = "`write` devuelve 0" }
+
+[[questions.choices]]
+correct = true
+text = { en = "It receives `SIGPIPE`, which kills it", fr = "Il reçoit `SIGPIPE`, qui le tue", es = "Recibe `SIGPIPE`, que lo mata" }
+
+[[questions.choices]]
+text = { en = "The bytes wait in the pipe for a future reader", fr = "Les octets attendent un futur lecteur dans le pipe", es = "Los bytes esperan en la tubería a un futuro lector" }
+
+[[questions]]
+slug = "quiz-rank04-l1-operator-precedence"
+topic = "exam-rank-04-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1400
+tags = ["input-parsing", "algorithms"]
+
+[questions.translations.en]
+title = "Precedence from the grammar"
+stem = "With `expr = term { '+' term }` and `term = factor { '*' factor }`, what does `2+3*4` evaluate to?"
+
+[questions.translations.fr]
+title = "La priorité par la grammaire"
+stem = "Avec `expr = term { '+' term }` et `term = factor { '*' factor }`, que vaut `2+3*4` ?"
+
+[questions.translations.es]
+title = "La precedencia por la gramática"
+stem = "Con `expr = term { '+' term }` y `term = factor { '*' factor }`, ¿cuánto vale `2+3*4`?"
+
+[[questions.choices]]
+correct = true
+text = { en = "14", fr = "14", es = "14" }
+
+[[questions.choices]]
+text = { en = "20", fr = "20", es = "20" }
+
+[[questions.choices]]
+text = { en = "24", fr = "24", es = "24" }
+
+[[questions.choices]]
+text = { en = "9", fr = "9", es = "9" }
+
+[[questions]]
+slug = "quiz-rank04-l1-associativity"
+topic = "exam-rank-04-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1400
+tags = ["input-parsing", "algorithms"]
+
+[questions.translations.en]
+title = "A right-recursive rule"
+stem = "A parser uses the rule `expr = term '-' expr`. What does it compute for `8-3-2`?"
+
+[questions.translations.fr]
+title = "Une règle récursive à droite"
+stem = "Un parseur utilise la règle `expr = term '-' expr`. Que calcule-t-il pour `8-3-2` ?"
+
+[questions.translations.es]
+title = "Una regla recursiva por la derecha"
+stem = "Un analizador usa la regla `expr = term '-' expr`. ¿Qué calcula para `8-3-2`?"
+
+[[questions.choices]]
+text = { en = "3", fr = "3", es = "3" }
+
+[[questions.choices]]
+text = { en = "13", fr = "13", es = "13" }
+
+[[questions.choices]]
+text = { en = "It reports a syntax error", fr = "Il signale une erreur de syntaxe", es = "Señala un error de sintaxis" }
+
+[[questions.choices]]
+correct = true
+text = { en = "7", fr = "7", es = "7" }
+
+[[questions]]
+slug = "quiz-rank05-l0-increment-operator-forms"
+topic = "exam-rank-05-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["operator-overloading"]
+
+[questions.translations.en]
+title = "Declaring postfix ++"
+stem = "How is the postfix `operator++` of a class `T` declared?"
+
+[questions.translations.fr]
+title = "Déclarer le ++ suffixe"
+stem = "Comment déclare-t-on l'`operator++` suffixe d'une classe `T` ?"
+
+[questions.translations.es]
+title = "Declarar el ++ sufijo"
+stem = "¿Cómo se declara el `operator++` sufijo de una clase `T`?"
+
+[[questions.choices]]
+text = { en = "`T& operator++();`", fr = "`T& operator++();`", es = "`T& operator++();`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`T operator++(int);`", fr = "`T operator++(int);`", es = "`T operator++(int);`" }
+
+[[questions.choices]]
+text = { en = "`T operator++(T&);`", fr = "`T operator++(T&);`", es = "`T operator++(T&);`" }
+
+[[questions.choices]]
+text = { en = "`T& operator++(void) const;`", fr = "`T& operator++(void) const;`", es = "`T& operator++(void) const;`" }
+
+[[questions]]
+slug = "quiz-rank05-l0-polymorphic-base-destructor"
+topic = "exam-rank-05-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["polymorphism", "memory"]
+
+[questions.translations.en]
+title = "Deleting through a base pointer"
+stem = "`delete basePtr` destroys a derived object, and the base destructor is not `virtual`. What happens?"
+
+[questions.translations.fr]
+title = "Détruire par un pointeur de base"
+stem = "`delete basePtr` détruit un objet dérivé, et le destructeur de la base n'est pas `virtual`. Que se passe-t-il ?"
+
+[questions.translations.es]
+title = "Destruir por un puntero a la base"
+stem = "`delete basePtr` destruye un objeto derivado, y el destructor de la base no es `virtual`. ¿Qué pasa?"
+
+[[questions.choices]]
+text = { en = "Both destructors run, the derived one first", fr = "Les deux destructeurs s'exécutent, le dérivé d'abord", es = "Se ejecutan los dos destructores, primero el derivado" }
+
+[[questions.choices]]
+text = { en = "The code does not compile", fr = "Le code ne compile pas", es = "El código no compila" }
+
+[[questions.choices]]
+correct = true
+text = { en = "Undefined behaviour: in practice the derived destructor is skipped", fr = "Un comportement indéfini : en pratique, le destructeur dérivé est sauté", es = "Comportamiento indefinido: en la práctica se omite el destructor derivado" }
+
+[[questions.choices]]
+text = { en = "Only the derived destructor runs", fr = "Seul le destructeur dérivé s'exécute", es = "Solo se ejecuta el destructor derivado" }
+
+[[questions]]
+slug = "quiz-rank05-l0-pure-virtual-functions"
+topic = "exam-rank-05-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["polymorphism", "inheritance"]
+
+[questions.translations.en]
+title = "Instantiating an abstract class"
+stem = "What happens when code creates an object of a class that has a pure virtual function?"
+
+[questions.translations.fr]
+title = "Instancier une classe abstraite"
+stem = "Que se passe-t-il quand du code crée un objet d'une classe qui a une fonction virtuelle pure ?"
+
+[questions.translations.es]
+title = "Instanciar una clase abstracta"
+stem = "¿Qué pasa cuando el código crea un objeto de una clase que tiene una función virtual pura?"
+
+[[questions.choices]]
+correct = true
+text = { en = "It does not compile: the class is abstract", fr = "Ça ne compile pas : la classe est abstraite", es = "No compila: la clase es abstracta" }
+
+[[questions.choices]]
+text = { en = "It compiles, and calling that function crashes", fr = "Ça compile, et appeler cette fonction plante", es = "Compila, y llamar a esa función provoca un fallo" }
+
+[[questions.choices]]
+text = { en = "The compiler generates an empty body for it", fr = "Le compilateur lui génère un corps vide", es = "El compilador le genera un cuerpo vacío" }
+
+[[questions.choices]]
+text = { en = "It works as long as the object is created with `new`", fr = "Ça marche tant que l'objet est créé avec `new`", es = "Funciona siempre que el objeto se cree con `new`" }
+
+[[questions]]
+slug = "quiz-rank05-l1-growing-an-array"
+topic = "exam-rank-05-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["memory"]
+
+[questions.translations.en]
+title = "The realloc trap"
+stem = "Why is `p = realloc(p, new_size);` a mistake?"
+
+[questions.translations.fr]
+title = "Le piège de realloc"
+stem = "Pourquoi `p = realloc(p, new_size);` est-il une erreur ?"
+
+[questions.translations.es]
+title = "La trampa de realloc"
+stem = "¿Por qué `p = realloc(p, new_size);` es un error?"
+
+[[questions.choices]]
+text = { en = "`realloc` frees `p` even on success, so `p` dangles", fr = "`realloc` libère `p` même en cas de succès, donc `p` pointe dans le vide", es = "`realloc` libera `p` incluso si tiene éxito, así que `p` queda colgando" }
+
+[[questions.choices]]
+text = { en = "`realloc` always moves the block, which is slow", fr = "`realloc` déplace toujours le bloc, ce qui est lent", es = "`realloc` siempre mueve el bloque, lo que es lento" }
+
+[[questions.choices]]
+text = { en = "`realloc` cannot make a block larger", fr = "`realloc` ne peut pas agrandir un bloc", es = "`realloc` no puede agrandar un bloque" }
+
+[[questions.choices]]
+correct = true
+text = { en = "On failure it returns `NULL`, and the only pointer to the old block is lost", fr = "En cas d'échec, il renvoie `NULL` et le seul pointeur vers l'ancien bloc est perdu", es = "Si falla, devuelve `NULL` y se pierde el único puntero al bloque antiguo" }
+
+[[questions]]
+slug = "quiz-rank05-l1-standard-streams"
+topic = "exam-rank-05-level-1"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["file-io", "error-handling"]
+
+[questions.translations.en]
+title = "Where errors go"
+stem = "Why write error messages on `stderr` rather than `stdout`?"
+
+[questions.translations.fr]
+title = "Où vont les erreurs"
+stem = "Pourquoi écrire les messages d'erreur sur `stderr` plutôt que sur `stdout` ?"
+
+[questions.translations.es]
+title = "Adónde van los errores"
+stem = "¿Por qué escribir los mensajes de error en `stderr` y no en `stdout`?"
+
+[[questions.choices]]
+text = { en = "Because `stderr` is buffered, so it is faster", fr = "Parce que `stderr` est bufferisé, donc plus rapide", es = "Porque `stderr` tiene búfer, así que es más rápido" }
+
+[[questions.choices]]
+correct = true
+text = { en = "So they do not mix with the results, often redirected to a file or a pipe", fr = "Pour ne pas les mêler aux résultats, souvent redirigés vers un fichier ou un pipe", es = "Para no mezclarlos con los resultados, a menudo redirigidos a un fichero o una tubería" }
+
+[[questions.choices]]
+text = { en = "Because `stdout` cannot write to the terminal", fr = "Parce que `stdout` ne peut pas écrire dans le terminal", es = "Porque `stdout` no puede escribir en el terminal" }
+
+[[questions.choices]]
+text = { en = "Because text on `stdout` ends the program", fr = "Parce que du texte sur `stdout` termine le programme", es = "Porque el texto en `stdout` termina el programa" }
+
+[[questions]]
+slug = "quiz-rank06-l0-loopback-and-byte-order"
+topic = "exam-rank-06-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1200
+tags = ["sockets", "bitwise"]
+
+[questions.translations.en]
+title = "A port in network order"
+stem = "Which function converts a 16-bit port to network byte order before `bind`?"
+
+[questions.translations.fr]
+title = "Un port dans l'ordre réseau"
+stem = "Quelle fonction convertit un port de 16 bits dans l'ordre des octets du réseau avant `bind` ?"
+
+[questions.translations.es]
+title = "Un puerto en orden de red"
+stem = "¿Qué función convierte un puerto de 16 bits al orden de bytes de red antes de `bind`?"
+
+[[questions.choices]]
+text = { en = "`htonl`", fr = "`htonl`", es = "`htonl`" }
+
+[[questions.choices]]
+text = { en = "`ntohl`", fr = "`ntohl`", es = "`ntohl`" }
+
+[[questions.choices]]
+correct = true
+text = { en = "`htons`", fr = "`htons`", es = "`htons`" }
+
+[[questions.choices]]
+text = { en = "`inet_addr`", fr = "`inet_addr`", es = "`inet_addr`" }
+
+[[questions]]
+slug = "quiz-rank06-l0-detecting-a-disconnection"
+topic = "exam-rank-06-level-0"
+kind = "single_choice"
+status = "archived"
+difficulty = 1000
+tags = ["sockets", "memory"]
+
+[questions.translations.en]
+title = "recv returns 0"
+stem = "`select` reports a client socket as readable, and `recv` returns 0. What does it mean?"
+
+[questions.translations.fr]
+title = "recv renvoie 0"
+stem = "`select` signale une socket client lisible, et `recv` renvoie 0. Qu'est-ce que cela signifie ?"
+
+[questions.translations.es]
+title = "recv devuelve 0"
+stem = "`select` indica que un socket de cliente es legible, y `recv` devuelve 0. ¿Qué significa?"
+
+[[questions.choices]]
+correct = true
+text = { en = "The client closed the connection", fr = "Le client a fermé la connexion", es = "El cliente cerró la conexión" }
+
+[[questions.choices]]
+text = { en = "No data yet: try again later", fr = "Pas encore de données : réessayer plus tard", es = "Todavía no hay datos: reintentar más tarde" }
+
+[[questions.choices]]
+text = { en = "The receive buffer is full", fr = "Le tampon de réception est plein", es = "El búfer de recepción está lleno" }
+
+[[questions.choices]]
+text = { en = "An error occurred: check `errno`", fr = "Une erreur s'est produite : consulter `errno`", es = "Ocurrió un error: consultar `errno`" }

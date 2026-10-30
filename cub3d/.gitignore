@@ -1,0 +1,6 @@
+*.o
+*.a
+Libft/libft.a
+minilibx/test/mlx-test
+cub3d
+.DS_Store

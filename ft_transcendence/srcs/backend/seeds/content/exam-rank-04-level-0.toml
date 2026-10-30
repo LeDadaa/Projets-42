@@ -1,0 +1,495 @@
+# Exam Rank 04, level 0: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank04-l0-fork-return-values"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["processes"]
+key_points = [
+  "fork creates a copy of the calling process; both processes continue from the instruction after fork.",
+  "It returns the child's pid in the parent, 0 in the child, and -1 in the parent if no child could be created.",
+  "The two processes have separate memory: a variable changed in one is not changed in the other.",
+  "The return value is what lets the code run different branches in the parent and in the child.",
+]
+
+[questions.translations.en]
+title = "What fork returns"
+stem = "After a call to `fork`, how many processes are running the code that follows, and how does each of them know whether it is the parent or the child? What does `fork` return on failure, and do the two processes share their variables?"
+explanation = "`fork` duplicates the calling process, and both copies continue from the instruction right after the call. The return value tells them apart: the parent receives the pid of the new child, the child receives 0, and on failure the parent receives -1 and no child exists. That value is what code tests to send each process down its own branch. The child starts with a copy of the parent's memory, not a shared one: a variable changed in one process keeps its old value in the other."
+
+[questions.translations.fr]
+title = "Ce que renvoie fork"
+stem = "Après un appel à `fork`, combien de processus exécutent le code qui suit, et comment chacun sait-il s'il est le père ou le fils ? Que renvoie `fork` en cas d'échec, et les deux processus partagent-ils leurs variables ?"
+explanation = "`fork` duplique le processus appelant, et les deux copies reprennent juste après l'appel. La valeur de retour les distingue : le père reçoit le pid du nouveau fils, le fils reçoit 0, et en cas d'échec le père reçoit -1 et aucun fils n'existe. C'est cette valeur que le code teste pour envoyer chaque processus dans sa propre branche. Le fils démarre avec une copie de la mémoire du père, pas une mémoire partagée : une variable modifiée dans un processus garde son ancienne valeur dans l'autre."
+
+[questions.translations.es]
+title = "Lo que devuelve fork"
+stem = "Después de una llamada a `fork`, ¿cuántos procesos ejecutan el código que sigue, y cómo sabe cada uno si es el padre o el hijo? ¿Qué devuelve `fork` si falla, y comparten los dos procesos sus variables?"
+explanation = "`fork` duplica el proceso que llama, y las dos copias continúan justo después de la llamada. El valor devuelto las distingue: el padre recibe el pid del nuevo hijo, el hijo recibe 0 y, si falla, el padre recibe -1 y no existe ningún hijo. Ese valor es lo que el código comprueba para enviar cada proceso por su propia rama. El hijo empieza con una copia de la memoria del padre, no con una memoria compartida: una variable modificada en un proceso conserva su valor anterior en el otro."
+
+[[questions.choices]]
+correct = true
+text = { en = "Two processes carry on; `fork` returns the child's pid to the parent, 0 to the child, -1 on failure, and their memory is separate", fr = "Deux processus continuent ; `fork` renvoie le pid de l'enfant au parent, 0 à l'enfant, -1 en cas d'échec, et leurs mémoires sont séparées", es = "Siguen dos procesos; `fork` devuelve el pid del hijo al padre, 0 al hijo, -1 si falla, y sus memorias están separadas" }
+
+[[questions.choices]]
+text = { en = "Two processes carry on, and they share their variables: a change in one is seen by the other", fr = "Deux processus continuent, et ils partagent leurs variables : un changement dans l'un est vu par l'autre", es = "Siguen dos procesos y comparten sus variables: un cambio en uno lo ve el otro" }
+
+[[questions.choices]]
+text = { en = "`fork` returns 0 to the parent and the child's pid to the child, which is how each one knows itself", fr = "`fork` renvoie 0 au parent et le pid de l'enfant à l'enfant, c'est ainsi que chacun se reconnaît", es = "`fork` devuelve 0 al padre y el pid del hijo al hijo, así es como cada uno se reconoce" }
+
+[[questions.choices]]
+text = { en = "Only the child runs what follows; the parent waits at the call until the child has ended", fr = "Seul l'enfant exécute la suite ; le parent attend à l'appel que l'enfant se soit terminé", es = "Solo el hijo ejecuta lo que sigue; el padre espera en la llamada a que el hijo termine" }
+
+[[questions]]
+slug = "rank04-l0-replacing-a-process-with-exec"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["processes"]
+key_points = [
+  "execvp replaces the program of the current process with a new one; on success it never returns.",
+  "It searches the command in the directories of PATH, takes a NULL-terminated argv, and argv[0] is by convention the command name.",
+  "If execvp returns, it failed (for instance command not found), so the child must end itself with exit or _exit, typically with a non-zero code.",
+  "Without that exit, the failed child would go on running the parent's code after the call.",
+]
+
+[questions.translations.en]
+title = "Replacing a process with execvp"
+stem = "What does `execvp(file, argv)` do to the process that calls it, how does it find the program, and what must `argv` look like? What does it mean when `execvp` returns, and what must the child do then?"
+explanation = "`execvp` replaces the program running in the current process with a new one: the pid stays, but code and memory are those of the new program, so on success the call never returns. It looks the name up in the directories of `PATH`, and takes an `argv` ending with `NULL`, whose first element is by convention the command name. Code placed after `execvp` therefore only runs if it failed, for instance because the command does not exist. The child must then end itself with `exit` or `_exit` and a non-zero code; otherwise it goes on running the parent's code, and two processes do the parent's work."
+
+[questions.translations.fr]
+title = "Remplacer un processus avec execvp"
+stem = "Que fait `execvp(file, argv)` au processus qui l'appelle, comment trouve-t-il le programme, et à quoi doit ressembler `argv` ? Que signifie un retour de `execvp`, et que doit alors faire le fils ?"
+explanation = "`execvp` remplace le programme exécuté par le processus courant par un nouveau : le pid reste le même, mais le code et la mémoire sont ceux du nouveau programme, donc en cas de succès l'appel ne revient jamais. Il cherche le nom dans les répertoires de `PATH`, et prend un `argv` terminé par `NULL`, dont le premier élément est par convention le nom de la commande. Le code placé après `execvp` ne s'exécute donc que s'il a échoué, par exemple parce que la commande n'existe pas. Le fils doit alors se terminer lui-même avec `exit` ou `_exit` et un code non nul ; sinon il continue d'exécuter le code du père, et deux processus font le travail du père."
+
+[questions.translations.es]
+title = "Sustituir un proceso con execvp"
+stem = "¿Qué hace `execvp(file, argv)` al proceso que la llama, cómo encuentra el programa y cómo debe ser `argv`? ¿Qué significa que `execvp` devuelva el control, y qué debe hacer entonces el hijo?"
+explanation = "`execvp` sustituye el programa que ejecuta el proceso actual por uno nuevo: el pid se mantiene, pero el código y la memoria son los del nuevo programa, así que si tiene éxito la llamada nunca vuelve. Busca el nombre en los directorios de `PATH` y recibe un `argv` terminado en `NULL`, cuyo primer elemento es por convención el nombre del comando. El código escrito después de `execvp` solo se ejecuta, por tanto, si falló, por ejemplo porque el comando no existe. El hijo debe entonces terminar por sí mismo con `exit` o `_exit` y un código distinto de cero; si no, sigue ejecutando el código del padre, y dos procesos hacen el trabajo del padre."
+
+[[questions.choices]]
+correct = true
+text = { en = "It replaces the program and never returns on success; if it returns it failed, and the child must end itself with `exit`", fr = "Il remplace le programme et ne revient jamais en cas de succès ; s'il revient c'est qu'il a échoué, et l'enfant doit se terminer par `exit`", es = "Sustituye el programa y no vuelve nunca si tiene éxito; si vuelve es que falló, y el hijo debe terminarse con `exit`" }
+
+[[questions.choices]]
+text = { en = "It returns 0 on success and -1 on failure, like most system calls", fr = "Il renvoie 0 en cas de succès et -1 en cas d'échec, comme la plupart des appels système", es = "Devuelve 0 si tiene éxito y -1 si falla, como la mayoría de llamadas al sistema" }
+
+[[questions.choices]]
+text = { en = "It starts the program in a new process and returns its pid to the caller", fr = "Il lance le programme dans un nouveau processus et renvoie son pid à l'appelant", es = "Lanza el programa en un proceso nuevo y devuelve su pid a quien llama" }
+
+[[questions.choices]]
+text = { en = "`argv` is passed without `argv[0]`, since the command name is already given by the first parameter", fr = "`argv` est passé sans `argv[0]`, puisque le nom de la commande est déjà donné par le premier paramètre", es = "`argv` se pasa sin `argv[0]`, ya que el nombre de la orden ya lo da el primer parámetro" }
+
+[[questions]]
+slug = "rank04-l0-pipe-ends"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["pipes", "file-descriptors"]
+key_points = [
+  "pipe(fd) creates a one-way channel: fd[0] is the read end and fd[1] the write end.",
+  "Bytes written to fd[1] come out of fd[0] in the same order, through a kernel buffer.",
+  "The descriptors are inherited by fork, which is how two related processes communicate: one writes, the other reads.",
+  "Each process closes the end it does not use.",
+]
+
+[questions.translations.en]
+title = "The two ends of a pipe"
+stem = "What does `pipe(fd)` create, which of `fd[0]` and `fd[1]` is used for what, and how do two processes end up sharing the same pipe?"
+explanation = "`pipe(fd)` creates a one-way channel managed by the kernel: `fd[0]` is the read end and `fd[1]` the write end, which is easy to remember since 0 is also standard input and 1 standard output. Bytes written into `fd[1]` come out of `fd[0]`, in the same order. The two descriptors are inherited across `fork`, which is how a parent and its child share the pipe: one writes, the other reads, and each closes the end it does not use."
+
+[questions.translations.fr]
+title = "Les deux extrémités d'un tube"
+stem = "Que crée `pipe(fd)`, à quoi servent respectivement `fd[0]` et `fd[1]`, et comment deux processus finissent-ils par partager le même tube ?"
+explanation = "`pipe(fd)` crée un canal à sens unique géré par le noyau : `fd[0]` est l'extrémité de lecture et `fd[1]` celle d'écriture, ce qui se retient facilement puisque 0 est aussi l'entrée standard et 1 la sortie standard. Les octets écrits dans `fd[1]` ressortent par `fd[0]`, dans le même ordre. Les deux descripteurs sont hérités à travers `fork` : c'est ainsi qu'un père et son fils partagent le tube, l'un écrit, l'autre lit, et chacun ferme l'extrémité qu'il n'utilise pas."
+
+[questions.translations.es]
+title = "Los dos extremos de una tubería"
+stem = "¿Qué crea `pipe(fd)`, para qué sirve cada uno de `fd[0]` y `fd[1]`, y cómo acaban dos procesos compartiendo la misma tubería?"
+explanation = "`pipe(fd)` crea un canal de un solo sentido gestionado por el núcleo: `fd[0]` es el extremo de lectura y `fd[1]` el de escritura, fácil de recordar porque 0 es también la entrada estándar y 1 la salida estándar. Los bytes escritos en `fd[1]` salen por `fd[0]` en el mismo orden. Los dos descriptores se heredan con `fork`: así es como un padre y su hijo comparten la tubería, uno escribe, el otro lee, y cada uno cierra el extremo que no usa."
+
+[[questions.choices]]
+correct = true
+text = { en = "A one-way channel: `fd[0]` is read, `fd[1]` is written; `fork` passes the descriptors on, and each process closes the end it does not use", fr = "Un canal à sens unique : `fd[0]` se lit, `fd[1]` s'écrit ; `fork` transmet les descripteurs, et chaque processus ferme le bout qu'il n'utilise pas", es = "Un canal de un solo sentido: `fd[0]` se lee, `fd[1]` se escribe; `fork` transmite los descriptores y cada proceso cierra el extremo que no usa" }
+
+[[questions.choices]]
+text = { en = "`fd[0]` is the write end and `fd[1]` the read end, in the order of the arguments of `write`", fr = "`fd[0]` est le bout d'écriture et `fd[1]` celui de lecture, dans l'ordre des arguments de `write`", es = "`fd[0]` es el extremo de escritura y `fd[1]` el de lectura, en el orden de los argumentos de `write`" }
+
+[[questions.choices]]
+text = { en = "A pipe works both ways: each side may read and write through either descriptor", fr = "Un tube fonctionne dans les deux sens : chaque côté peut lire et écrire par l'un ou l'autre descripteur", es = "Una tubería funciona en los dos sentidos: cada lado puede leer y escribir por cualquiera de los descriptores" }
+
+[[questions.choices]]
+text = { en = "Two unrelated processes can share a pipe, since its descriptors are global to the system", fr = "Deux processus sans lien peuvent partager un tube, puisque ses descripteurs sont globaux au système", es = "Dos procesos sin relación pueden compartir una tubería, ya que sus descriptores son globales al sistema" }
+
+[[questions]]
+slug = "rank04-l0-redirecting-with-dup2"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["file-descriptors", "processes"]
+key_points = [
+  "dup2(oldfd, newfd) makes newfd refer to the same open file as oldfd, closing newfd first if it was open.",
+  "To send a child's output into a pipe, the child calls dup2(fd[1], 1) before exec; the new program writes to its standard output as usual and the bytes go into the pipe.",
+  "Descriptors survive exec, which is why the redirection set up before it applies to the new program.",
+  "After dup2, the original descriptor is closed, so no extra copy of the pipe end stays open.",
+]
+
+[questions.translations.en]
+title = "Redirecting with dup2"
+stem = "A child process must run a command whose standard output goes into a pipe instead of the terminal. What does `dup2` do, which call makes the redirection, why does it still hold after `execvp`, and what must be closed afterwards?"
+explanation = "`dup2(oldfd, newfd)` makes `newfd` point to the same open file as `oldfd`, closing `newfd` first if needed. In the child, `dup2(fd[1], 1)` makes descriptor 1, the standard output, point to the write end of the pipe. Open descriptors survive `execvp`, so the new program writes to its standard output as it always does, and the bytes land in the pipe without it knowing. The original `fd[1]` is then closed, along with the read end the child does not use, so that no extra copy of the pipe stays open."
+
+[questions.translations.fr]
+title = "Rediriger avec dup2"
+stem = "Un processus fils doit exécuter une commande dont la sortie standard part dans un tube plutôt que dans le terminal. Que fait `dup2`, quel appel réalise la redirection, pourquoi tient-elle encore après `execvp`, et que faut-il fermer ensuite ?"
+explanation = "`dup2(oldfd, newfd)` fait pointer `newfd` vers le même fichier ouvert que `oldfd`, en fermant d'abord `newfd` si besoin. Dans le fils, `dup2(fd[1], 1)` fait pointer le descripteur 1, la sortie standard, vers l'extrémité d'écriture du tube. Les descripteurs ouverts survivent à `execvp` : le nouveau programme écrit sur sa sortie standard comme d'habitude, et les octets arrivent dans le tube sans qu'il le sache. On ferme ensuite le `fd[1]` d'origine, ainsi que l'extrémité de lecture dont le fils ne se sert pas, pour qu'aucune copie en trop du tube ne reste ouverte."
+
+[questions.translations.es]
+title = "Redirigir con dup2"
+stem = "Un proceso hijo debe ejecutar un comando cuya salida estándar vaya a una tubería en lugar de a la terminal. ¿Qué hace `dup2`, qué llamada hace la redirección, por qué sigue vigente después de `execvp` y qué hay que cerrar después?"
+explanation = "`dup2(oldfd, newfd)` hace que `newfd` apunte al mismo fichero abierto que `oldfd`, cerrando antes `newfd` si hace falta. En el hijo, `dup2(fd[1], 1)` hace que el descriptor 1, la salida estándar, apunte al extremo de escritura de la tubería. Los descriptores abiertos sobreviven a `execvp`, así que el nuevo programa escribe en su salida estándar como siempre, y los bytes llegan a la tubería sin que lo sepa. Después se cierra el `fd[1]` original, junto con el extremo de lectura que el hijo no usa, para que no quede abierta ninguna copia de más de la tubería."
+
+[[questions.choices]]
+correct = true
+text = { en = "`dup2(fd[1], 1)` in the child before `exec`: descriptors survive `exec`, so the new program writes into the pipe, and the original descriptor is then closed", fr = "`dup2(fd[1], 1)` dans l'enfant avant `exec` : les descripteurs survivent à `exec`, donc le nouveau programme écrit dans le tube, et le descripteur d'origine est ensuite fermé", es = "`dup2(fd[1], 1)` en el hijo antes de `exec`: los descriptores sobreviven a `exec`, así que el nuevo programa escribe en la tubería, y el descriptor original se cierra después" }
+
+[[questions.choices]]
+text = { en = "`dup2(1, fd[1])`, which points the pipe end at the standard output", fr = "`dup2(1, fd[1])`, qui fait pointer le bout du tube sur la sortie standard", es = "`dup2(1, fd[1])`, que apunta el extremo de la tubería a la salida estándar" }
+
+[[questions.choices]]
+text = { en = "The redirection has to be redone after `exec`, since the new program starts with fresh descriptors", fr = "La redirection doit être refaite après `exec`, puisque le nouveau programme démarre avec des descripteurs neufs", es = "La redirección hay que rehacerla tras `exec`, ya que el nuevo programa arranca con descriptores nuevos" }
+
+[[questions.choices]]
+text = { en = "`newfd` must be closed by hand before `dup2`, which fails otherwise", fr = "`newfd` doit être fermé à la main avant `dup2`, qui échoue sinon", es = "`newfd` hay que cerrarlo a mano antes de `dup2`, que si no falla" }
+
+[[questions]]
+slug = "rank04-l0-reader-that-never-sees-eof"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["pipes", "file-descriptors"]
+key_points = [
+  "A reader sees end of file (read returns 0) only once every descriptor referring to the write end is closed, in every process.",
+  "If any process keeps a copy of the write end open, even one that never writes, the reader waits forever.",
+  "fork duplicates every open descriptor, so each process must close the ends it does not use, the parent included.",
+  "Leaked descriptors also accumulate in long pipelines until the process runs out of descriptors.",
+]
+
+[questions.translations.en]
+title = "A reader that never sees end of file"
+stem = "A child reads from a pipe until end of file, and the parent writes a few bytes into it and then waits for the child. The program hangs forever. Why? What rule about pipe ends does this illustrate?"
+explanation = "A reader only gets end of file, `read` returning 0, once every descriptor that refers to the write end is closed, in every process. Here the parent wrote its bytes but kept `fd[1]` open: the child reads the bytes, then waits for more that could still come, while the parent waits for the child; neither can move. Since `fork` duplicates every open descriptor, each process must close the pipe ends it does not use, the parent as much as the children. In a long pipeline, forgotten descriptors cause exactly this kind of hang, and pile up until the process runs out of them."
+
+[questions.translations.fr]
+title = "Un lecteur qui ne voit jamais la fin du fichier"
+stem = "Un fils lit dans un tube jusqu'à la fin de fichier, et le père y écrit quelques octets puis attend le fils. Le programme reste bloqué pour toujours. Pourquoi ? Quelle règle sur les extrémités de tube cela illustre-t-il ?"
+explanation = "Un lecteur n'obtient la fin de fichier, `read` renvoyant 0, qu'une fois fermés tous les descripteurs qui désignent l'extrémité d'écriture, dans tous les processus. Ici, le père a écrit ses octets mais a gardé `fd[1]` ouvert : le fils lit les octets, puis attend la suite qui pourrait encore venir, pendant que le père attend le fils ; aucun des deux ne peut avancer. Comme `fork` duplique tous les descripteurs ouverts, chaque processus doit fermer les extrémités de tube qu'il n'utilise pas, le père autant que les fils. Dans une longue chaîne de commandes, les descripteurs oubliés provoquent exactement ce genre de blocage, et s'accumulent jusqu'à épuiser ceux du processus."
+
+[questions.translations.es]
+title = "Un lector que nunca ve el final del fichero"
+stem = "Un hijo lee de una tubería hasta el final del fichero, y el padre escribe en ella unos bytes y después espera al hijo. El programa se queda bloqueado para siempre. ¿Por qué? ¿Qué regla sobre los extremos de una tubería ilustra?"
+explanation = "Un lector solo recibe el final del fichero, `read` devolviendo 0, cuando están cerrados todos los descriptores que se refieren al extremo de escritura, en todos los procesos. Aquí el padre escribió sus bytes pero dejó `fd[1]` abierto: el hijo lee los bytes y después espera más, que aún podrían llegar, mientras el padre espera al hijo; ninguno de los dos puede avanzar. Como `fork` duplica todos los descriptores abiertos, cada proceso debe cerrar los extremos de tubería que no usa, el padre igual que los hijos. En una cadena larga de comandos, los descriptores olvidados provocan exactamente este tipo de bloqueo, y se acumulan hasta agotar los del proceso."
+
+[[questions.choices]]
+correct = true
+text = { en = "The parent still holds a copy of the write end: end of file only comes once **every** descriptor on that end is closed, in every process", fr = "Le parent garde une copie du bout d'écriture : la fin de fichier n'arrive qu'une fois **tous** les descripteurs de ce bout fermés, dans tous les processus", es = "El padre aún tiene una copia del extremo de escritura: el fin de fichero solo llega cuando **todos** los descriptores de ese extremo están cerrados, en todos los procesos" }
+
+[[questions.choices]]
+text = { en = "The reader is waiting for the child to end; adding a `wait` before reading fixes it", fr = "Le lecteur attend la fin de l'enfant ; ajouter un `wait` avant de lire règle le problème", es = "El lector espera a que termine el hijo; añadir un `wait` antes de leer lo arregla" }
+
+[[questions.choices]]
+text = { en = "A pipe has a limited buffer, so the parent must write less for the reader to see the end", fr = "Un tube a un tampon limité, donc le parent doit écrire moins pour que le lecteur voie la fin", es = "Una tubería tiene un búfer limitado, así que el padre debe escribir menos para que el lector vea el final" }
+
+[[questions.choices]]
+text = { en = "Only the process that wrote last needs to close the write end; the copies of the others do not count", fr = "Seul le processus qui a écrit en dernier doit fermer le bout d'écriture ; les copies des autres ne comptent pas", es = "Solo el proceso que escribió el último debe cerrar el extremo de escritura; las copias de los demás no cuentan" }
+
+[[questions]]
+slug = "rank04-l0-reading-a-command-output"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["pipes", "processes"]
+key_points = [
+  "Create a pipe, then fork; the child will run the command with exec.",
+  "To read the command's output, the child redirects its standard output to the write end (dup2(fd[1], 1)), and the parent keeps and returns the read end.",
+  "To write to the command's input instead, the child redirects its standard input to the read end (dup2(fd[0], 0)), and the parent keeps the write end.",
+  "Each side closes the end it does not use, and any failure (pipe, fork, bad parameter) is reported to the caller, for instance with -1.",
+]
+
+[questions.translations.en]
+title = "Connecting a command to the caller"
+stem = "A function starts a command and returns a file descriptor from which the caller can read the command's output, or into which it can write the command's input, depending on a parameter. Describe the steps: which system calls, which redirection in the child, which end the parent keeps."
+explanation = "The function creates a pipe, then forks; the child will replace itself with the command using `execvp`. To read the command's output, the child redirects its standard output to the write end with `dup2(fd[1], 1)`, and the parent keeps the read end, `fd[0]`, which it returns. To feed the command's input instead, everything is mirrored: the child redirects its standard input from the read end with `dup2(fd[0], 0)`, and the parent keeps the write end. In both cases each side closes the end it does not use, otherwise end of file never arrives, and any failure, `pipe`, `fork` or an invalid parameter, is reported to the caller, for instance by returning -1."
+
+[questions.translations.fr]
+title = "Brancher une commande sur l'appelant"
+stem = "Une fonction lance une commande et renvoie un descripteur de fichier dans lequel l'appelant peut lire la sortie de la commande, ou écrire son entrée, selon un paramètre. Décrivez les étapes : quels appels système, quelle redirection dans le fils, quelle extrémité le père garde-t-il."
+explanation = "La fonction crée un tube, puis fait un `fork` ; le fils se remplacera par la commande avec `execvp`. Pour lire la sortie de la commande, le fils redirige sa sortie standard vers l'extrémité d'écriture avec `dup2(fd[1], 1)`, et le père garde l'extrémité de lecture, `fd[0]`, qu'il renvoie. Pour alimenter plutôt l'entrée de la commande, tout s'inverse : le fils redirige son entrée standard depuis l'extrémité de lecture avec `dup2(fd[0], 0)`, et le père garde l'extrémité d'écriture. Dans les deux cas, chaque côté ferme l'extrémité qu'il n'utilise pas, sans quoi la fin de fichier n'arrive jamais, et tout échec, de `pipe`, de `fork` ou un paramètre invalide, est signalé à l'appelant, par exemple en renvoyant -1."
+
+[questions.translations.es]
+title = "Conectar un comando con quien llama"
+stem = "Una función lanza un comando y devuelve un descriptor de fichero en el que quien llama puede leer la salida del comando, o escribir su entrada, según un parámetro. Describe los pasos: qué llamadas al sistema, qué redirección en el hijo y qué extremo conserva el padre."
+explanation = "La función crea una tubería y después hace un `fork`; el hijo se sustituirá por el comando con `execvp`. Para leer la salida del comando, el hijo redirige su salida estándar al extremo de escritura con `dup2(fd[1], 1)`, y el padre conserva el extremo de lectura, `fd[0]`, que devuelve. Para alimentar en cambio la entrada del comando, todo se invierte: el hijo redirige su entrada estándar desde el extremo de lectura con `dup2(fd[0], 0)`, y el padre conserva el extremo de escritura. En ambos casos, cada lado cierra el extremo que no usa, o el final del fichero no llega nunca, y cualquier fallo, de `pipe`, de `fork` o un parámetro inválido, se comunica a quien llama, por ejemplo devolviendo -1."
+
+[[questions.choices]]
+correct = true
+text = { en = "`pipe` then `fork`; to read the output the child does `dup2(fd[1], 1)` and the parent keeps `fd[0]`; to write the input, `dup2(fd[0], 0)` and the parent keeps `fd[1]`", fr = "`pipe` puis `fork` ; pour lire la sortie l'enfant fait `dup2(fd[1], 1)` et le parent garde `fd[0]` ; pour écrire l'entrée, `dup2(fd[0], 0)` et le parent garde `fd[1]`", es = "`pipe` y luego `fork`; para leer la salida el hijo hace `dup2(fd[1], 1)` y el padre conserva `fd[0]`; para escribir la entrada, `dup2(fd[0], 0)` y el padre conserva `fd[1]`" }
+
+[[questions.choices]]
+text = { en = "The parent keeps both ends open, so that it can talk in either direction", fr = "Le parent garde les deux bouts ouverts, pour pouvoir échanger dans les deux sens", es = "El padre mantiene abiertos los dos extremos, para poder hablar en los dos sentidos" }
+
+[[questions.choices]]
+text = { en = "The redirection is done in the parent, which then hands the right descriptor to the child", fr = "La redirection se fait dans le parent, qui passe ensuite le bon descripteur à l'enfant", es = "La redirección se hace en el padre, que después pasa el descriptor adecuado al hijo" }
+
+[[questions.choices]]
+text = { en = "`fork` comes first and each process then creates its own pipe", fr = "`fork` vient d'abord et chaque processus crée ensuite son propre tube", es = "`fork` va primero y cada proceso crea después su propia tubería" }
+
+[[questions]]
+slug = "rank04-l0-chaining-commands"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["pipes", "processes"]
+key_points = [
+  "Between each pair of consecutive commands there is one pipe: n commands need n - 1 pipes.",
+  "Each child reads its standard input from the pipe that comes before it (except the first command) and writes its standard output into the pipe that comes after it (except the last), using dup2.",
+  "The parent closes each pipe end as soon as the children that need it have been started; keeping them open would block end of file and leak descriptors.",
+  "After starting every command, the parent waits for all the children, and on any error it closes every descriptor it opened before returning.",
+]
+
+[questions.translations.en]
+title = "Chaining commands with pipes"
+stem = "A function must run several commands connected like `cmd1 | cmd2 | cmd3` in a shell. How many pipes are needed, what does each child redirect, which descriptors must the parent close and when, and what must it do at the end?"
+explanation = "Between each pair of consecutive commands there is one pipe, so `n` commands need `n - 1` pipes. Each child redirects its standard input from the read end of the previous pipe, except the first command, and its standard output to the write end of the next pipe, except the last, with `dup2`, then closes its pipe descriptors and calls `execvp`. The parent closes each pipe end as soon as the children that use it are started: an end left open in the parent keeps the next command from ever seeing end of file, and leaks descriptors. Once every command is started, the parent waits for all the children; on an error, it closes every descriptor it opened before returning."
+
+[questions.translations.fr]
+title = "Enchaîner des commandes avec des tubes"
+stem = "Une fonction doit exécuter plusieurs commandes reliées comme `cmd1 | cmd2 | cmd3` dans un shell. Combien de tubes faut-il, que redirige chaque fils, quels descripteurs le père doit-il fermer et quand, et que doit-il faire à la fin ?"
+explanation = "Entre chaque paire de commandes consécutives, il y a un tube : `n` commandes demandent donc `n - 1` tubes. Chaque fils redirige son entrée standard depuis l'extrémité de lecture du tube précédent, sauf la première commande, et sa sortie standard vers l'extrémité d'écriture du tube suivant, sauf la dernière, avec `dup2`, puis ferme ses descripteurs de tube et appelle `execvp`. Le père ferme chaque extrémité de tube dès que les fils qui l'utilisent sont lancés : une extrémité laissée ouverte chez le père empêche la commande suivante de voir un jour la fin de fichier, et fait fuir des descripteurs. Une fois toutes les commandes lancées, le père attend tous les fils ; en cas d'erreur, il ferme chaque descripteur qu'il a ouvert avant de rendre la main."
+
+[questions.translations.es]
+title = "Encadenar comandos con tuberías"
+stem = "Una función debe ejecutar varios comandos conectados como `cmd1 | cmd2 | cmd3` en una shell. ¿Cuántas tuberías hacen falta, qué redirige cada hijo, qué descriptores debe cerrar el padre y cuándo, y qué debe hacer al final?"
+explanation = "Entre cada par de comandos consecutivos hay una tubería, así que `n` comandos necesitan `n - 1` tuberías. Cada hijo redirige su entrada estándar desde el extremo de lectura de la tubería anterior, salvo el primer comando, y su salida estándar hacia el extremo de escritura de la tubería siguiente, salvo el último, con `dup2`, y después cierra sus descriptores de tubería y llama a `execvp`. El padre cierra cada extremo de tubería en cuanto se han lanzado los hijos que lo usan: un extremo que queda abierto en el padre impide que el comando siguiente vea algún día el final del fichero, y pierde descriptores. Una vez lanzados todos los comandos, el padre espera a todos los hijos; si hay un error, cierra cada descriptor que abrió antes de devolver el control."
+
+[[questions.choices]]
+correct = true
+text = { en = "`n - 1` pipes for `n` commands; each child reads from the pipe before it and writes into the one after; the parent closes each end as soon as the children that need it are started, then waits for them all", fr = "`n - 1` tubes pour `n` commandes ; chaque enfant lit du tube d'avant et écrit dans celui d'après ; le parent ferme chaque bout dès que les enfants qui en ont besoin sont lancés, puis les attend tous", es = "`n - 1` tuberías para `n` órdenes; cada hijo lee de la tubería anterior y escribe en la siguiente; el padre cierra cada extremo en cuanto están lanzados los hijos que lo necesitan, y después los espera a todos" }
+
+[[questions.choices]]
+text = { en = "`n` pipes for `n` commands, one per command including the last", fr = "`n` tubes pour `n` commandes, un par commande y compris la dernière", es = "`n` tuberías para `n` órdenes, una por orden incluida la última" }
+
+[[questions.choices]]
+text = { en = "The parent closes every descriptor at the end, once all the children have been waited for", fr = "Le parent ferme tous les descripteurs à la fin, une fois tous les enfants attendus", es = "El padre cierra todos los descriptores al final, una vez esperados todos los hijos" }
+
+[[questions.choices]]
+text = { en = "One single pipe is enough, shared by every command of the chain", fr = "Un seul tube suffit, partagé par toutes les commandes de la chaîne", es = "Basta una sola tubería, compartida por todas las órdenes de la cadena" }
+
+[[questions]]
+slug = "rank04-l0-zombies-and-wait"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["processes"]
+key_points = [
+  "A child that has ended stays a zombie: its entry remains in the process table, holding its exit status, until the parent collects it with wait or waitpid.",
+  "wait blocks until some child ends; waitpid waits for a given child and can also be made non-blocking.",
+  "A program must wait for every child it creates, otherwise zombies accumulate while it runs.",
+  "The status filled by wait tells how the child ended and is decoded with the W macros.",
+]
+
+[questions.translations.en]
+title = "Zombies and waiting for children"
+stem = "What is a zombie process, how does one appear, and how does a program avoid leaving any behind? What is the difference between `wait` and `waitpid`?"
+explanation = "When a child ends, the system cannot forget it at once: its entry stays in the process table, holding its exit status, until the parent collects it. In that state the child is a zombie, shown with the state `Z`. The parent collects it with `wait`, which blocks until any child ends, or with `waitpid`, which waits for a given child and can also be made non-blocking. After that call, the entry disappears. A program must therefore wait for every child it creates, otherwise zombies pile up for as long as it runs; the status these calls fill in then tells how each child ended."
+
+[questions.translations.fr]
+title = "Les zombies et l'attente des fils"
+stem = "Qu'est-ce qu'un processus zombie, comment apparaît-il, et comment un programme évite-t-il d'en laisser derrière lui ? Quelle différence y a-t-il entre `wait` et `waitpid` ?"
+explanation = "Quand un fils se termine, le système ne peut pas l'oublier aussitôt : son entrée reste dans la table des processus, avec son code de fin, jusqu'à ce que le père la récupère. Dans cet état, le fils est un zombie, affiché avec l'état `Z`. Le père le récupère avec `wait`, qui bloque jusqu'à la fin d'un fils quelconque, ou avec `waitpid`, qui attend un fils donné et peut aussi ne pas bloquer. Après cet appel, l'entrée disparaît. Un programme doit donc attendre chaque fils qu'il crée, sans quoi les zombies s'accumulent tant qu'il tourne ; le statut que remplissent ces appels dit ensuite comment chaque fils s'est terminé."
+
+[questions.translations.es]
+title = "Los zombis y la espera de los hijos"
+stem = "¿Qué es un proceso zombi, cómo aparece y cómo evita un programa dejar alguno tras de sí? ¿Qué diferencia hay entre `wait` y `waitpid`?"
+explanation = "Cuando un hijo termina, el sistema no puede olvidarlo en el acto: su entrada sigue en la tabla de procesos, con su código de salida, hasta que el padre la recoge. En ese estado el hijo es un zombi, que aparece con el estado `Z`. El padre lo recoge con `wait`, que se bloquea hasta que termina un hijo cualquiera, o con `waitpid`, que espera a un hijo concreto y también puede no bloquear. Tras esa llamada, la entrada desaparece. Un programa debe, por tanto, esperar a cada hijo que crea, o los zombis se acumulan mientras siga en marcha; el estado que rellenan esas llamadas indica después cómo terminó cada hijo."
+
+[[questions.choices]]
+correct = true
+text = { en = "A child that has ended but whose status no one has collected; `wait` waits for any child, `waitpid` for a given one and can be non-blocking", fr = "Un enfant terminé dont personne n'a récupéré le statut ; `wait` attend n'importe quel enfant, `waitpid` un enfant précis et peut être non bloquant", es = "Un hijo terminado cuyo estado nadie ha recogido; `wait` espera a cualquier hijo, `waitpid` a uno concreto y puede ser no bloqueante" }
+
+[[questions.choices]]
+text = { en = "A child whose parent has ended first, and which goes on running with no one to wait for it", fr = "Un enfant dont le parent s'est terminé avant, et qui continue à tourner sans personne pour l'attendre", es = "Un hijo cuyo padre terminó antes y que sigue corriendo sin nadie que lo espere" }
+
+[[questions.choices]]
+text = { en = "A zombie disappears on its own after a few seconds, so waiting is only a matter of tidiness", fr = "Un zombie disparaît tout seul après quelques secondes, donc attendre n'est qu'une question de propreté", es = "Un zombi desaparece solo tras unos segundos, así que esperar es solo cuestión de limpieza" }
+
+[[questions.choices]]
+text = { en = "`waitpid` always blocks, and `wait` is the non-blocking one of the two", fr = "`waitpid` bloque toujours, et `wait` est la non bloquante des deux", es = "`waitpid` siempre bloquea, y `wait` es la no bloqueante de las dos" }
+
+[[questions]]
+slug = "rank04-l0-decoding-a-child-status"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["processes", "signals"]
+key_points = [
+  "WIFEXITED(status) is true when the child called exit or returned from main; WEXITSTATUS(status) then gives the exit code.",
+  "WIFSIGNALED(status) is true when a signal killed it; WTERMSIG(status) gives the signal, and strsignal turns it into a description such as \"Segmentation fault\".",
+  "Only the low 8 bits of the exit code are kept: exit(256) is seen as 0 and exit(-1) as 255.",
+]
+
+[questions.translations.en]
+title = "Decoding how a child ended"
+stem = "After `waitpid(pid, &status, 0)`, how do you tell whether the child ended normally or was killed by a signal, and get the exit code or the signal? What exit code does the parent see after `exit(256)` or `exit(-1)`?"
+explanation = "`status` packs several pieces of information, read with macros. `WIFEXITED(status)` is true when the child called `exit` or returned from `main`, and `WEXITSTATUS(status)` then gives its code. `WIFSIGNALED(status)` is true when a signal killed it, `WTERMSIG(status)` gives which one, and `strsignal` turns it into a description: `Segmentation fault` for `SIGSEGV`, `Aborted` for `abort`. Only the low 8 bits of the exit code survive: `exit(256)` is seen as 0, a success, and `exit(-1)` as 255."
+
+[questions.translations.fr]
+title = "Décoder la façon dont un fils s'est terminé"
+stem = "Après `waitpid(pid, &status, 0)`, comment savoir si le fils s'est terminé normalement ou a été tué par un signal, et obtenir le code de sortie ou le signal ? Quel code de sortie le père voit-il après `exit(256)` ou `exit(-1)` ?"
+explanation = "`status` regroupe plusieurs informations, qu'on lit avec des macros. `WIFEXITED(status)` est vrai quand le fils a appelé `exit` ou est sorti de `main`, et `WEXITSTATUS(status)` donne alors son code. `WIFSIGNALED(status)` est vrai quand un signal l'a tué, `WTERMSIG(status)` dit lequel, et `strsignal` en donne une description : `Segmentation fault` pour `SIGSEGV`, `Aborted` pour `abort`. Seuls les 8 bits de poids faible du code de sortie survivent : `exit(256)` est vu comme 0, un succès, et `exit(-1)` comme 255."
+
+[questions.translations.es]
+title = "Descifrar cómo terminó un hijo"
+stem = "Después de `waitpid(pid, &status, 0)`, ¿cómo sabes si el hijo terminó normalmente o lo mató una señal, y cómo obtienes el código de salida o la señal? ¿Qué código de salida ve el padre tras `exit(256)` o `exit(-1)`?"
+explanation = "`status` agrupa varios datos, que se leen con macros. `WIFEXITED(status)` es verdadero cuando el hijo llamó a `exit` o salió de `main`, y `WEXITSTATUS(status)` da entonces su código. `WIFSIGNALED(status)` es verdadero cuando lo mató una señal, `WTERMSIG(status)` dice cuál, y `strsignal` da una descripción: `Segmentation fault` para `SIGSEGV`, `Aborted` para `abort`. Solo sobreviven los 8 bits bajos del código de salida: `exit(256)` se ve como 0, un éxito, y `exit(-1)` como 255."
+
+[[questions.choices]]
+correct = true
+text = { en = "`WIFEXITED` then `WEXITSTATUS`, or `WIFSIGNALED` then `WTERMSIG`; only the low 8 bits are kept, so `exit(256)` is seen as 0 and `exit(-1)` as 255", fr = "`WIFEXITED` puis `WEXITSTATUS`, ou `WIFSIGNALED` puis `WTERMSIG` ; seuls les 8 bits de poids faible sont gardés, donc `exit(256)` est vu 0 et `exit(-1)` vu 255", es = "`WIFEXITED` y luego `WEXITSTATUS`, o `WIFSIGNALED` y luego `WTERMSIG`; solo se conservan los 8 bits bajos, así que `exit(256)` se ve como 0 y `exit(-1)` como 255" }
+
+[[questions.choices]]
+text = { en = "`status` is the exit code itself, so it can be compared with 0 directly", fr = "`status` est le code de sortie lui-même, on peut donc le comparer directement à 0", es = "`status` es el propio código de salida, así que se puede comparar directamente con 0" }
+
+[[questions.choices]]
+text = { en = "The full value passed to `exit` is kept, so the parent sees 256 and -1", fr = "La valeur complète passée à `exit` est conservée, donc le parent voit 256 et -1", es = "Se conserva el valor completo pasado a `exit`, así que el padre ve 256 y -1" }
+
+[[questions.choices]]
+text = { en = "A child killed by a signal has an exit code of -1, which tells it apart from a normal end", fr = "Un enfant tué par un signal a un code de sortie de -1, ce qui le distingue d'une fin normale", es = "Un hijo matado por una señal tiene código de salida -1, lo que lo distingue de un final normal" }
+
+[[questions]]
+slug = "rank04-l0-timeouts-with-alarm"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["signals", "processes"]
+key_points = [
+  "alarm(n) asks the kernel to send SIGALRM to the calling process after n seconds.",
+  "Without a handler, SIGALRM's default action terminates the process, so the parent installs a handler with sigaction (without SA_RESTART).",
+  "The signal then interrupts the blocking waitpid, which returns -1 with errno set to EINTR: the child has run out of time.",
+  "The parent then kills the child (for instance with SIGKILL) and calls waitpid again to collect it, so no zombie is left.",
+]
+
+[questions.translations.en]
+title = "Putting a time limit on a child"
+stem = "A parent runs a function in a child process and must give up if the child takes longer than a few seconds. How can `alarm` and a signal handler interrupt the parent's wait? What must the parent do once the time is up?"
+explanation = "`alarm(n)` asks the kernel to send `SIGALRM` to the calling process after `n` seconds. Its default action would terminate the parent itself, so the parent first installs a handler with `sigaction`, without the `SA_RESTART` flag; the handler can even be empty. When the signal arrives, it interrupts the blocked `waitpid`, which returns -1 with `errno` set to `EINTR`: the child has run out of time. The parent then kills it, for instance with `kill(pid, SIGKILL)`, and calls `waitpid` again to collect it, otherwise it stays a zombie."
+
+[questions.translations.fr]
+title = "Imposer une limite de temps à un fils"
+stem = "Un père exécute une fonction dans un processus fils et doit abandonner si le fils prend plus de quelques secondes. Comment `alarm` et un gestionnaire de signal peuvent-ils interrompre l'attente du père ? Que doit faire le père une fois le temps écoulé ?"
+explanation = "`alarm(n)` demande au noyau d'envoyer `SIGALRM` au processus appelant au bout de `n` secondes. Son action par défaut terminerait le père lui-même : le père installe donc d'abord un gestionnaire avec `sigaction`, sans l'option `SA_RESTART` ; le gestionnaire peut même être vide. Quand le signal arrive, il interrompt le `waitpid` bloqué, qui renvoie -1 avec `errno` à `EINTR` : le temps du fils est écoulé. Le père le tue alors, par exemple avec `kill(pid, SIGKILL)`, puis rappelle `waitpid` pour le récupérer, sans quoi il resterait un zombie."
+
+[questions.translations.es]
+title = "Poner un límite de tiempo a un hijo"
+stem = "Un padre ejecuta una función en un proceso hijo y debe rendirse si el hijo tarda más de unos segundos. ¿Cómo pueden `alarm` y un manejador de señal interrumpir la espera del padre? ¿Qué debe hacer el padre cuando se acaba el tiempo?"
+explanation = "`alarm(n)` pide al núcleo que envíe `SIGALRM` al proceso que llama al cabo de `n` segundos. Su acción por defecto terminaría el propio padre, así que el padre instala antes un manejador con `sigaction`, sin la opción `SA_RESTART`; el manejador puede incluso estar vacío. Cuando llega la señal, interrumpe el `waitpid` bloqueado, que devuelve -1 con `errno` a `EINTR`: el tiempo del hijo se ha agotado. El padre lo mata entonces, por ejemplo con `kill(pid, SIGKILL)`, y vuelve a llamar a `waitpid` para recogerlo; si no, quedaría como zombi."
+
+[[questions.choices]]
+correct = true
+text = { en = "`alarm(n)` sends `SIGALRM`, whose handler (installed without `SA_RESTART`) makes the blocking `waitpid` return -1 with `EINTR`; the parent then kills the child and collects it", fr = "`alarm(n)` envoie `SIGALRM`, dont le gestionnaire (installé sans `SA_RESTART`) fait revenir le `waitpid` bloquant avec -1 et `EINTR` ; le parent tue alors l'enfant et le récupère", es = "`alarm(n)` envía `SIGALRM`, cuyo manejador (instalado sin `SA_RESTART`) hace que el `waitpid` bloqueante vuelva con -1 y `EINTR`; el padre mata entonces al hijo y lo recoge" }
+
+[[questions.choices]]
+text = { en = "`alarm` sends the signal to the child, which ends on its own when the time is up", fr = "`alarm` envoie le signal à l'enfant, qui se termine de lui-même quand le temps est écoulé", es = "`alarm` manda la señal al hijo, que termina por sí solo cuando se acaba el tiempo" }
+
+[[questions.choices]]
+text = { en = "No handler is needed: `SIGALRM` interrupts `waitpid` and its default action does nothing", fr = "Aucun gestionnaire n'est nécessaire : `SIGALRM` interrompt `waitpid` et son action par défaut ne fait rien", es = "No hace falta manejador: `SIGALRM` interrumpe `waitpid` y su acción por defecto no hace nada" }
+
+[[questions.choices]]
+text = { en = "Once the child has been killed, no further `waitpid` is needed since it was killed on purpose", fr = "Une fois l'enfant tué, aucun `waitpid` supplémentaire n'est utile puisqu'il a été tué exprès", es = "Una vez matado el hijo, no hace falta otro `waitpid` ya que se mató a propósito" }
+
+[[questions]]
+slug = "rank04-l0-writing-to-a-pipe-with-no-reader"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["signals", "pipes"]
+key_points = [
+  "Writing to a pipe whose read end is closed everywhere sends SIGPIPE to the writer, whose default action kills it (\"Broken pipe\").",
+  "If SIGPIPE is ignored or handled, write fails instead and returns -1 with errno set to EPIPE.",
+  "This lets a producer stop as soon as its consumer has exited, for example when the next command of a pipeline stops reading early.",
+]
+
+[questions.translations.en]
+title = "Writing into a pipe nobody reads"
+stem = "What happens to a process that writes into a pipe whose read end has been closed by every process? What changes if that process ignores `SIGPIPE`, and why is this behaviour useful in a chain of commands?"
+explanation = "When no process holds the read end any more, a `write` into the pipe makes the kernel send `SIGPIPE` to the writer, and the default action of that signal kills it: its status then says `Broken pipe`. If the process ignores or handles `SIGPIPE`, the write fails instead, returning -1 with `errno` set to `EPIPE`. This is what stops a producer as soon as its consumer is gone: when the next command of a chain stops reading early, the one before it is stopped at its next write instead of producing output for nobody."
+
+[questions.translations.fr]
+title = "Écrire dans un tube que personne ne lit"
+stem = "Que devient un processus qui écrit dans un tube dont l'extrémité de lecture a été fermée par tous les processus ? Qu'est-ce qui change si ce processus ignore `SIGPIPE`, et pourquoi ce comportement est-il utile dans une chaîne de commandes ?"
+explanation = "Quand plus aucun processus ne tient l'extrémité de lecture, un `write` dans le tube fait envoyer par le noyau le signal `SIGPIPE` à l'écrivain, et l'action par défaut de ce signal le tue : son statut indique alors `Broken pipe`. Si le processus ignore ou intercepte `SIGPIPE`, l'écriture échoue à la place, en renvoyant -1 avec `errno` à `EPIPE`. C'est ce qui arrête un producteur dès que son consommateur a disparu : quand la commande suivante d'une chaîne cesse de lire avant la fin, celle qui la précède est arrêtée à sa prochaine écriture au lieu de produire pour personne."
+
+[questions.translations.es]
+title = "Escribir en una tubería que nadie lee"
+stem = "¿Qué le pasa a un proceso que escribe en una tubería cuyo extremo de lectura han cerrado todos los procesos? ¿Qué cambia si ese proceso ignora `SIGPIPE`, y por qué es útil este comportamiento en una cadena de comandos?"
+explanation = "Cuando ningún proceso conserva ya el extremo de lectura, un `write` en la tubería hace que el núcleo envíe `SIGPIPE` al escritor, y la acción por defecto de esa señal lo mata: su estado indica entonces `Broken pipe`. Si el proceso ignora o captura `SIGPIPE`, la escritura falla en su lugar, devolviendo -1 con `errno` a `EPIPE`. Esto es lo que detiene a un productor en cuanto desaparece su consumidor: cuando el comando siguiente de una cadena deja de leer antes de tiempo, el anterior se detiene en su próxima escritura en lugar de producir para nadie."
+
+[[questions.choices]]
+correct = true
+text = { en = "`SIGPIPE` is sent and kills the writer by default; ignored or handled, `write` fails instead with -1 and `EPIPE`, which lets a producer stop when its consumer is gone", fr = "`SIGPIPE` est envoyé et tue l'écrivain par défaut ; ignoré ou géré, `write` échoue à la place avec -1 et `EPIPE`, ce qui permet à un producteur de s'arrêter quand son consommateur est parti", es = "Se envía `SIGPIPE` y por defecto mata al escritor; ignorada o manejada, `write` falla en su lugar con -1 y `EPIPE`, lo que permite a un productor parar cuando su consumidor ya no está" }
+
+[[questions.choices]]
+text = { en = "`write` blocks until a reader opens the pipe again", fr = "`write` bloque jusqu'à ce qu'un lecteur rouvre le tube", es = "`write` bloquea hasta que un lector vuelva a abrir la tubería" }
+
+[[questions.choices]]
+text = { en = "The bytes are kept in the kernel buffer and delivered to the next reader", fr = "Les octets sont gardés dans le tampon du noyau et remis au prochain lecteur", es = "Los bytes se guardan en el búfer del núcleo y se entregan al siguiente lector" }
+
+[[questions.choices]]
+text = { en = "`write` returns 0, which the writer reads as an end of file on its side", fr = "`write` renvoie 0, que l'écrivain interprète comme une fin de fichier de son côté", es = "`write` devuelve 0, que el escritor interpreta como un fin de fichero de su lado" }
+
+[[questions]]
+slug = "rank04-l0-output-duplicated-by-fork"
+topic = "exam-rank-04-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["processes", "file-io"]
+key_points = [
+  "printf writes into a buffer of the process; when stdout is redirected to a file or a pipe the buffer is only flushed when full or at exit.",
+  "fork copies the whole memory, including that buffer and the text still waiting in it.",
+  "Each process then flushes its own copy, usually when it calls exit, so the pending text appears once per process.",
+  "Calling fflush(stdout) before fork, and ending children with _exit (which does not flush stdio buffers), avoids the duplicates.",
+]
+
+[questions.translations.en]
+title = "Lines printed twice after fork"
+stem = "A program prints a line with `printf` and then creates children with `fork`. On the terminal the line appears once, but when the output is redirected to a file or a pipe it appears several times. Why? How do you prevent it?"
+explanation = "`printf` does not write straight away: it fills a buffer inside the process. On a terminal that buffer is flushed at each newline, but once the output is redirected to a file or a pipe it is only flushed when full or when the process exits. `fork` copies the whole memory of the process, that buffer and the text still waiting in it included; each child then flushes its copy when it calls `exit`, and the text appears once per process. Calling `fflush(stdout)` before `fork` empties the buffer while only one copy exists, and ending children with `_exit`, which does not flush `stdio` buffers, avoids the problem altogether."
+
+[questions.translations.fr]
+title = "Des lignes affichées deux fois après fork"
+stem = "Un programme affiche une ligne avec `printf`, puis crée des fils avec `fork`. Dans le terminal la ligne apparaît une fois, mais quand la sortie est redirigée vers un fichier ou un tube, elle apparaît plusieurs fois. Pourquoi ? Comment l'éviter ?"
+explanation = "`printf` n'écrit pas tout de suite : il remplit un tampon à l'intérieur du processus. Dans un terminal, ce tampon est vidé à chaque retour à la ligne, mais dès que la sortie est redirigée vers un fichier ou un tube, il ne l'est plus que lorsqu'il est plein ou que le processus se termine. `fork` copie toute la mémoire du processus, ce tampon et le texte qui y attend compris ; chaque fils vide ensuite sa copie en appelant `exit`, et le texte apparaît une fois par processus. Appeler `fflush(stdout)` avant `fork` vide le tampon tant qu'il n'en existe qu'une copie, et terminer les fils avec `_exit`, qui ne vide pas les tampons de `stdio`, évite complètement le problème."
+
+[questions.translations.es]
+title = "Líneas mostradas dos veces después de fork"
+stem = "Un programa muestra una línea con `printf` y después crea hijos con `fork`. En la terminal la línea aparece una vez, pero cuando la salida se redirige a un fichero o a una tubería aparece varias veces. ¿Por qué? ¿Cómo se evita?"
+explanation = "`printf` no escribe en el acto: llena un búfer dentro del proceso. En una terminal, ese búfer se vacía en cada salto de línea, pero en cuanto la salida se redirige a un fichero o a una tubería, solo se vacía cuando está lleno o cuando el proceso termina. `fork` copia toda la memoria del proceso, incluido ese búfer y el texto que espera en él; después, cada hijo vacía su copia al llamar a `exit`, y el texto aparece una vez por proceso. Llamar a `fflush(stdout)` antes de `fork` vacía el búfer mientras solo existe una copia, y terminar los hijos con `_exit`, que no vacía los búferes de `stdio`, evita del todo el problema."
+
+[[questions.choices]]
+correct = true
+text = { en = "The text is still in the `stdio` buffer, which `fork` copies; each process flushes its own copy at exit. Call `fflush(stdout)` before `fork`, and end children with `_exit`", fr = "Le texte est encore dans le tampon `stdio`, que `fork` recopie ; chaque processus vide le sien à la fin. Appeler `fflush(stdout)` avant `fork`, et terminer les enfants par `_exit`", es = "El texto sigue en el búfer de `stdio`, que `fork` copia; cada proceso vacía el suyo al terminar. Llamar a `fflush(stdout)` antes de `fork` y terminar los hijos con `_exit`" }
+
+[[questions.choices]]
+text = { en = "`printf` is called once per process because the children rerun the code before the `fork`", fr = "`printf` est appelé une fois par processus car les enfants réexécutent le code d'avant le `fork`", es = "`printf` se llama una vez por proceso porque los hijos reejecutan el código anterior al `fork`" }
+
+[[questions.choices]]
+text = { en = "Redirecting to a file makes the output line-buffered, which duplicates the lines", fr = "Rediriger vers un fichier rend la sortie tamponnée par ligne, ce qui duplique les lignes", es = "Redirigir a un fichero hace la salida tamponada por líneas, lo que duplica las líneas" }
+
+[[questions.choices]]
+text = { en = "Replacing `printf` by `write` changes nothing, since both go through the same buffer", fr = "Remplacer `printf` par `write` ne change rien, puisque les deux passent par le même tampon", es = "Cambiar `printf` por `write` no cambia nada, ya que ambos pasan por el mismo búfer" }

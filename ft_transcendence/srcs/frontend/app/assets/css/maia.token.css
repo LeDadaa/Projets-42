@@ -1,0 +1,100 @@
+/**
+ * Maïa — tokens CSS (couleurs & ombres, thème-aware)
+ * Importe ce fichier une fois dans ton app (ex. dans ton entry CSS,
+ * après `@import "tailwindcss"`). Sombre par défaut ; ajoute
+ * `data-theme="light"` sur <html> pour le thème clair.
+ * Les valeurs sont en oklch (large gamut, dégradés harmonieux).
+ */
+
+:root,
+[data-theme='dark'] {
+  /* Accents */
+
+  --accent: oklch(0.72 0.15 285);
+  --accent-hover: oklch(0.80 0.12 285);
+  --accent-press: oklch(0.64 0.15 285);
+  --accent-soft: oklch(0.72 0.15 285 / 0.14);
+  --accent-2: oklch(0.72 0.15 235);
+  --accent-2-soft: oklch(0.72 0.15 235 / 0.14);
+  --accent-3: oklch(0.72 0.15 345);
+  --accent-3-soft: oklch(0.72 0.15 345 / 0.14);
+
+  /* Sémantiques */
+
+  --success: oklch(0.72 0.15 150);
+  --success-soft: oklch(0.72 0.15 150 / 0.14);
+  --warning: oklch(0.80 0.13 80);
+  --warning-soft: oklch(0.80 0.13 80 / 0.16);
+  --danger: oklch(0.66 0.17 25);
+  --danger-soft: oklch(0.66 0.17 25 / 0.14);
+
+  /* Neutres froids — thème sombre (contraste « Lisibilité AA ») */
+
+  --surface-page: oklch(0.16 0.014 265);
+  --surface-card: oklch(0.205 0.017 265);
+  --surface-raised: oklch(0.25 0.018 265);
+  --surface-hover: oklch(0.30 0.020 265);
+  --surface-code: oklch(0.18 0.016 265);
+  --border-subtle: oklch(0.44 0.022 265);
+  --border-strong: oklch(0.52 0.024 265);
+  --text-body: oklch(0.985 0.006 265);
+  --text-muted: oklch(0.88 0.013 265);
+  --text-subtle: oklch(0.76 0.016 265);
+  --text-inv: oklch(0.17 0.015 265);
+
+  --on-accent: var(--text-inv);
+  --focus-ring: oklch(0.72 0.15 235 / 0.55);
+
+  /* Ombres — sombre */
+  --maia-shadow-sm: 0 1px 2px oklch(0.10 0.02 265 / 0.35);
+  --maia-shadow-md: 0 4px 12px oklch(0.10 0.02 265 / 0.40);
+  --maia-shadow-lg: 0 12px 32px oklch(0.08 0.02 265 / 0.50);
+  --maia-shadow-focus: 0 0 0 3px var(--focus-ring);
+  --glow-accent: 0 0 0 1px oklch(0.72 0.15 285 / 0.4), 0 6px 20px oklch(0.72 0.15 285 / 0.25);
+  --ring-inset: inset 0 0 0 1px var(--border-subtle);
+  --avatar-ring: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--accent);
+}
+
+[data-theme='light'] {
+  --surface-page: oklch(0.985 0.004 265);
+  --surface-card: oklch(1 0 0);
+  --surface-raised: oklch(0.975 0.006 265);
+  --surface-hover: oklch(0.945 0.008 265);
+  --surface-code: oklch(0.965 0.006 265);
+  --border-subtle: oklch(0.91 0.008 265);
+  --border-strong: oklch(0.84 0.012 265);
+  --text-body: oklch(0.24 0.02 265);
+  --text-muted: oklch(0.42 0.02 265);
+  --text-subtle: oklch(0.545 0.018 265);
+  --text-inv: oklch(0.99 0 0);
+
+  /* Accents & sémantiques — réassombris pour le fond clair.
+     Les valeurs sombres (L≈0.72) sont calibrées pour une page à L=0.16 ;
+     réutilisées telles quelles ici, elles tombaient sous 2.5:1.
+     Chaque teinte vise ≥5:1 contre --surface-page ET --surface-card, et
+     supporte du blanc (--text-inv) posé dessus. Le chroma est raboté là où
+     le gamut sRGB se resserre en basse clarté (accent-2, success, warning).
+     --on-accent n'est pas redéclaré : il suit --text-inv, donc déjà blanc. */
+  --accent: oklch(0.545 0.16 285);
+  --accent-hover: oklch(0.475 0.15 285);
+  --accent-press: oklch(0.415 0.13 285);
+  --accent-soft: oklch(0.545 0.16 285 / 0.12);
+  --accent-2: oklch(0.525 0.112 235);
+  --accent-2-soft: oklch(0.525 0.112 235 / 0.12);
+  --accent-3: oklch(0.55 0.16 345);
+  --accent-3-soft: oklch(0.55 0.16 345 / 0.12);
+
+  --success: oklch(0.515 0.144 150);
+  --success-soft: oklch(0.515 0.144 150 / 0.12);
+  --warning: oklch(0.535 0.112 80);
+  --warning-soft: oklch(0.535 0.112 80 / 0.14);
+  --danger: oklch(0.55 0.17 25);
+  --danger-soft: oklch(0.55 0.17 25 / 0.12);
+
+  --focus-ring: oklch(0.525 0.112 235 / 0.60);
+
+  --maia-shadow-sm: 0 1px 2px oklch(0.5 0.02 265 / 0.10);
+  --maia-shadow-md: 0 4px 14px oklch(0.5 0.02 265 / 0.12);
+  --maia-shadow-lg: 0 14px 36px oklch(0.5 0.02 265 / 0.16);
+  --glow-accent: 0 0 0 1px oklch(0.55 0.16 285 / 0.30), 0 6px 20px oklch(0.55 0.16 285 / 0.18);
+}

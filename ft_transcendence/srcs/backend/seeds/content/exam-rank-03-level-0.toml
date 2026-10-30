@@ -1,0 +1,452 @@
+# Exam Rank 03, level 0: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank03-l0-static-local-variables"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["static-storage"]
+key_points = [
+  "A local variable declared static keeps its value between calls: it lives for the whole program, but stays visible only inside the function.",
+  "It is initialised once, before the first call, and to zero when no initial value is given.",
+  "It lets a function remember state across calls, such as data read but not yet returned.",
+  "That state is shared by every caller, so the function is not reentrant, and one static state cannot serve several independent sources at once.",
+]
+
+[questions.translations.en]
+title = "Local variables that survive between calls"
+stem = "What changes when a local variable of a function is declared `static`? When is it initialised, what is it useful for when a function must remember something from one call to the next, and what are the drawbacks?"
+explanation = "A `static` local variable is no longer created on each call: it lives as long as the program, while remaining visible only inside its function. It is initialised once, before the first call, and to zero when no value is given; a counter incremented on each call therefore reads 3 after three calls. That is how a function keeps state from one call to the next, for instance bytes it has read but not returned yet. The price is that the state is shared: the function is not reentrant, and a single static state cannot follow several independent sources at the same time."
+
+[questions.translations.fr]
+title = "Des variables locales qui survivent entre les appels"
+stem = "Que change le fait de déclarer `static` une variable locale d'une fonction ? Quand est-elle initialisée, à quoi sert-elle quand une fonction doit se souvenir de quelque chose d'un appel à l'autre, et quels en sont les inconvénients ?"
+explanation = "Une variable locale `static` n'est plus créée à chaque appel : elle vit aussi longtemps que le programme, tout en restant visible seulement dans sa fonction. Elle est initialisée une seule fois, avant le premier appel, et à zéro si aucune valeur n'est donnée ; un compteur incrémenté à chaque appel vaut donc 3 après trois appels. C'est ainsi qu'une fonction garde un état d'un appel à l'autre, par exemple des octets déjà lus mais pas encore rendus. Le prix est que cet état est partagé : la fonction n'est pas réentrante, et un seul état statique ne peut pas suivre plusieurs sources indépendantes en même temps."
+
+[questions.translations.es]
+title = "Variables locales que sobreviven entre llamadas"
+stem = "¿Qué cambia al declarar `static` una variable local de una función? ¿Cuándo se inicializa, para qué sirve cuando una función debe recordar algo de una llamada a otra y qué inconvenientes tiene?"
+explanation = "Una variable local `static` ya no se crea en cada llamada: vive tanto como el programa, aunque sigue siendo visible solo dentro de su función. Se inicializa una sola vez, antes de la primera llamada, y a cero si no se da ningún valor; un contador incrementado en cada llamada vale por tanto 3 tras tres llamadas. Así es como una función guarda un estado de una llamada a otra, por ejemplo bytes ya leídos pero todavía no devueltos. El precio es que ese estado es compartido: la función no es reentrante, y un único estado estático no puede seguir varias fuentes independientes a la vez."
+
+[[questions.choices]]
+correct = true
+text = { en = "It keeps its value between calls and is initialised once, to zero by default; the state is shared by every caller, so the function is no longer reentrant", fr = "Elle garde sa valeur entre les appels et n'est initialisée qu'une fois, à zéro par défaut ; l'état est partagé par tous les appelants, donc la fonction n'est plus réentrante", es = "Conserva su valor entre llamadas y se inicializa una sola vez, a cero por defecto; el estado lo comparten todos los que llaman, así que la función ya no es reentrante" }
+
+[[questions.choices]]
+text = { en = "It becomes visible from the whole program, like a global variable", fr = "Elle devient visible depuis tout le programme, comme une variable globale", es = "Se vuelve visible desde todo el programa, como una variable global" }
+
+[[questions.choices]]
+text = { en = "It is reinitialised at each call, but its address stays the same", fr = "Elle est réinitialisée à chaque appel, mais son adresse reste la même", es = "Se reinicializa en cada llamada, pero su dirección sigue siendo la misma" }
+
+[[questions.choices]]
+text = { en = "Each caller gets its own copy, so the function stays reentrant", fr = "Chaque appelant obtient sa propre copie, donc la fonction reste réentrante", es = "Cada llamante obtiene su propia copia, así que la función sigue siendo reentrante" }
+
+[[questions]]
+slug = "rank03-l0-reading-lines-with-a-buffer"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["file-io", "static-storage"]
+key_points = [
+  "read returns fixed-size chunks that ignore line boundaries: one line may span several reads, and one read may contain several lines.",
+  "Bytes read after the end of the returned line must be kept (for instance in a static buffer) and used first on the next call.",
+  "On each call: look for '\\n' in what is kept; if there is none, read more and append, until a newline is found or read returns 0.",
+  "The returned line is a new allocation that includes the '\\n' when there is one, and the kept part is shifted or reallocated so nothing is lost.",
+]
+
+[questions.translations.en]
+title = "Returning one line at a time from read"
+stem = "A function returns the next line of a file descriptor each time it is called, using only `read` with a fixed buffer size. Why can't it simply read until a newline and return? What must it keep from one call to the next, and what does one call do?"
+explanation = "`read` hands over chunks of a fixed size that ignore line boundaries: a long line spans several reads, and one read may bring several short lines at once. So the bytes that follow the end of the returned line cannot be thrown away; they are kept, for instance in a static buffer, and used first on the next call. Each call looks for a `'\\n'` in what is kept; if there is none, it reads more and appends it, until a newline appears or `read` returns 0. It then returns a newly allocated line, `'\\n'` included, and keeps the rest for next time."
+
+[questions.translations.fr]
+title = "Rendre une ligne à la fois à partir de read"
+stem = "Une fonction renvoie la ligne suivante d'un descripteur de fichier à chaque appel, en n'utilisant que `read` avec une taille de tampon fixe. Pourquoi ne peut-elle pas simplement lire jusqu'à un retour à la ligne et renvoyer ? Que doit-elle garder d'un appel à l'autre, et que fait un appel ?"
+explanation = "`read` livre des morceaux de taille fixe qui ignorent les limites de ligne : une longue ligne s'étale sur plusieurs lectures, et une seule lecture peut apporter plusieurs lignes courtes. Les octets qui suivent la fin de la ligne renvoyée ne peuvent donc pas être jetés ; on les garde, par exemple dans un tampon statique, et on les utilise en premier à l'appel suivant. Chaque appel cherche un `'\\n'` dans ce qui est gardé ; s'il n'y en a pas, il lit la suite et l'ajoute, jusqu'à ce qu'un retour à la ligne apparaisse ou que `read` renvoie 0. Il renvoie alors une ligne nouvellement allouée, `'\\n'` compris, et garde le reste pour la fois suivante."
+
+[questions.translations.es]
+title = "Devolver una línea cada vez a partir de read"
+stem = "Una función devuelve la siguiente línea de un descriptor de fichero en cada llamada, usando solo `read` con un tamaño de búfer fijo. ¿Por qué no puede simplemente leer hasta un salto de línea y devolverla? ¿Qué debe guardar de una llamada a otra y qué hace una llamada?"
+explanation = "`read` entrega trozos de tamaño fijo que ignoran los límites de línea: una línea larga ocupa varias lecturas, y una sola lectura puede traer varias líneas cortas. Por eso los bytes que siguen al final de la línea devuelta no pueden tirarse; se guardan, por ejemplo en un búfer estático, y se usan primero en la llamada siguiente. Cada llamada busca un `'\\n'` en lo guardado; si no lo hay, lee más y lo añade, hasta que aparece un salto de línea o `read` devuelve 0. Devuelve entonces una línea recién reservada, `'\\n'` incluido, y guarda el resto para la próxima vez."
+
+[[questions.choices]]
+correct = true
+text = { en = "`read` returns fixed-size chunks that ignore line boundaries, so the bytes read past the line must be kept for the next call", fr = "`read` renvoie des morceaux de taille fixe qui ignorent les fins de ligne, donc les octets lus au-delà de la ligne doivent être gardés pour l'appel suivant", es = "`read` devuelve trozos de tamaño fijo que ignoran los fines de línea, así que los bytes leídos más allá de la línea hay que guardarlos para la siguiente llamada" }
+
+[[questions.choices]]
+text = { en = "`read` stops on its own at the first newline, so one call is enough per line", fr = "`read` s'arrête tout seul au premier saut de ligne, donc un appel suffit par ligne", es = "`read` se detiene solo en el primer salto de línea, así que basta una llamada por línea" }
+
+[[questions.choices]]
+text = { en = "The extra bytes can be dropped: the next call reads the file again from where the line ended", fr = "Les octets en trop peuvent être jetés : l'appel suivant relit le fichier là où la ligne s'est terminée", es = "Los bytes de más se pueden tirar: la siguiente llamada vuelve a leer el fichero donde terminó la línea" }
+
+[[questions.choices]]
+text = { en = "The descriptor can be rewound with `lseek` after each line, which removes the need to keep anything", fr = "Le descripteur peut être rembobiné avec `lseek` après chaque ligne, ce qui dispense de garder quoi que ce soit", es = "El descriptor se puede rebobinar con `lseek` tras cada línea, lo que evita guardar nada" }
+
+[[questions]]
+slug = "rank03-l0-end-of-file-in-a-line-reader"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["file-io", "memory", "error-handling"]
+key_points = [
+  "When read returns 0 and bytes are still kept, they form the last line, returned without '\\n'.",
+  "When read returns 0 and nothing is kept, the function returns NULL: there is no more line.",
+  "At end of file every internal allocation must be freed, so that only the returned lines remain for the caller to free.",
+  "When read returns -1, the function frees what it keeps and returns NULL.",
+]
+
+[questions.translations.en]
+title = "End of file and errors in a line reader"
+stem = "A function returns one line of a file per call, keeping the bytes it has read ahead between calls. What must it return when the file ends in the middle of a line, and when nothing is left? What must happen to its internal memory at the end, and when `read` fails?"
+explanation = "When `read` returns 0 while bytes are still kept, they form the last line of the file, returned without a `'\\n'` because the file does not end with one. On the next call, `read` returns 0 again and nothing is kept: the function returns `NULL`, which tells the caller there are no more lines. At that point every internal allocation must already be freed, otherwise each file read leaves a leak behind; only the returned lines remain, and the caller frees them. When `read` returns -1, the function frees what it keeps and returns `NULL` as well."
+
+[questions.translations.fr]
+title = "Fin de fichier et erreurs dans un lecteur de lignes"
+stem = "Une fonction renvoie une ligne d'un fichier à chaque appel, en gardant entre les appels les octets lus en avance. Que doit-elle renvoyer quand le fichier se termine au milieu d'une ligne, et quand il ne reste plus rien ? Que doit devenir sa mémoire interne à la fin, et quand `read` échoue ?"
+explanation = "Quand `read` renvoie 0 alors que des octets sont encore gardés, ils forment la dernière ligne du fichier, renvoyée sans `'\\n'` puisque le fichier ne se termine pas par un. À l'appel suivant, `read` renvoie encore 0 et plus rien n'est gardé : la fonction renvoie `NULL`, qui dit à l'appelant qu'il n'y a plus de ligne. À ce moment, toute allocation interne doit déjà être libérée, sans quoi chaque fichier lu laisse une fuite derrière lui ; il ne reste que les lignes renvoyées, que l'appelant libère. Quand `read` renvoie -1, la fonction libère ce qu'elle garde et renvoie `NULL` elle aussi."
+
+[questions.translations.es]
+title = "Fin de fichero y errores en un lector de líneas"
+stem = "Una función devuelve una línea de un fichero en cada llamada, guardando entre llamadas los bytes leídos por adelantado. ¿Qué debe devolver cuando el fichero termina en mitad de una línea, y cuando ya no queda nada? ¿Qué debe pasar con su memoria interna al final, y cuando `read` falla?"
+explanation = "Cuando `read` devuelve 0 y todavía quedan bytes guardados, forman la última línea del fichero, devuelta sin `'\\n'` porque el fichero no termina con uno. En la llamada siguiente, `read` vuelve a devolver 0 y no queda nada guardado: la función devuelve `NULL`, que indica a quien llama que no hay más líneas. En ese momento toda reserva interna debe estar ya liberada, o cada fichero leído dejará una fuga; solo quedan las líneas devueltas, que libera quien llama. Cuando `read` devuelve -1, la función libera lo que guarda y devuelve también `NULL`."
+
+[[questions.choices]]
+correct = true
+text = { en = "The kept bytes form a last line without `\\n`; then `NULL`, and every internal allocation is freed, `read` failing included", fr = "Les octets gardés forment une dernière ligne sans `\\n` ; ensuite `NULL`, et toute allocation interne est libérée, échec de `read` compris", es = "Los bytes guardados forman una última línea sin `\\n`; después `NULL`, y toda reserva interna se libera, fallo de `read` incluido" }
+
+[[questions.choices]]
+text = { en = "A last line without `\\n` is incomplete, so it is dropped and `NULL` is returned at once", fr = "Une dernière ligne sans `\\n` est incomplète, donc elle est abandonnée et `NULL` est renvoyé tout de suite", es = "Una última línea sin `\\n` está incompleta, así que se descarta y se devuelve `NULL` en seguida" }
+
+[[questions.choices]]
+text = { en = "A `\\n` is added to the last line so that every returned line has the same shape", fr = "Un `\\n` est ajouté à la dernière ligne pour que toutes les lignes renvoyées aient la même forme", es = "Se añade un `\\n` a la última línea para que todas las devueltas tengan la misma forma" }
+
+[[questions.choices]]
+text = { en = "The internal buffer is freed by the caller, along with the lines it received", fr = "Le tampon interne est libéré par l'appelant, en même temps que les lignes reçues", es = "El búfer interno lo libera quien llama, junto con las líneas recibidas" }
+
+[[questions]]
+slug = "rank03-l0-buffer-size-at-compile-time"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["file-io"]
+key_points = [
+  "The -D option of the compiler defines a macro from the command line, so the same code can be built with different buffer sizes; the code should provide a default with #ifndef when it is not given.",
+  "The logic must not depend on the size: the same lines come out with a buffer of 1 byte or of several thousand.",
+  "A small buffer makes many read system calls (one per byte with a size of 1), which is slow; a larger buffer makes far fewer.",
+]
+
+[questions.translations.en]
+title = "A buffer size chosen at compile time"
+stem = "A reading function uses a buffer size given at compile time, for instance `cc -D SIZE=42`. How does that value reach the code, what should the code do if it is not given, and how does the chosen size affect correctness and speed?"
+explanation = "The `-D` option defines a macro from the command line, as if the file started with `#define SIZE 42`; the same code can thus be built with any size. The code should provide a default with `#ifndef SIZE`, so that it still compiles without the option. Correctness must not depend on it: the same lines must come out with a 1-byte buffer or a 4096-byte one. Speed does depend on it, because each `read` is a system call: reading three short lines took 12 calls with a size of 1, against 3 with 4096."
+
+[questions.translations.fr]
+title = "Une taille de tampon choisie à la compilation"
+stem = "Une fonction de lecture utilise une taille de tampon donnée à la compilation, par exemple `cc -D SIZE=42`. Comment cette valeur arrive-t-elle dans le code, que doit faire le code si elle n'est pas donnée, et comment la taille choisie joue-t-elle sur la justesse et la vitesse ?"
+explanation = "L'option `-D` définit une macro depuis la ligne de commande, comme si le fichier commençait par `#define SIZE 42` ; le même code peut ainsi être compilé avec n'importe quelle taille. Le code doit prévoir une valeur par défaut avec `#ifndef SIZE`, pour compiler encore sans l'option. La justesse ne doit pas en dépendre : les mêmes lignes doivent sortir avec un tampon d'un octet ou de 4096. La vitesse, elle, en dépend, car chaque `read` est un appel système : lire trois lignes courtes a pris 12 appels avec une taille de 1, contre 3 avec 4096."
+
+[questions.translations.es]
+title = "Un tamaño de búfer elegido al compilar"
+stem = "Una función de lectura usa un tamaño de búfer dado al compilar, por ejemplo `cc -D SIZE=42`. ¿Cómo llega ese valor al código, qué debe hacer el código si no se da, y cómo afecta el tamaño elegido a la corrección y a la velocidad?"
+explanation = "La opción `-D` define una macro desde la línea de comandos, como si el fichero empezara con `#define SIZE 42`; así, el mismo código puede compilarse con cualquier tamaño. El código debe prever un valor por defecto con `#ifndef SIZE`, para seguir compilando sin la opción. La corrección no debe depender de él: deben salir las mismas líneas con un búfer de un byte o de 4096. La velocidad sí depende, porque cada `read` es una llamada al sistema: leer tres líneas cortas costó 12 llamadas con un tamaño de 1, frente a 3 con 4096."
+
+[[questions.choices]]
+correct = true
+text = { en = "`-D` defines a macro from the command line, `#ifndef` gives a default, and the same lines must come out whatever the size, which only changes the number of `read` calls", fr = "`-D` définit une macro depuis la ligne de commande, `#ifndef` fournit une valeur par défaut, et les mêmes lignes doivent sortir quelle que soit la taille, qui ne change que le nombre d'appels à `read`", es = "`-D` define una macro desde la línea de órdenes, `#ifndef` da un valor por defecto, y deben salir las mismas líneas sea cual sea el tamaño, que solo cambia el número de llamadas a `read`" }
+
+[[questions.choices]]
+text = { en = "A size of 1 breaks the reader: a line cannot be rebuilt one byte at a time", fr = "Une taille de 1 casse le lecteur : une ligne ne peut pas être reconstruite octet par octet", es = "Un tamaño de 1 rompe el lector: una línea no se puede reconstruir byte a byte" }
+
+[[questions.choices]]
+text = { en = "The value is read at run time from the environment, so the program must be given it again at each launch", fr = "La valeur est lue à l'exécution depuis l'environnement, donc il faut la redonner au programme à chaque lancement", es = "El valor se lee en ejecución desde el entorno, así que hay que dárselo al programa en cada arranque" }
+
+[[questions.choices]]
+text = { en = "A larger buffer makes more system calls, since more bytes have to be moved", fr = "Un tampon plus grand fait plus d'appels système, puisqu'il y a plus d'octets à déplacer", es = "Un búfer más grande hace más llamadas al sistema, ya que hay más bytes que mover" }
+
+[[questions]]
+slug = "rank03-l0-pattern-across-chunks"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["file-io", "strings"]
+key_points = [
+  "Data read in chunks can split an occurrence of the pattern across two reads, so searching each chunk separately misses it.",
+  "One fix is to accumulate the whole input in a growing buffer (realloc) before searching.",
+  "Another keeps the last (pattern length - 1) bytes of each chunk and searches them again together with the next chunk.",
+  "The result must not depend on how the reads happen to be split.",
+]
+
+[questions.translations.en]
+title = "A pattern split between two reads"
+stem = "A program reads its standard input in chunks and must find every occurrence of a pattern in it. The size of each chunk is not under its control. Why does searching each chunk separately fail, and what are two ways to make the result independent of how the input is split?"
+explanation = "The reads are cut wherever they happen to be cut: an occurrence of `abc` can arrive as `xxab` then `cyy`. Searched chunk by chunk, it is found in neither, whereas the complete input clearly contains it. The simplest fix is to accumulate the whole input in a buffer grown with `realloc`, then search it once. Without keeping everything, it is enough to carry over the last `length of the pattern - 1` bytes of each chunk and search them again together with the next one. Either way, the result no longer depends on the sizes the reads return."
+
+[questions.translations.fr]
+title = "Un motif coupé entre deux lectures"
+stem = "Un programme lit son entrée standard par morceaux et doit y trouver toutes les occurrences d'un motif. La taille de chaque morceau ne dépend pas de lui. Pourquoi chercher dans chaque morceau séparément échoue-t-il, et quelles sont deux façons de rendre le résultat indépendant du découpage de l'entrée ?"
+explanation = "Les lectures sont coupées là où elles le sont : une occurrence de `abc` peut arriver sous la forme `xxab` puis `cyy`. Cherchée morceau par morceau, elle n'est trouvée dans aucun, alors que l'entrée complète la contient bien. La correction la plus simple consiste à accumuler toute l'entrée dans un tampon agrandi avec `realloc`, puis à y chercher une seule fois. Sans tout garder, il suffit de reporter les `longueur du motif - 1` derniers octets de chaque morceau et de les chercher à nouveau avec le suivant. Dans les deux cas, le résultat ne dépend plus des tailles que renvoient les lectures."
+
+[questions.translations.es]
+title = "Un patrón partido entre dos lecturas"
+stem = "Un programa lee su entrada estándar por trozos y debe encontrar en ella todas las apariciones de un patrón. El tamaño de cada trozo no depende de él. ¿Por qué falla buscar en cada trozo por separado, y cuáles son dos formas de hacer que el resultado no dependa de cómo se divide la entrada?"
+explanation = "Las lecturas se cortan donde se cortan: una aparición de `abc` puede llegar como `xxab` y luego `cyy`. Buscada trozo a trozo, no se encuentra en ninguno, aunque la entrada completa sí la contiene. La solución más sencilla es acumular toda la entrada en un búfer que crece con `realloc` y buscar después una sola vez. Sin guardarlo todo, basta con arrastrar los últimos `longitud del patrón - 1` bytes de cada trozo y buscarlos de nuevo junto con el siguiente. En ambos casos, el resultado ya no depende de los tamaños que devuelvan las lecturas."
+
+[[questions.choices]]
+correct = true
+text = { en = "An occurrence can straddle two reads, so either the whole input is accumulated, or the last `pattern length - 1` bytes are searched again with the next chunk", fr = "Une occurrence peut être à cheval sur deux lectures, donc soit toute l'entrée est accumulée, soit les `longueur du motif - 1` derniers octets sont recherchés à nouveau avec le morceau suivant", es = "Una aparición puede quedar a caballo entre dos lecturas, así que o se acumula toda la entrada, o se vuelven a buscar los últimos `longitud del patrón - 1` bytes junto al siguiente trozo" }
+
+[[questions.choices]]
+text = { en = "Keeping the last byte of each chunk is enough, whatever the length of the pattern", fr = "Garder le dernier octet de chaque morceau suffit, quelle que soit la longueur du motif", es = "Guardar el último byte de cada trozo basta, sea cual sea la longitud del patrón" }
+
+[[questions.choices]]
+text = { en = "Searching each chunk separately works as long as the chunk is larger than the pattern", fr = "Chercher dans chaque morceau séparément marche tant que le morceau est plus grand que le motif", es = "Buscar en cada trozo por separado funciona mientras el trozo sea mayor que el patrón" }
+
+[[questions.choices]]
+text = { en = "The reads can be forced to land on the boundaries of the occurrences by choosing the right size", fr = "Les lectures peuvent être forcées à tomber sur les bornes des occurrences en choisissant la bonne taille", es = "Se puede forzar a que las lecturas caigan en los límites de las apariciones eligiendo el tamaño adecuado" }
+
+[[questions]]
+slug = "rank03-l0-non-overlapping-matches"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "algorithms"]
+key_points = [
+  "The usual rule replaces the leftmost occurrence first, then continues searching right after the end of that occurrence.",
+  "Occurrences therefore never overlap: replacing aa in aaa changes only the first two characters, giving **a.",
+  "Restarting the search one character after the start of a match instead would count overlapping occurrences and give a different result.",
+]
+
+[questions.translations.en]
+title = "Replacing occurrences without overlap"
+stem = "A program replaces every occurrence of a pattern in a text by as many `*` as the pattern has characters. What should happen when occurrences overlap, as `aa` inside `aaa`? Where must the search resume after a match, and what would change if it resumed one character further?"
+explanation = "The usual rule, the one of text tools, takes the leftmost occurrence first, then resumes the search right after the end of that occurrence. Occurrences therefore never overlap: in `aaa`, only the first two characters form a match, and the result is `**a`. Resuming the search one character after the start of the match instead would also find the occurrence that begins at the second `a`, which overlaps the first, and would produce `***`. The rule must be chosen deliberately, because the two give different outputs."
+
+[questions.translations.fr]
+title = "Remplacer des occurrences sans chevauchement"
+stem = "Un programme remplace chaque occurrence d'un motif dans un texte par autant de `*` que le motif compte de caractères. Que doit-il se passer quand des occurrences se chevauchent, comme `aa` dans `aaa` ? Où la recherche doit-elle reprendre après une correspondance, et que changerait une reprise un caractère plus loin ?"
+explanation = "La règle habituelle, celle des outils de texte, prend d'abord l'occurrence la plus à gauche, puis reprend la recherche juste après la fin de cette occurrence. Les occurrences ne se chevauchent donc jamais : dans `aaa`, seuls les deux premiers caractères forment une correspondance, et le résultat est `**a`. Reprendre plutôt la recherche un caractère après le début de la correspondance trouverait aussi l'occurrence qui commence au deuxième `a`, qui chevauche la première, et produirait `***`. La règle doit être choisie en connaissance de cause, car les deux donnent des sorties différentes."
+
+[questions.translations.es]
+title = "Sustituir apariciones sin solapamiento"
+stem = "Un programa sustituye cada aparición de un patrón en un texto por tantos `*` como caracteres tiene el patrón. ¿Qué debe pasar cuando las apariciones se solapan, como `aa` dentro de `aaa`? ¿Dónde debe continuar la búsqueda tras una coincidencia, y qué cambiaría si continuara un carácter más allá?"
+explanation = "La regla habitual, la de las herramientas de texto, toma primero la aparición más a la izquierda y continúa la búsqueda justo después del final de esa aparición. Por tanto, las apariciones nunca se solapan: en `aaa`, solo los dos primeros caracteres forman una coincidencia, y el resultado es `**a`. Continuar la búsqueda un carácter después del inicio de la coincidencia encontraría también la aparición que empieza en la segunda `a`, que se solapa con la primera, y produciría `***`. La regla debe elegirse a conciencia, porque ambas dan salidas distintas."
+
+[[questions.choices]]
+correct = true
+text = { en = "The leftmost occurrence is replaced first and the search resumes right after it, so `aa` in `aaa` gives `**a`", fr = "L'occurrence la plus à gauche est remplacée d'abord et la recherche reprend juste après elle, donc `aa` dans `aaa` donne `**a`", es = "La aparición más a la izquierda se sustituye primero y la búsqueda sigue justo después, así que `aa` en `aaa` da `**a`" }
+
+[[questions.choices]]
+text = { en = "`aa` in `aaa` gives `***`, since two occurrences overlap there", fr = "`aa` dans `aaa` donne `***`, puisque deux occurrences s'y recouvrent", es = "`aa` en `aaa` da `***`, ya que allí se solapan dos apariciones" }
+
+[[questions.choices]]
+text = { en = "The search resumes one character after the start of the match, which changes nothing to the result", fr = "La recherche reprend un caractère après le début de la correspondance, ce qui ne change rien au résultat", es = "La búsqueda sigue un carácter después del inicio de la coincidencia, lo que no cambia nada al resultado" }
+
+[[questions.choices]]
+text = { en = "Overlapping occurrences make the text ambiguous, so the program must refuse it", fr = "Des occurrences qui se recouvrent rendent le texte ambigu, donc le programme doit le refuser", es = "Las apariciones solapadas hacen el texto ambiguo, así que el programa debe rechazarlo" }
+
+[[questions]]
+slug = "rank03-l0-searching-raw-bytes"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "file-io"]
+key_points = [
+  "Bytes read from a file or a pipe are not a C string: they may contain '\\0' and have no terminator.",
+  "strstr and the other str functions stop at the first '\\0', so they miss what comes after it and can read past a buffer with no terminator.",
+  "memmem, memchr and memcmp take explicit lengths and handle any byte, so they suit data read with read.",
+]
+
+[questions.translations.en]
+title = "Searching raw bytes rather than strings"
+stem = "A program searches for a pattern in data it has read with `read`. Why is `strstr` a risky choice there, and what do `memmem` and the other `mem` functions do differently?"
+explanation = "What `read` returns is a count of bytes, not a C string: the data may contain `'\\0'` bytes, and nothing puts a terminator after them. `strstr`, like every `str` function, stops at the first `'\\0'`: in bytes `a`, `\\0`, `b`, `c`, it never finds `bc`, and on a buffer without a terminator it reads past its end. `memmem`, `memchr` and `memcmp` take explicit lengths and treat every byte alike, so they give the right answer on any data read from a file or a pipe."
+
+[questions.translations.fr]
+title = "Chercher dans des octets bruts plutôt que dans des chaînes"
+stem = "Un programme cherche un motif dans des données qu'il a lues avec `read`. Pourquoi `strstr` est-il un choix risqué ici, et que font différemment `memmem` et les autres fonctions `mem` ?"
+explanation = "Ce que renvoie `read` est un nombre d'octets, pas une chaîne C : les données peuvent contenir des octets `'\\0'`, et rien ne place de terminateur après elles. `strstr`, comme toutes les fonctions `str`, s'arrête au premier `'\\0'` : dans les octets `a`, `\\0`, `b`, `c`, elle ne trouve jamais `bc`, et sur un tampon sans terminateur elle lit au-delà de sa fin. `memmem`, `memchr` et `memcmp` prennent des longueurs explicites et traitent tous les octets de la même façon : elles donnent la bonne réponse sur n'importe quelles données lues dans un fichier ou un tube."
+
+[questions.translations.es]
+title = "Buscar en bytes en bruto en lugar de en cadenas"
+stem = "Un programa busca un patrón en datos que ha leído con `read`. ¿Por qué `strstr` es una elección arriesgada ahí, y qué hacen de forma distinta `memmem` y las demás funciones `mem`?"
+explanation = "Lo que devuelve `read` es un número de bytes, no una cadena C: los datos pueden contener bytes `'\\0'` y nada pone un terminador después de ellos. `strstr`, como todas las funciones `str`, se detiene en el primer `'\\0'`: en los bytes `a`, `\\0`, `b`, `c` nunca encuentra `bc`, y en un búfer sin terminador lee más allá de su final. `memmem`, `memchr` y `memcmp` reciben longitudes explícitas y tratan todos los bytes por igual, así que dan la respuesta correcta con cualquier dato leído de un fichero o una tubería."
+
+[[questions.choices]]
+correct = true
+text = { en = "Bytes read are not a C string: they may hold `\\0` and have no terminator, so the `mem` functions, which take explicit lengths, are the right ones", fr = "Les octets lus ne sont pas une chaîne C : ils peuvent contenir des `\\0` et n'ont pas de terminateur, donc les fonctions `mem`, qui prennent des longueurs explicites, sont les bonnes", es = "Los bytes leídos no son una cadena C: pueden contener `\\0` y no tienen terminador, así que las funciones `mem`, que toman longitudes explícitas, son las adecuadas" }
+
+[[questions.choices]]
+text = { en = "The `str` functions work just as well: they simply stop at the first `\\0` and carry on after it", fr = "Les fonctions `str` marchent aussi bien : elles s'arrêtent juste au premier `\\0` et reprennent après", es = "Las funciones `str` valen igual: solo se paran en el primer `\\0` y siguen después" }
+
+[[questions.choices]]
+text = { en = "Adding a `\\0` at the end of the buffer makes the `str` functions safe whatever the data holds", fr = "Ajouter un `\\0` à la fin du tampon rend les fonctions `str` sûres quoi que contiennent les données", es = "Añadir un `\\0` al final del búfer hace seguras las funciones `str` contenga lo que contenga el dato" }
+
+[[questions.choices]]
+text = { en = "The `mem` functions only handle printable characters, unlike the `str` ones", fr = "Les fonctions `mem` ne gèrent que les caractères imprimables, contrairement aux `str`", es = "Las funciones `mem` solo manejan caracteres imprimibles, al contrario que las `str`" }
+
+[[questions]]
+slug = "rank03-l0-reporting-system-errors"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["error-handling"]
+key_points = [
+  "A failing system call or library function returns an error value (often -1 or NULL) and sets errno to a code describing the cause.",
+  "strerror(errno) gives the message for that code, and perror(prefix) writes \"prefix: message\" on stderr.",
+  "errno must be read right after the failing call, because later calls may change it; its value is meaningless when the call succeeded.",
+  "The program reports the error on stderr and ends with a non-zero status, such as 1.",
+]
+
+[questions.translations.en]
+title = "Reporting why a system call failed"
+stem = "When `read`, `malloc` or `fopen` fails, how does a program find out why, and how does it report it? What do `errno`, `strerror` and `perror` do, when must `errno` be read, and how should the program end?"
+explanation = "A failing call returns an error value, often `-1` or `NULL`, and sets `errno` to a code describing the cause. `strerror(errno)` turns that code into a message, and `perror(\"fopen\")` writes `fopen: No such file or directory` on the standard error in one step. `errno` must be read right after the failing call, since later calls may overwrite it, and it means nothing after a call that succeeded. The program then writes its message on `stderr` and ends with a non-zero exit status, 1 for instance, so that a script calling it can tell something went wrong."
+
+[questions.translations.fr]
+title = "Signaler pourquoi un appel système a échoué"
+stem = "Quand `read`, `malloc` ou `fopen` échoue, comment un programme sait-il pourquoi, et comment le signale-t-il ? Que font `errno`, `strerror` et `perror`, quand faut-il lire `errno`, et comment le programme doit-il se terminer ?"
+explanation = "Un appel qui échoue renvoie une valeur d'erreur, souvent `-1` ou `NULL`, et place dans `errno` un code qui décrit la cause. `strerror(errno)` transforme ce code en message, et `perror(\"fopen\")` écrit d'un coup `fopen: No such file or directory` sur la sortie d'erreur. `errno` doit être lu juste après l'appel qui a échoué, car les appels suivants peuvent l'écraser, et il ne signifie rien après un appel réussi. Le programme écrit ensuite son message sur `stderr` et se termine avec un code de sortie non nul, 1 par exemple, pour qu'un script qui l'appelle sache que quelque chose s'est mal passé."
+
+[questions.translations.es]
+title = "Informar de por qué falló una llamada al sistema"
+stem = "Cuando `read`, `malloc` o `fopen` falla, ¿cómo averigua un programa el motivo y cómo lo comunica? ¿Qué hacen `errno`, `strerror` y `perror`, cuándo hay que leer `errno` y cómo debe terminar el programa?"
+explanation = "Una llamada que falla devuelve un valor de error, a menudo `-1` o `NULL`, y pone en `errno` un código que describe la causa. `strerror(errno)` convierte ese código en un mensaje, y `perror(\"fopen\")` escribe de una vez `fopen: No such file or directory` en la salida de error. `errno` debe leerse justo después de la llamada que falló, porque las llamadas siguientes pueden sobrescribirlo, y no significa nada tras una llamada que tuvo éxito. Después, el programa escribe su mensaje en `stderr` y termina con un código de salida distinto de cero, 1 por ejemplo, para que un script que lo llame sepa que algo fue mal."
+
+[[questions.choices]]
+correct = true
+text = { en = "The call returns an error value and sets `errno`, which must be read straight away; `perror(prefix)` writes `\"prefix: message\"` on `stderr`, and the program ends with a non-zero status", fr = "L'appel renvoie une valeur d'erreur et positionne `errno`, qu'il faut lire tout de suite ; `perror(prefixe)` écrit `\"prefixe : message\"` sur `stderr`, et le programme se termine avec un statut non nul", es = "La llamada devuelve un valor de error y fija `errno`, que hay que leer en seguida; `perror(prefijo)` escribe `\"prefijo: mensaje\"` en `stderr`, y el programa termina con un estado distinto de cero" }
+
+[[questions.choices]]
+text = { en = "`errno` keeps the cause until it is read, whatever the calls made in between", fr = "`errno` conserve la cause jusqu'à sa lecture, quels que soient les appels faits entre-temps", es = "`errno` conserva la causa hasta que se lee, sean cuales sean las llamadas hechas mientras" }
+
+[[questions.choices]]
+text = { en = "`perror` writes on the standard output and ends the program itself", fr = "`perror` écrit sur la sortie standard et termine le programme lui-même", es = "`perror` escribe en la salida estándar y termina el programa por sí misma" }
+
+[[questions.choices]]
+text = { en = "`errno` is set to 0 by a successful call, so it can be tested without looking at the return value", fr = "`errno` est remis à 0 par un appel réussi, donc on peut le tester sans regarder la valeur de retour", es = "`errno` se pone a 0 tras una llamada correcta, así que se puede probar sin mirar el valor devuelto" }
+
+[[questions]]
+slug = "rank03-l0-variadic-functions"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["variadic-functions"]
+key_points = [
+  "A variadic function is declared with ... after at least one named parameter, and reads the extra arguments with the macros of <stdarg.h>.",
+  "va_start(ap, last_named) starts the walk, va_arg(ap, type) returns the next argument as that type, and va_end(ap) ends it.",
+  "The function cannot know how many arguments were passed nor their types: something else must say so, such as a count or a format string.",
+  "Arguments passing through ... are promoted: char and short become int, float becomes double, so va_arg must ask for int or double.",
+]
+
+[questions.translations.en]
+title = "Functions with a variable number of arguments"
+stem = "How does a C function declared with `...`, like `printf`, read the arguments it receives? Which macros does it use, how does it know how many arguments there are and of which types, and why is `va_arg(ap, char)` a bug?"
+explanation = "The function names at least one parameter before `...`, and reads the others with `<stdarg.h>`: `va_start(ap, last_named)` starts the walk, each `va_arg(ap, type)` returns the next argument as the type requested, and `va_end(ap)` ends it. Nothing in the language says how many arguments were passed nor of which types: the function must be told, by a count or, for `printf`, by the format string. Arguments that go through `...` are also promoted: `char` and `short` become `int`, `float` becomes `double`. `va_arg(ap, char)` therefore reads the wrong type, and GCC warns that such code aborts if it is reached."
+
+[questions.translations.fr]
+title = "Des fonctions à nombre variable d'arguments"
+stem = "Comment une fonction C déclarée avec `...`, comme `printf`, lit-elle les arguments qu'elle reçoit ? Quelles macros utilise-t-elle, comment sait-elle combien d'arguments il y a et de quels types, et pourquoi `va_arg(ap, char)` est-il un bogue ?"
+explanation = "La fonction nomme au moins un paramètre avant `...`, et lit les autres avec `<stdarg.h>` : `va_start(ap, dernier_nommé)` commence le parcours, chaque `va_arg(ap, type)` renvoie l'argument suivant dans le type demandé, et `va_end(ap)` le termine. Rien dans le langage ne dit combien d'arguments ont été passés ni de quels types : il faut le dire à la fonction, par un nombre ou, pour `printf`, par la chaîne de format. Les arguments qui passent par `...` sont en outre promus : `char` et `short` deviennent `int`, `float` devient `double`. `va_arg(ap, char)` lit donc le mauvais type, et GCC prévient qu'un tel code s'arrête brutalement s'il est atteint."
+
+[questions.translations.es]
+title = "Funciones con un número variable de argumentos"
+stem = "¿Cómo lee una función C declarada con `...`, como `printf`, los argumentos que recibe? ¿Qué macros usa, cómo sabe cuántos argumentos hay y de qué tipos, y por qué `va_arg(ap, char)` es un error?"
+explanation = "La función nombra al menos un parámetro antes de `...` y lee los demás con `<stdarg.h>`: `va_start(ap, ultimo_nombrado)` empieza el recorrido, cada `va_arg(ap, tipo)` devuelve el argumento siguiente en el tipo pedido y `va_end(ap)` lo termina. Nada en el lenguaje dice cuántos argumentos se pasaron ni de qué tipos: hay que decírselo a la función, con un número o, en el caso de `printf`, con la cadena de formato. Además, los argumentos que pasan por `...` se promueven: `char` y `short` pasan a `int`, `float` pasa a `double`. `va_arg(ap, char)` lee por tanto el tipo equivocado, y GCC avisa de que ese código aborta si se llega a ejecutar."
+
+[[questions.choices]]
+correct = true
+text = { en = "`va_start`, `va_arg`, `va_end`; the function cannot know the number or the types by itself, and `char` is promoted to `int`, which `va_arg` must therefore ask for", fr = "`va_start`, `va_arg`, `va_end` ; la fonction ne peut connaître seule ni le nombre ni les types, et un `char` est promu en `int`, ce que `va_arg` doit donc demander", es = "`va_start`, `va_arg`, `va_end`; la función no puede saber por sí sola ni el número ni los tipos, y un `char` se promueve a `int`, que es lo que `va_arg` debe pedir" }
+
+[[questions.choices]]
+text = { en = "`va_arg(ap, char)` is right: the argument was passed as a `char`, so it must be read as one", fr = "`va_arg(ap, char)` est correct : l'argument a été passé comme un `char`, donc il faut le lire ainsi", es = "`va_arg(ap, char)` es correcto: el argumento se pasó como `char`, así que hay que leerlo así" }
+
+[[questions.choices]]
+text = { en = "The number of extra arguments is available through a hidden counter the compiler adds", fr = "Le nombre d'arguments supplémentaires est disponible par un compteur caché ajouté par le compilateur", es = "El número de argumentos extra está disponible mediante un contador oculto que añade el compilador" }
+
+[[questions.choices]]
+text = { en = "A variadic function can be declared with `...` alone, without any named parameter", fr = "Une fonction variadique peut être déclarée avec `...` seul, sans aucun paramètre nommé", es = "Una función variádica puede declararse con `...` solo, sin ningún parámetro con nombre" }
+
+[[questions]]
+slug = "rank03-l0-formatted-input"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["input-parsing", "variadic-functions"]
+key_points = [
+  "scanf returns the number of values it stored, which can be fewer than the conversions asked for, or EOF if the input ended before the first conversion.",
+  "%d and %s skip leading whitespace, but %c does not: it stores the next character, even a space; a space in the format skips any amount of whitespace, so \" %c\" reads the next non-blank character.",
+  "Values are stored through the pointers passed as arguments, such as &x, which is why each conversion needs an address.",
+  "On the first input that does not match, scanf stops and leaves that input unread for the next call.",
+]
+
+[questions.translations.en]
+title = "How scanf reads its input"
+stem = "What does `scanf` return? With the input `12 abc`, what does `scanf(\"%d %d\", &a, &b)` return and store? Why does `%c` read a space where `%d` would skip it, and what does a space in the format do?"
+explanation = "`scanf` returns the number of values it has stored, or `EOF` if the input ended before the first conversion. On `12 abc`, the first `%d` stores 12; the second meets `a`, which cannot start a number, so `scanf` stops, returns 1, leaves `b` untouched and leaves `abc` unread for the next call. `%d` and `%s` skip leading whitespace, but `%c` stores the next character, whatever it is, a space included. A space in the format matches any amount of whitespace, even none, so `\" %c\"` reads the next non-blank character. Every value is stored through the address passed as argument, which is why one writes `&a`."
+
+[questions.translations.fr]
+title = "Comment scanf lit son entrée"
+stem = "Que renvoie `scanf` ? Avec l'entrée `12 abc`, que renvoie et que range `scanf(\"%d %d\", &a, &b)` ? Pourquoi `%c` lit-il un espace là où `%d` le sauterait, et que fait un espace dans le format ?"
+explanation = "`scanf` renvoie le nombre de valeurs qu'il a rangées, ou `EOF` si l'entrée s'est terminée avant la première conversion. Sur `12 abc`, le premier `%d` range 12 ; le second tombe sur `a`, qui ne peut pas commencer un nombre, donc `scanf` s'arrête, renvoie 1, laisse `b` intact et laisse `abc` non lu pour l'appel suivant. `%d` et `%s` sautent les blancs du début, mais `%c` range le caractère suivant, quel qu'il soit, espace compris. Un espace dans le format correspond à n'importe quelle quantité de blancs, même nulle, donc `\" %c\"` lit le prochain caractère qui n'est pas un blanc. Chaque valeur est rangée à travers l'adresse passée en argument, d'où l'écriture `&a`."
+
+[questions.translations.es]
+title = "Cómo lee scanf su entrada"
+stem = "¿Qué devuelve `scanf`? Con la entrada `12 abc`, ¿qué devuelve y qué guarda `scanf(\"%d %d\", &a, &b)`? ¿Por qué `%c` lee un espacio donde `%d` lo saltaría, y qué hace un espacio en el formato?"
+explanation = "`scanf` devuelve el número de valores que ha guardado, o `EOF` si la entrada terminó antes de la primera conversión. Con `12 abc`, el primer `%d` guarda 12; el segundo se encuentra con `a`, que no puede empezar un número, así que `scanf` se detiene, devuelve 1, deja `b` intacta y deja `abc` sin leer para la siguiente llamada. `%d` y `%s` se saltan los blancos iniciales, pero `%c` guarda el carácter siguiente, sea cual sea, espacio incluido. Un espacio en el formato coincide con cualquier cantidad de blancos, incluso ninguno, así que `\" %c\"` lee el siguiente carácter que no sea un blanco. Cada valor se guarda a través de la dirección pasada como argumento, de ahí que se escriba `&a`."
+
+[[questions.choices]]
+correct = true
+text = { en = "It returns 1 and stores only 12: `abc` matches no `%d`, so the reading stops there and leaves it unread", fr = "Elle renvoie 1 et ne range que 12 : `abc` ne correspond à aucun `%d`, donc la lecture s'arrête là et le laisse non lu", es = "Devuelve 1 y solo guarda 12: `abc` no encaja con ningún `%d`, así que la lectura se para ahí y lo deja sin leer" }
+
+[[questions.choices]]
+text = { en = "It returns 2 and stores 12 and 0, the failed conversion giving zero", fr = "Elle renvoie 2 et range 12 et 0, la conversion ratée donnant zéro", es = "Devuelve 2 y guarda 12 y 0, con la conversión fallida dando cero" }
+
+[[questions.choices]]
+text = { en = "It returns `EOF`, since one of the conversions could not be done", fr = "Elle renvoie `EOF`, puisqu'une des conversions n'a pas pu être faite", es = "Devuelve `EOF`, ya que una de las conversiones no se pudo hacer" }
+
+[[questions.choices]]
+text = { en = "It returns 1, and `abc` is consumed so that the next call starts after it", fr = "Elle renvoie 1, et `abc` est consommé pour que l'appel suivant reprenne après", es = "Devuelve 1, y `abc` se consume para que la siguiente llamada empiece después" }
+
+[[questions]]
+slug = "rank03-l0-pushing-a-character-back"
+topic = "exam-rank-03-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["file-io", "input-parsing"]
+key_points = [
+  "Reading a number character by character only reveals its end when the first non-digit character has already been read.",
+  "ungetc(c, stream) pushes that character back, so the next read returns it again; it is how a parser looks one character ahead.",
+  "At least one character of push-back is guaranteed, and pushing back EOF does nothing.",
+]
+
+[questions.translations.en]
+title = "Pushing a character back into a stream"
+stem = "A parser reads the number `42` from a stream with `fgetc`, followed by `z`. How does it know the number is over, what happens to the `z` it has just consumed, and which function lets it give that character back?"
+explanation = "Reading digit by digit, the parser only knows the number is over when it reads a character that is not a digit, here `z`: that character has been consumed although it belongs to whatever comes next. `ungetc(c, stream)` pushes it back into the stream, so the next `fgetc` returns `z` again; this is how a parser looks one character ahead without losing anything. The standard guarantees at least one character of push-back, which is all this needs, and pushing back `EOF` has no effect."
+
+[questions.translations.fr]
+title = "Remettre un caractère dans un flux"
+stem = "Un analyseur lit le nombre `42` dans un flux avec `fgetc`, suivi de `z`. Comment sait-il que le nombre est terminé, que devient le `z` qu'il vient de consommer, et quelle fonction lui permet de rendre ce caractère ?"
+explanation = "En lisant chiffre par chiffre, l'analyseur ne sait que le nombre est terminé qu'en lisant un caractère qui n'est pas un chiffre, ici `z` : ce caractère a été consommé alors qu'il appartient à ce qui suit. `ungetc(c, stream)` le remet dans le flux, et le prochain `fgetc` renvoie de nouveau `z` ; c'est ainsi qu'un analyseur regarde un caractère en avance sans rien perdre. La norme garantit la remise d'au moins un caractère, ce qui suffit ici, et remettre `EOF` est sans effet."
+
+[questions.translations.es]
+title = "Devolver un carácter a un flujo"
+stem = "Un analizador lee el número `42` de un flujo con `fgetc`, seguido de `z`. ¿Cómo sabe que el número ha terminado, qué pasa con la `z` que acaba de consumir y qué función le permite devolver ese carácter?"
+explanation = "Leyendo cifra a cifra, el analizador solo sabe que el número ha terminado al leer un carácter que no es una cifra, aquí `z`: ese carácter se ha consumido aunque pertenece a lo que viene después. `ungetc(c, stream)` lo devuelve al flujo, y el siguiente `fgetc` vuelve a devolver `z`; así es como un analizador mira un carácter por adelantado sin perder nada. El estándar garantiza que se puede devolver al menos un carácter, que es todo lo que hace falta aquí, y devolver `EOF` no tiene efecto."
+
+[[questions.choices]]
+correct = true
+text = { en = "The number ends only once a non-digit has been read; `ungetc(c, stream)` puts it back, and one character of push-back is guaranteed", fr = "Le nombre ne se termine qu'une fois un caractère non chiffre lu ; `ungetc(c, flux)` le remet, et un caractère de remise est garanti", es = "El número solo termina una vez leído un carácter que no es cifra; `ungetc(c, flujo)` lo devuelve, y se garantiza un carácter de retroceso" }
+
+[[questions.choices]]
+text = { en = "The `z` is lost: nothing can give a character back to a stream", fr = "Le `z` est perdu : rien ne permet de rendre un caractère à un flux", es = "La `z` se pierde: nada permite devolver un carácter a un flujo" }
+
+[[questions.choices]]
+text = { en = "The number's end is known without reading further, since `fgetc` announces it", fr = "La fin du nombre est connue sans lire plus loin, puisque `fgetc` l'annonce", es = "El final del número se sabe sin leer más allá, ya que `fgetc` lo anuncia" }
+
+[[questions.choices]]
+text = { en = "`ungetc` can push back any number of characters, which makes any look-ahead possible", fr = "`ungetc` peut remettre autant de caractères qu'on veut, ce qui rend possible n'importe quelle anticipation", es = "`ungetc` puede devolver tantos caracteres como se quiera, lo que hace posible cualquier anticipación" }

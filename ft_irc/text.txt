@@ -1,0 +1,16 @@
+/connect 127.0.0.1 4444 mdp
+
+// COMMANDES POUR LA LATENCE SUR IRSSI
+
+/set cmds_max_at_once 100
+/set cmd_queue_speed 0
+
+//connection netcat
+
+PASS mdp
+NICK Alice
+USER Alice 0 * :Alice User
+
+//commande pour envoyer fichier
+
+/dcc send pseudo /chemin/du/fichier

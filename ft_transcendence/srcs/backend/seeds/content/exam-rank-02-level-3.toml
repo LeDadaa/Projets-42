@@ -1,0 +1,414 @@
+# Exam Rank 02, level 3: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank02-l3-filling-a-region"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["recursion", "algorithms"]
+key_points = [
+  "From the starting cell, a recursive function stops if the cell is outside the grid or does not hold the character being replaced; otherwise it changes the cell and calls itself on the four neighbours (up, down, left, right).",
+  "The cell must be changed before the recursive calls; otherwise two neighbours keep calling each other forever.",
+  "Every recursive call uses stack space, and the depth can reach the number of cells of the region, so a very large region overflows the stack and crashes.",
+  "An explicit stack or queue of cells to visit does the same work without deep recursion.",
+]
+
+[questions.translations.en]
+title = "Filling a region of a grid"
+stem = "Starting from one cell of a character grid, you want to replace a whole region of identical characters connected horizontally and vertically. How does a recursive function do it, why must a cell be changed before the recursive calls, and why can it crash on a very large region?"
+explanation = "The function receives a cell. It stops if the cell is outside the grid or does not hold the character being replaced; otherwise it changes the cell, then calls itself on the four neighbours, up, down, left and right. The cell is changed before the calls: otherwise two neighbours would call each other forever, each seeing the other as still to fill. Each call uses a little stack, and the depth can reach the number of cells of the region: on an open 3000 × 3000 grid, the recursive version exhausts the stack and dies with a segmentation fault. An explicit stack or queue of cells to visit does the same work without that limit."
+
+[questions.translations.fr]
+title = "Remplir une zone d'une grille"
+stem = "À partir d'une case d'une grille de caractères, on veut remplacer toute une zone de caractères identiques reliés horizontalement et verticalement. Comment une fonction récursive s'y prend-elle, pourquoi faut-il modifier une case avant les appels récursifs, et pourquoi peut-elle planter sur une très grande zone ?"
+explanation = "La fonction reçoit une case. Elle s'arrête si la case est hors de la grille ou ne contient pas le caractère à remplacer ; sinon elle modifie la case, puis s'appelle sur les quatre voisines, en haut, en bas, à gauche et à droite. La case est modifiée avant les appels : sans cela, deux voisines s'appelleraient l'une l'autre indéfiniment, chacune voyant l'autre comme encore à remplir. Chaque appel consomme un peu de pile, et la profondeur peut atteindre le nombre de cases de la zone : sur une grille ouverte de 3000 × 3000, la version récursive épuise la pile et meurt sur une erreur de segmentation. Une pile ou une file explicite de cases à visiter fait le même travail sans cette limite."
+
+[questions.translations.es]
+title = "Rellenar una zona de una cuadrícula"
+stem = "A partir de una casilla de una cuadrícula de caracteres, quieres sustituir toda una zona de caracteres idénticos conectados horizontal y verticalmente. ¿Cómo lo hace una función recursiva, por qué hay que modificar una casilla antes de las llamadas recursivas y por qué puede fallar con una zona muy grande?"
+explanation = "La función recibe una casilla. Se detiene si la casilla está fuera de la cuadrícula o no contiene el carácter que se sustituye; si no, modifica la casilla y se llama a sí misma sobre las cuatro vecinas, arriba, abajo, izquierda y derecha. La casilla se modifica antes de las llamadas: si no, dos vecinas se llamarían una a otra sin fin, cada una viendo a la otra como pendiente de rellenar. Cada llamada consume algo de pila, y la profundidad puede llegar al número de casillas de la zona: en una cuadrícula abierta de 3000 × 3000, la versión recursiva agota la pila y muere con un fallo de segmentación. Una pila o una cola explícita de casillas por visitar hace el mismo trabajo sin ese límite."
+
+[[questions.choices]]
+correct = true
+text = { en = "Change the cell **before** the four recursive calls; the depth can reach the size of the region, so a very large one overflows the stack", fr = "Changer la case **avant** les quatre appels récursifs ; la profondeur peut atteindre la taille de la région, donc une très grande déborde la pile", es = "Cambiar la casilla **antes** de las cuatro llamadas recursivas; la profundidad puede llegar al tamaño de la región, así que una muy grande desborda la pila" }
+
+[[questions.choices]]
+text = { en = "Change the cell after the four calls, so that the neighbours still see the original character", fr = "Changer la case après les quatre appels, pour que les voisines voient encore le caractère d'origine", es = "Cambiar la casilla tras las cuatro llamadas, para que las vecinas vean aún el carácter original" }
+
+[[questions.choices]]
+text = { en = "Recursion cannot overflow here: each call only holds a few variables", fr = "La récursion ne peut pas déborder ici : chaque appel ne garde que quelques variables", es = "La recursión no puede desbordar aquí: cada llamada solo guarda unas pocas variables" }
+
+[[questions.choices]]
+text = { en = "The eight neighbours have to be visited, diagonals included", fr = "Les huit voisines doivent être visitées, diagonales comprises", es = "Hay que visitar las ocho vecinas, diagonales incluidas" }
+
+[[questions]]
+slug = "rank02-l3-prime-factorization"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["number-theory"]
+key_points = [
+  "Try divisors d from 2 upward; while d divides n, record d and divide n by it, so a factor appearing several times is recorded each time.",
+  "Only primes are recorded: by the time d is tried, its own prime factors have already been divided out of n.",
+  "Stop when d exceeds the square root of what remains of n; if more than 1 is left, it is itself a prime factor.",
+  "Factors come out in ascending order, since d only grows.",
+]
+
+[questions.translations.en]
+title = "Breaking a number into prime factors"
+stem = "How do you break a positive integer into prime factors, listed in ascending order with repetitions, such as 360 = 2 × 2 × 2 × 3 × 3 × 5? Why does the method never record a number that is not prime, and when can the loop stop?"
+explanation = "Try the divisors `d` from 2 upward, and while `d` divides `n`, record it and divide `n` by it: a factor that appears several times is recorded each time. A composite `d` is never recorded, because by the time it is tried, its own prime factors have already been divided out of `n`, so it cannot divide what is left. The loop can stop once `d` exceeds the square root of what remains; if more than 1 is left, that rest is itself prime and is the last factor. Since `d` only grows, the factors come out in ascending order."
+
+[questions.translations.fr]
+title = "Décomposer un nombre en facteurs premiers"
+stem = "Comment décomposer un entier positif en facteurs premiers, listés par ordre croissant avec leurs répétitions, comme 360 = 2 × 2 × 2 × 3 × 3 × 5 ? Pourquoi la méthode ne retient-elle jamais un nombre qui n'est pas premier, et quand la boucle peut-elle s'arrêter ?"
+explanation = "On essaie les diviseurs `d` à partir de 2, et tant que `d` divise `n`, on le retient et on divise `n` par lui : un facteur qui apparaît plusieurs fois est retenu à chaque fois. Un `d` composé n'est jamais retenu, car au moment où il est essayé, ses propres facteurs premiers ont déjà été retirés de `n`, donc il ne peut pas diviser ce qui reste. La boucle peut s'arrêter dès que `d` dépasse la racine carrée de ce qui reste ; s'il reste plus que 1, ce reste est lui-même premier et c'est le dernier facteur. Comme `d` ne fait que croître, les facteurs sortent par ordre croissant."
+
+[questions.translations.es]
+title = "Descomponer un número en factores primos"
+stem = "¿Cómo descompones un entero positivo en factores primos, en orden creciente y con repeticiones, como 360 = 2 × 2 × 2 × 3 × 3 × 5? ¿Por qué el método nunca anota un número que no es primo, y cuándo puede parar el bucle?"
+explanation = "Se prueban los divisores `d` desde 2 hacia arriba y, mientras `d` divida a `n`, se anota y se divide `n` entre él: un factor que aparece varias veces se anota cada vez. Un `d` compuesto nunca se anota, porque cuando se prueba, sus propios factores primos ya se han quitado de `n`, así que no puede dividir lo que queda. El bucle puede parar en cuanto `d` supera la raíz cuadrada de lo que queda; si queda más de 1, ese resto es primo y es el último factor. Como `d` solo crece, los factores salen en orden creciente."
+
+[[questions.choices]]
+correct = true
+text = { en = "Divide by `d` from 2 upward while it divides; only primes are recorded because their own factors are already gone, and what is left above 1 at the end is prime", fr = "Diviser par `d` à partir de 2 tant qu'il divise ; seuls des premiers sont retenus car leurs propres facteurs ont déjà été retirés, et ce qui reste au-dessus de 1 à la fin est premier", es = "Dividir por `d` desde 2 mientras divida; solo se registran primos porque sus propios factores ya se han quitado, y lo que queda por encima de 1 al final es primo" }
+
+[[questions.choices]]
+text = { en = "`d` must be tested for primality first, otherwise composite factors are recorded", fr = "`d` doit d'abord être testé comme premier, sinon des facteurs composés sont retenus", es = "Hay que comprobar primero que `d` es primo, si no se registran factores compuestos" }
+
+[[questions.choices]]
+text = { en = "Stop as soon as `d` passes the square root and drop whatever is left of `n`", fr = "S'arrêter dès que `d` dépasse la racine carrée et abandonner ce qui reste de `n`", es = "Parar en cuanto `d` supere la raíz cuadrada y descartar lo que quede de `n`" }
+
+[[questions.choices]]
+text = { en = "Each factor is recorded once, whatever the number of times it divides", fr = "Chaque facteur n'est retenu qu'une fois, quel que soit le nombre de fois où il divise", es = "Cada factor se registra una vez, sin importar cuántas veces divida" }
+
+[[questions]]
+slug = "rank02-l3-integer-to-string"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["conversions", "memory"]
+key_points = [
+  "Count the characters first: one per digit, plus one for a minus sign, and 0 counts as one digit; then allocate that count plus 1 for the terminator.",
+  "Fill the digits from the end of the buffer with n % 10 and n / 10, and put '-' at index 0 for a negative number.",
+  "INT_MIN cannot be negated in an int, so the conversion works in a wider type (long) or handles that value separately.",
+  "Return NULL if malloc fails; the caller frees the returned string.",
+]
+
+[questions.translations.en]
+title = "Turning an int into an allocated string"
+stem = "A function converts an `int` into a newly allocated string, as `\"-7\"` for -7. How many bytes must it allocate, in which order does it fill them, and which values need special care?"
+explanation = "The size is counted first: one character per digit, one more for a minus sign, and 0 still counts as one digit; the function allocates that count plus one for the terminator, and returns `NULL` if `malloc` fails. The digits are then written from the end of the buffer, with `n % 10` and `n / 10`, since they come out least significant first, and `'-'` goes at index 0 for a negative number. Two values are traps: 0, for which a loop `while (n != 0)` writes no digit, and `INT_MIN`, whose opposite does not fit in an `int`; working in a `long` handles it. The caller owns the result and frees it."
+
+[questions.translations.fr]
+title = "Transformer un int en chaîne allouée"
+stem = "Une fonction convertit un `int` en une chaîne nouvellement allouée, comme `\"-7\"` pour -7. Combien d'octets doit-elle allouer, dans quel ordre les remplit-elle, et quelles valeurs demandent une attention particulière ?"
+explanation = "On compte d'abord la taille : un caractère par chiffre, un de plus pour un signe moins, et 0 compte tout de même pour un chiffre ; la fonction alloue ce nombre plus un pour le terminateur, et renvoie `NULL` si `malloc` échoue. Les chiffres s'écrivent ensuite depuis la fin du tampon, avec `n % 10` et `n / 10`, puisqu'ils sortent du moins significatif au plus significatif, et `'-'` va à l'indice 0 pour un nombre négatif. Deux valeurs sont des pièges : 0, pour lequel une boucle `while (n != 0)` n'écrit aucun chiffre, et `INT_MIN`, dont l'opposé ne tient pas dans un `int` ; travailler dans un `long` le règle. L'appelant possède le résultat et le libère."
+
+[questions.translations.es]
+title = "Convertir un int en una cadena reservada"
+stem = "Una función convierte un `int` en una cadena recién reservada, como `\"-7\"` para -7. ¿Cuántos bytes debe reservar, en qué orden los rellena y qué valores requieren un cuidado especial?"
+explanation = "Primero se cuenta el tamaño: un carácter por cifra, uno más para el signo menos, y 0 cuenta igualmente como una cifra; la función reserva esa cantidad más uno para el terminador, y devuelve `NULL` si `malloc` falla. Después las cifras se escriben desde el final del búfer, con `n % 10` y `n / 10`, ya que salen de la menos significativa a la más significativa, y `'-'` va en el índice 0 para un número negativo. Dos valores son trampas: 0, para el que un bucle `while (n != 0)` no escribe ninguna cifra, e `INT_MIN`, cuyo opuesto no cabe en un `int`; trabajar con un `long` lo resuelve. Quien llama es dueño del resultado y lo libera."
+
+[[questions.choices]]
+correct = true
+text = { en = "Count the digits, plus one for a minus sign, plus one for the terminator; fill from the end, and work in a wider type since `INT_MIN` cannot be negated", fr = "Compter les chiffres, plus un pour le signe moins, plus un pour le terminateur ; remplir depuis la fin, et travailler dans un type plus large car `INT_MIN` ne peut pas être nié", es = "Contar las cifras, más uno para el signo menos, más uno para el terminador; rellenar desde el final y trabajar en un tipo más ancho porque `INT_MIN` no se puede negar" }
+
+[[questions.choices]]
+text = { en = "Negate a negative number first, then every case is handled the same way", fr = "Rendre d'abord positif un nombre négatif, ensuite tous les cas se traitent pareil", es = "Volver positivo primero un número negativo, después todos los casos se tratan igual" }
+
+[[questions.choices]]
+text = { en = "A fixed buffer of 11 bytes always fits an `int`, terminator included, so counting is useless", fr = "Un tampon fixe de 11 octets contient toujours un `int`, terminateur compris, donc compter est inutile", es = "Un búfer fijo de 11 bytes siempre cabe un `int`, terminador incluido, así que contar es inútil" }
+
+[[questions.choices]]
+text = { en = "Fill the digits from the start of the buffer, in the order `n % 10` produces them", fr = "Remplir les chiffres depuis le début du tampon, dans l'ordre où `n % 10` les produit", es = "Rellenar las cifras desde el principio del búfer, en el orden en que `n % 10` las produce" }
+
+[[questions]]
+slug = "rank02-l3-function-pointers"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["pointers"]
+key_points = [
+  "A function pointer stores the address of a function; its type spells the return type and the parameters, as in void (*f)(void *).",
+  "The parentheses around *f are required: void *f(void *) declares a function returning void *, not a pointer.",
+  "A function's name alone, without parentheses, gives its address, and the pointer is called like the function: f(x), or (*f)(x), which is the same.",
+  "Passing a function pointer lets generic code, such as a loop over a list, apply behaviour chosen by the caller (a callback).",
+]
+
+[questions.translations.en]
+title = "Function pointers"
+stem = "A function takes a parameter declared as `void (*f)(void *)`. What does that declaration mean, why are the parentheses around `*f` required, how do you pass a function to it and how is `f` called? What is it useful for?"
+explanation = "`f` is a pointer to a function that takes a `void *` and returns nothing. The parentheses matter: without them, `void *f(void *)` declares a function returning a `void *`. The name of a function, without parentheses, gives its address, so the caller simply passes `print_item` or any other function of the right type. Inside, the pointer is called like a function: `f(x)`, or `(*f)(x)`, which is exactly the same. This is how generic code, for instance a loop over a list, applies a behaviour chosen by its caller: the function passed in is a callback."
+
+[questions.translations.fr]
+title = "Les pointeurs de fonction"
+stem = "Une fonction prend un paramètre déclaré `void (*f)(void *)`. Que signifie cette déclaration, pourquoi les parenthèses autour de `*f` sont-elles obligatoires, comment lui passer une fonction et comment `f` est-il appelé ? À quoi cela sert-il ?"
+explanation = "`f` est un pointeur vers une fonction qui prend un `void *` et ne renvoie rien. Les parenthèses comptent : sans elles, `void *f(void *)` déclare une fonction qui renvoie un `void *`. Le nom d'une fonction, sans parenthèses, donne son adresse : l'appelant passe simplement `print_item` ou toute autre fonction du bon type. À l'intérieur, le pointeur s'appelle comme une fonction : `f(x)`, ou `(*f)(x)`, ce qui revient exactement au même. C'est ainsi qu'un code générique, par exemple une boucle sur une liste, applique un comportement choisi par son appelant : la fonction passée est une fonction de rappel."
+
+[questions.translations.es]
+title = "Los punteros a función"
+stem = "Una función recibe un parámetro declarado como `void (*f)(void *)`. ¿Qué significa esa declaración, por qué son obligatorios los paréntesis alrededor de `*f`, cómo le pasas una función y cómo se llama a `f`? ¿Para qué sirve?"
+explanation = "`f` es un puntero a una función que recibe un `void *` y no devuelve nada. Los paréntesis importan: sin ellos, `void *f(void *)` declara una función que devuelve un `void *`. El nombre de una función, sin paréntesis, da su dirección, así que quien llama simplemente pasa `print_item` o cualquier otra función del tipo adecuado. Dentro, el puntero se llama como una función: `f(x)`, o `(*f)(x)`, que es exactamente lo mismo. Así es como un código genérico, por ejemplo un bucle sobre una lista, aplica un comportamiento elegido por quien lo llama: la función pasada es una función de retrollamada."
+
+[[questions.choices]]
+correct = true
+text = { en = "A pointer to a function taking a `void *` and returning nothing; the parentheses around `*f` are required, the name alone gives the address, and `f(x)` calls it", fr = "Un pointeur vers une fonction prenant un `void *` et ne renvoyant rien ; les parenthèses autour de `*f` sont obligatoires, le nom seul donne l'adresse, et `f(x)` l'appelle", es = "Un puntero a una función que toma un `void *` y no devuelve nada; los paréntesis alrededor de `*f` son obligatorios, el nombre solo da la dirección y `f(x)` la llama" }
+
+[[questions.choices]]
+text = { en = "`void *f(void *)` declares exactly the same thing: the parentheses only help reading", fr = "`void *f(void *)` déclare exactement la même chose : les parenthèses aident seulement à lire", es = "`void *f(void *)` declara exactamente lo mismo: los paréntesis solo ayudan a leer" }
+
+[[questions.choices]]
+text = { en = "The function must be passed as `&f()`, which evaluates it to get its address", fr = "La fonction doit être passée sous la forme `&f()`, qui l'évalue pour obtenir son adresse", es = "La función debe pasarse como `&f()`, que la evalúa para obtener su dirección" }
+
+[[questions.choices]]
+text = { en = "Such a pointer can hold any function, whatever its parameters and its return type", fr = "Un tel pointeur peut contenir n'importe quelle fonction, quels que soient ses paramètres et son type de retour", es = "Tal puntero puede contener cualquier función, sean cuales sean sus parámetros y su tipo de retorno" }
+
+[[questions]]
+slug = "rank02-l3-generic-void-pointers"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["pointers"]
+key_points = [
+  "A void * can hold the address of any object, which lets a list node or a function carry data of any type.",
+  "A void * cannot be dereferenced: it must first be converted to a pointer to the real type, such as *(int *)p.",
+  "Pointer arithmetic on void * is not allowed in standard C, because the size of the pointed object is unknown.",
+  "Nothing checks the conversion: the code must know the real type, or the read is wrong.",
+]
+
+[questions.translations.en]
+title = "Generic data with void *"
+stem = "A linked list stores its data as `void *`. What can such a pointer hold, why can't you write `*p` or `p + 1` with it, and how do you read the integer it points to?"
+explanation = "A `void *` can hold the address of any object, which is what lets one list type carry integers, strings or structures. In exchange it has no pointed type: `*p` is refused, because the compiler does not know what to read, and `p + 1` is not standard C either, because the size of the pointed object is unknown; GCC only allows it as an extension, and rejects it in strict mode. To use the data, you convert the pointer to the real type first: `*(int *)p` reads the integer. Nothing checks that conversion, so the code must know what type was stored."
+
+[questions.translations.fr]
+title = "Des données génériques avec void *"
+stem = "Une liste chaînée range ses données sous forme de `void *`. Que peut contenir un tel pointeur, pourquoi ne peut-on pas écrire `*p` ni `p + 1` avec lui, et comment lire l'entier vers lequel il pointe ?"
+explanation = "Un `void *` peut contenir l'adresse de n'importe quel objet : c'est ce qui permet à un même type de liste de porter des entiers, des chaînes ou des structures. En échange, il n'a pas de type pointé : `*p` est refusé, parce que le compilateur ne sait pas quoi lire, et `p + 1` n'est pas du C standard non plus, parce que la taille de l'objet pointé est inconnue ; GCC ne l'accepte que comme extension, et le refuse en mode strict. Pour utiliser la donnée, on convertit d'abord le pointeur vers le vrai type : `*(int *)p` lit l'entier. Rien ne vérifie cette conversion, donc le code doit savoir quel type a été rangé."
+
+[questions.translations.es]
+title = "Datos genéricos con void *"
+stem = "Una lista enlazada guarda sus datos como `void *`. ¿Qué puede contener un puntero así, por qué no puedes escribir `*p` ni `p + 1` con él, y cómo lees el entero al que apunta?"
+explanation = "Un `void *` puede contener la dirección de cualquier objeto: es lo que permite que un mismo tipo de lista lleve enteros, cadenas o estructuras. A cambio, no tiene tipo apuntado: `*p` se rechaza, porque el compilador no sabe qué leer, y `p + 1` tampoco es C estándar, porque se desconoce el tamaño del objeto apuntado; GCC solo lo acepta como extensión y lo rechaza en modo estricto. Para usar el dato, primero se convierte el puntero al tipo real: `*(int *)p` lee el entero. Nada comprueba esa conversión, así que el código debe saber qué tipo se guardó."
+
+[[questions.choices]]
+correct = true
+text = { en = "It holds the address of any object, but must be converted before being read: `*(int *)p`, and arithmetic on it is not allowed", fr = "Il contient l'adresse de n'importe quel objet, mais doit être converti avant d'être lu : `*(int *)p`, et l'arithmétique dessus est interdite", es = "Contiene la dirección de cualquier objeto, pero hay que convertirlo antes de leerlo: `*(int *)p`, y la aritmética sobre él no está permitida" }
+
+[[questions.choices]]
+text = { en = "`*p` works: the compiler deduces the type from what the pointer was assigned", fr = "`*p` fonctionne : le compilateur déduit le type de ce qui a été affecté au pointeur", es = "`*p` funciona: el compilador deduce el tipo de lo que se asignó al puntero" }
+
+[[questions.choices]]
+text = { en = "`p + 1` moves forward by one byte, since `void` has a size of 1", fr = "`p + 1` avance d'un octet, puisque `void` a une taille de 1", es = "`p + 1` avanza un byte, ya que `void` tiene tamaño 1" }
+
+[[questions.choices]]
+text = { en = "The conversion is checked at run time and fails when the real type is not the one given", fr = "La conversion est vérifiée à l'exécution et échoue quand le vrai type n'est pas celui annoncé", es = "La conversión se comprueba en ejecución y falla cuando el tipo real no es el indicado" }
+
+[[questions]]
+slug = "rank02-l3-removing-list-nodes"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1400
+tags = ["linked-lists", "memory"]
+key_points = [
+  "The function receives a pointer to the head pointer (t_list **), because removing the first node changes the head, which the caller must see.",
+  "To remove a node: save it, make the pointer that pointed to it point to its next node, then free the saved node; reading next after free would be a use after free.",
+  "After a removal the position must not advance, since the new node at that place still has to be tested; this handles several matching nodes in a row.",
+  "Walking with a pointer to the current link (&node->next) handles the head and the middle of the list with the same code.",
+]
+
+[questions.translations.en]
+title = "Removing nodes from a linked list"
+stem = "A function removes from a singly linked list every node whose data matches a reference, and frees them. Why must it receive a `t_list **` rather than a `t_list *`? In what order must a node be unlinked and freed, and what happens with several matching nodes in a row?"
+explanation = "Removing the first node changes the head of the list, and the caller must see that change, so the function receives the address of the head pointer. To remove a node, save it, make the link that pointed to it point to its `next`, then free the saved node; freeing first and reading `next` afterwards would read freed memory. After a removal, the position does not advance: the node now sitting there has not been tested yet, which is what makes several matching nodes in a row disappear. Walking with a pointer to the current link, starting at the head and then `&node->next`, treats the head and the rest of the list with the same code."
+
+[questions.translations.fr]
+title = "Retirer des maillons d'une liste chaînée"
+stem = "Une fonction retire d'une liste simplement chaînée tous les maillons dont la donnée correspond à une référence, et les libère. Pourquoi doit-elle recevoir un `t_list **` plutôt qu'un `t_list *` ? Dans quel ordre faut-il décrocher puis libérer un maillon, et que se passe-t-il avec plusieurs maillons correspondants à la suite ?"
+explanation = "Retirer le premier maillon change la tête de la liste, et l'appelant doit voir ce changement : la fonction reçoit donc l'adresse du pointeur de tête. Pour retirer un maillon, on le sauvegarde, on fait pointer le lien qui menait à lui vers son `next`, puis on libère le maillon sauvegardé ; libérer d'abord et lire `next` ensuite reviendrait à lire une mémoire déjà libérée. Après un retrait, la position n'avance pas : le maillon qui occupe maintenant cette place n'a pas encore été testé, et c'est ce qui fait disparaître plusieurs maillons correspondants à la suite. Parcourir avec un pointeur vers le lien courant, en partant de la tête puis `&node->next`, traite la tête et le reste de la liste avec le même code."
+
+[questions.translations.es]
+title = "Quitar nodos de una lista enlazada"
+stem = "Una función quita de una lista simplemente enlazada todos los nodos cuyo dato coincide con una referencia, y los libera. ¿Por qué debe recibir un `t_list **` en lugar de un `t_list *`? ¿En qué orden hay que desenganchar y liberar un nodo, y qué pasa con varios nodos coincidentes seguidos?"
+explanation = "Quitar el primer nodo cambia la cabeza de la lista, y quien llama debe ver ese cambio, así que la función recibe la dirección del puntero de cabeza. Para quitar un nodo, se guarda, se hace que el enlace que llevaba a él apunte a su `next` y después se libera el nodo guardado; liberar primero y leer `next` después sería leer memoria ya liberada. Tras una eliminación, la posición no avanza: el nodo que ahora ocupa ese lugar todavía no se ha comprobado, y eso es lo que hace desaparecer varios nodos coincidentes seguidos. Recorrer con un puntero al enlace actual, empezando por la cabeza y luego `&node->next`, trata la cabeza y el resto de la lista con el mismo código."
+
+[[questions.choices]]
+correct = true
+text = { en = "A `t_list **`, because removing the first node changes the head the caller holds; unlink, then free, and do not advance after a removal", fr = "Un `t_list **`, parce que retirer le premier nœud change la tête que détient l'appelant ; détacher, puis libérer, et ne pas avancer après un retrait", es = "Un `t_list **`, porque quitar el primer nodo cambia la cabeza que tiene quien llama; desenlazar, después liberar, y no avanzar tras una eliminación" }
+
+[[questions.choices]]
+text = { en = "A `t_list *` is enough, since the nodes themselves are reached through it", fr = "Un `t_list *` suffit, puisque les nœuds eux-mêmes sont atteints par lui", es = "Un `t_list *` basta, ya que por él se alcanzan los propios nodos" }
+
+[[questions.choices]]
+text = { en = "Free the node first, then read its `next` to carry on down the list", fr = "Libérer le nœud d'abord, puis lire son `next` pour continuer la liste", es = "Liberar el nodo primero y luego leer su `next` para seguir la lista" }
+
+[[questions.choices]]
+text = { en = "Advance at every step, removal included: two matching nodes cannot follow each other", fr = "Avancer à chaque pas, retrait compris : deux nœuds correspondants ne peuvent pas se suivre", es = "Avanzar en cada paso, eliminación incluida: dos nodos coincidentes no pueden seguirse" }
+
+[[questions]]
+slug = "rank02-l3-splitting-into-words"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "memory"]
+key_points = [
+  "A first pass counts the words, so that the array of pointers can be allocated at the right size: number of words + 1.",
+  "The extra slot holds NULL, which marks the end of the array for the caller, who has no other way to know its length.",
+  "Each word is then copied into its own allocation of length + 1 bytes, terminator included.",
+  "If any allocation fails, every string already allocated and the array itself must be freed before returning NULL.",
+]
+
+[questions.translations.en]
+title = "Splitting a string into an array of words"
+stem = "A function splits a string into words separated by spaces, tabs or newlines, and returns a `NULL`-terminated array of newly allocated strings. How do you size the array, why does it need one slot more than there are words, and what must happen if an allocation fails halfway?"
+explanation = "A first pass counts the words, so that the array of pointers is allocated once, at the right size: the number of words plus one. That extra slot holds `NULL`, the only way for the caller to find the end of the array; three words therefore take four pointers. Each word is then copied into its own allocation of its length plus one byte, terminator included. If an allocation fails halfway, returning `NULL` straight away would leak the words already copied: they must all be freed, then the array itself, before returning `NULL`."
+
+[questions.translations.fr]
+title = "Découper une chaîne en tableau de mots"
+stem = "Une fonction découpe une chaîne en mots séparés par des espaces, des tabulations ou des retours à la ligne, et renvoie un tableau de chaînes nouvellement allouées terminé par `NULL`. Comment dimensionner le tableau, pourquoi lui faut-il une case de plus qu'il n'y a de mots, et que doit-il se passer si une allocation échoue en cours de route ?"
+explanation = "Un premier passage compte les mots, pour que le tableau de pointeurs soit alloué une seule fois, à la bonne taille : le nombre de mots plus un. Cette case en plus contient `NULL`, seul moyen pour l'appelant de trouver la fin du tableau ; trois mots occupent donc quatre pointeurs. Chaque mot est ensuite copié dans sa propre allocation de sa longueur plus un octet, terminateur compris. Si une allocation échoue en cours de route, renvoyer `NULL` aussitôt laisserait fuir les mots déjà copiés : il faut tous les libérer, puis le tableau lui-même, avant de renvoyer `NULL`."
+
+[questions.translations.es]
+title = "Dividir una cadena en un array de palabras"
+stem = "Una función divide una cadena en palabras separadas por espacios, tabulaciones o saltos de línea, y devuelve un array de cadenas recién reservadas terminado en `NULL`. ¿Cómo dimensionas el array, por qué necesita una casilla más que palabras hay y qué debe pasar si una reserva falla a medio camino?"
+explanation = "Una primera pasada cuenta las palabras, para que el array de punteros se reserve una sola vez y con el tamaño adecuado: el número de palabras más uno. Esa casilla extra contiene `NULL`, la única forma que tiene quien llama de encontrar el final del array; tres palabras ocupan por tanto cuatro punteros. Después, cada palabra se copia en su propia reserva de su longitud más un byte, terminador incluido. Si una reserva falla a medio camino, devolver `NULL` sin más dejaría perdidas las palabras ya copiadas: hay que liberarlas todas, y después el propio array, antes de devolver `NULL`."
+
+[[questions.choices]]
+correct = true
+text = { en = "Words + 1 pointers, the extra slot holding `NULL` to mark the end; on a failure, free every string already allocated and the array, then return `NULL`", fr = "Nombre de mots + 1 pointeurs, la case en trop contenant `NULL` pour marquer la fin ; en cas d'échec, libérer chaque chaîne déjà allouée et le tableau, puis renvoyer `NULL`", es = "Palabras + 1 punteros, la casilla de más con `NULL` para marcar el final; si algo falla, liberar cada cadena ya reservada y el array, y devolver `NULL`" }
+
+[[questions.choices]]
+text = { en = "As many pointers as words: the caller gets the length with `sizeof`", fr = "Autant de pointeurs que de mots : l'appelant obtient la longueur avec `sizeof`", es = "Tantos punteros como palabras: quien llama obtiene la longitud con `sizeof`" }
+
+[[questions.choices]]
+text = { en = "The extra slot holds the number of words, which the caller reads first", fr = "La case en trop contient le nombre de mots, que l'appelant lit en premier", es = "La casilla de más contiene el número de palabras, que quien llama lee primero" }
+
+[[questions.choices]]
+text = { en = "Returning `NULL` is enough on a failure: the allocations already made are freed when the program ends", fr = "Renvoyer `NULL` suffit en cas d'échec : les allocations déjà faites sont libérées à la fin du programme", es = "Devolver `NULL` basta si falla: las reservas ya hechas se liberan al terminar el programa" }
+
+[[questions]]
+slug = "rank02-l3-reversing-word-order"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "algorithms"]
+key_points = [
+  "One way walks the string from the end, finds each word's start and end, and prints the words from last to first.",
+  "Another way works in place: reverse the whole string, then reverse each word again, which restores the letters of every word while keeping the new word order.",
+  "The in-place method needs no extra memory and runs in linear time: every character is moved twice.",
+]
+
+[questions.translations.en]
+title = "Reversing the order of the words"
+stem = "You want the words of a sentence in reverse order, each word keeping its own spelling: `\"one two three\"` becomes `\"three two one\"`. Describe two ways to do it, one of them working in place in the string's memory. What does the in-place method cost?"
+explanation = "The first way walks the string from its end: it finds where each word ends and starts, and prints the words from the last to the first. The second works in place, in two steps. Reversing the whole string gives `\"eerht owt eno\"`: the words are in the right order but spelled backwards. Reversing each word once more restores its letters, and the result is `\"three two one\"`. That method needs no extra memory and runs in linear time, since every character is moved twice."
+
+[questions.translations.fr]
+title = "Inverser l'ordre des mots"
+stem = "On veut les mots d'une phrase dans l'ordre inverse, chaque mot gardant son orthographe : `\"one two three\"` devient `\"three two one\"`. Décrivez deux façons de faire, dont une qui travaille sur place, dans la mémoire de la chaîne. Que coûte la méthode sur place ?"
+explanation = "La première façon parcourt la chaîne depuis la fin : elle repère où chaque mot se termine et commence, et affiche les mots du dernier au premier. La seconde travaille sur place, en deux temps. Inverser toute la chaîne donne `\"eerht owt eno\"` : les mots sont dans le bon ordre mais écrits à l'envers. Inverser chaque mot une seconde fois rétablit ses lettres, et le résultat est `\"three two one\"`. Cette méthode n'a besoin d'aucune mémoire supplémentaire et tourne en temps linéaire, puisque chaque caractère est déplacé deux fois."
+
+[questions.translations.es]
+title = "Invertir el orden de las palabras"
+stem = "Quieres las palabras de una frase en orden inverso, conservando cada palabra su escritura: `\"one two three\"` se convierte en `\"three two one\"`. Describe dos formas de hacerlo, una de ellas trabajando en el sitio, en la memoria de la cadena. ¿Cuánto cuesta el método en el sitio?"
+explanation = "La primera forma recorre la cadena desde el final: localiza dónde termina y empieza cada palabra, y muestra las palabras de la última a la primera. La segunda trabaja en el sitio, en dos pasos. Invertir toda la cadena da `\"eerht owt eno\"`: las palabras están en el orden correcto pero escritas al revés. Invertir cada palabra una segunda vez restaura sus letras, y el resultado es `\"three two one\"`. Ese método no necesita memoria adicional y funciona en tiempo lineal, ya que cada carácter se mueve dos veces."
+
+[[questions.choices]]
+correct = true
+text = { en = "Reverse the whole string, then reverse each word again: linear, no extra memory, every character moved twice", fr = "Inverser toute la chaîne, puis réinverser chaque mot : linéaire, sans mémoire supplémentaire, chaque caractère déplacé deux fois", es = "Invertir toda la cadena y después volver a invertir cada palabra: lineal, sin memoria extra, cada carácter movido dos veces" }
+
+[[questions.choices]]
+text = { en = "Reversing the whole string is enough: the words then read in the right order", fr = "Inverser toute la chaîne suffit : les mots se lisent alors dans le bon ordre", es = "Invertir toda la cadena basta: las palabras se leen entonces en el orden correcto" }
+
+[[questions.choices]]
+text = { en = "In place it still needs a buffer the size of the longest word", fr = "Sur place, il faut quand même un tampon de la taille du mot le plus long", es = "En el sitio hace falta igualmente un búfer del tamaño de la palabra más larga" }
+
+[[questions.choices]]
+text = { en = "Only a second array of pointers can do it: the string's own memory cannot be reused", fr = "Seul un second tableau de pointeurs peut y arriver : la mémoire de la chaîne ne peut pas être réutilisée", es = "Solo un segundo array de punteros puede lograrlo: la memoria de la cadena no se puede reutilizar" }
+
+[[questions]]
+slug = "rank02-l3-sorting-an-array-in-place"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1000
+tags = ["sorting", "complexity"]
+key_points = [
+  "A simple in-place sort such as bubble sort compares neighbours and swaps them when out of order, repeating passes until a pass makes no swap.",
+  "Insertion sort instead takes each element in turn and shifts it left into its place among the already sorted ones.",
+  "Both only swap or shift elements, so duplicate values are kept, and both cost O(n²) comparisons in the worst case.",
+  "Faster sorts such as merge sort or quicksort run in O(n log n), which matters for large arrays.",
+]
+
+[questions.translations.en]
+title = "Sorting an array in place"
+stem = "Describe a simple way to sort an array of `int` in ascending order in its own memory, keeping duplicate values. How does it work, what does it cost, and when does that cost start to matter?"
+explanation = "Bubble sort walks the array comparing neighbours and swaps them when they are out of order; each pass pushes the largest remaining value to the end, and it stops after a pass with no swap. Insertion sort takes each element in turn and shifts it left until it sits among the already sorted ones, which is very fast on a nearly sorted array. Both only exchange or shift elements, so duplicates are kept, and both cost `O(n²)` comparisons in the worst case. That is fine for a few hundred values; for large arrays, merge sort or quicksort, in `O(n log n)`, make the difference."
+
+[questions.translations.fr]
+title = "Trier un tableau sur place"
+stem = "Décrivez une façon simple de trier par ordre croissant un tableau d'`int` dans sa propre mémoire, en gardant les valeurs en double. Comment fonctionne-t-elle, que coûte-t-elle, et à partir de quand ce coût compte-t-il ?"
+explanation = "Le tri à bulles parcourt le tableau en comparant les voisins et les échange quand ils sont dans le désordre ; chaque passage pousse la plus grande valeur restante vers la fin, et il s'arrête après un passage sans échange. Le tri par insertion prend chaque élément à son tour et le décale vers la gauche jusqu'à sa place parmi ceux déjà triés, ce qui est très rapide sur un tableau presque trié. Les deux ne font qu'échanger ou décaler des éléments, donc les doublons sont conservés, et les deux coûtent `O(n²)` comparaisons dans le pire cas. C'est très bien pour quelques centaines de valeurs ; pour de grands tableaux, le tri fusion ou le tri rapide, en `O(n log n)`, font la différence."
+
+[questions.translations.es]
+title = "Ordenar un array en el sitio"
+stem = "Describe una forma sencilla de ordenar de menor a mayor un array de `int` en su propia memoria, conservando los valores repetidos. ¿Cómo funciona, cuánto cuesta y a partir de cuándo importa ese coste?"
+explanation = "La ordenación de burbuja recorre el array comparando vecinos y los intercambia cuando están desordenados; cada pasada empuja el mayor valor restante hacia el final, y se detiene tras una pasada sin intercambios. La ordenación por inserción toma cada elemento por turno y lo desplaza a la izquierda hasta su lugar entre los ya ordenados, lo que es muy rápido con un array casi ordenado. Ambas solo intercambian o desplazan elementos, así que los repetidos se conservan, y ambas cuestan `O(n²)` comparaciones en el peor caso. Está muy bien para unos cientos de valores; para arrays grandes, la ordenación por mezcla o la rápida, en `O(n log n)`, marcan la diferencia."
+
+[[questions.choices]]
+correct = true
+text = { en = "Bubble sort swaps neighbours out of order, insertion sort shifts each element into place; both keep duplicates and cost O(n²) in the worst case", fr = "Le tri à bulles échange les voisins mal ordonnés, le tri par insertion décale chaque élément à sa place ; les deux gardent les doublons et coûtent O(n²) au pire", es = "La ordenación de burbuja intercambia vecinos desordenados, la de inserción desplaza cada elemento a su sitio; ambas conservan duplicados y cuestan O(n²) en el peor caso" }
+
+[[questions.choices]]
+text = { en = "Duplicate values must be removed first, otherwise the sort never ends", fr = "Les valeurs en double doivent être retirées d'abord, sinon le tri ne se termine jamais", es = "Hay que quitar primero los valores repetidos, si no la ordenación no termina nunca" }
+
+[[questions.choices]]
+text = { en = "Bubble sort costs O(n log n), like merge sort", fr = "Le tri à bulles coûte O(n log n), comme le tri fusion", es = "La ordenación de burbuja cuesta O(n log n), como la ordenación por mezcla" }
+
+[[questions.choices]]
+text = { en = "Sorting in place still requires a second array of the same size", fr = "Trier sur place demande quand même un second tableau de la même taille", es = "Ordenar en el sitio exige igualmente un segundo array del mismo tamaño" }
+
+[[questions]]
+slug = "rank02-l3-sorting-a-linked-list"
+topic = "exam-rank-02-level-3"
+kind = "free_text"
+difficulty = 1400
+tags = ["sorting", "linked-lists"]
+key_points = [
+  "The simplest method keeps the nodes in place and swaps their data, for instance with bubble passes, restarting from the head after each swap or until a pass makes no swap.",
+  "The ordering is given by a comparison function passed as a pointer, which tells whether two values are in the right order.",
+  "Relinking nodes instead of swapping data avoids copying large data but needs careful pointer updates, and may change which node is the head, so the new head is returned.",
+  "A list has no random access, so merge sort (split, sort each half, merge) suits it best, in O(n log n).",
+]
+
+[questions.translations.en]
+title = "Sorting a linked list"
+stem = "How can a singly linked list of integers be sorted according to a comparison function passed as a pointer? Compare swapping the data of the nodes with relinking the nodes themselves, and say which sorting algorithm suits a list best."
+explanation = "The simplest method leaves the nodes where they are and swaps their data: passes of bubble sort compare each node with the next one, ask the comparison function whether they are in order, and swap the two values when they are not, until a pass changes nothing. Relinking the nodes instead avoids copying large data, but every swap updates several pointers, and the head may change, so the function returns the new head. A list offers no access by index, which rules out many array sorts; merge sort fits it well: split the list in two, sort each half, merge them by relinking, in `O(n log n)`."
+
+[questions.translations.fr]
+title = "Trier une liste chaînée"
+stem = "Comment trier une liste simplement chaînée d'entiers selon une fonction de comparaison passée en pointeur ? Comparez l'échange des données des maillons et le réagencement des maillons eux-mêmes, et dites quel algorithme de tri convient le mieux à une liste."
+explanation = "La méthode la plus simple laisse les maillons à leur place et échange leurs données : des passages de tri à bulles comparent chaque maillon au suivant, demandent à la fonction de comparaison s'ils sont dans l'ordre, et échangent les deux valeurs sinon, jusqu'à un passage qui ne change rien. Réagencer les maillons évite de copier des données volumineuses, mais chaque échange met à jour plusieurs pointeurs, et la tête peut changer : la fonction renvoie donc la nouvelle tête. Une liste n'offre pas d'accès par indice, ce qui écarte beaucoup de tris de tableaux ; le tri fusion lui convient bien : couper la liste en deux, trier chaque moitié, les fusionner en réagençant les maillons, en `O(n log n)`."
+
+[questions.translations.es]
+title = "Ordenar una lista enlazada"
+stem = "¿Cómo se ordena una lista simplemente enlazada de enteros según una función de comparación pasada como puntero? Compara intercambiar los datos de los nodos con reenlazar los propios nodos, y di qué algoritmo de ordenación conviene más a una lista."
+explanation = "El método más sencillo deja los nodos en su sitio e intercambia sus datos: pasadas de ordenación de burbuja comparan cada nodo con el siguiente, preguntan a la función de comparación si están en orden e intercambian los dos valores si no lo están, hasta una pasada que no cambia nada. Reenlazar los nodos evita copiar datos grandes, pero cada intercambio actualiza varios punteros y la cabeza puede cambiar, así que la función devuelve la nueva cabeza. Una lista no ofrece acceso por índice, lo que descarta muchas ordenaciones de arrays; la ordenación por mezcla le va bien: dividir la lista en dos, ordenar cada mitad y fusionarlas reenlazando los nodos, en `O(n log n)`."
+
+[[questions.choices]]
+correct = true
+text = { en = "Swapping the data is simplest and leaves the head alone; relinking avoids copying but may change the head, which must then be returned, and merge sort suits a list best", fr = "Échanger les données est le plus simple et laisse la tête tranquille ; relier les nœuds évite la copie mais peut changer la tête, qu'il faut alors renvoyer, et le tri fusion convient le mieux à une liste", es = "Intercambiar los datos es lo más simple y no toca la cabeza; reenlazar evita copiar pero puede cambiar la cabeza, que hay que devolver, y la ordenación por mezcla es la que mejor le va a una lista" }
+
+[[questions.choices]]
+text = { en = "Quicksort suits a list best, since it works in place", fr = "Le tri rapide convient le mieux à une liste, puisqu'il travaille sur place", es = "La ordenación rápida es la que mejor le va a una lista, ya que trabaja en el sitio" }
+
+[[questions.choices]]
+text = { en = "Relinking never changes the head, which is fixed once the list is built", fr = "Relier les nœuds ne change jamais la tête, fixée une fois la liste construite", es = "Reenlazar nunca cambia la cabeza, fijada una vez construida la lista" }
+
+[[questions.choices]]
+text = { en = "A list can be sorted by index like an array, since reaching element `i` costs the same", fr = "Une liste peut être triée par indice comme un tableau, puisque atteindre l'élément `i` coûte pareil", es = "Una lista puede ordenarse por índice como un array, ya que llegar al elemento `i` cuesta lo mismo" }

@@ -1,0 +1,414 @@
+# Exam Rank 04, level 1: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank04-l1-recursive-descent"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["input-parsing", "recursion"]
+key_points = [
+  "The grammar is written as a set of rules, and each rule becomes one function that recognises its part of the input.",
+  "Each function looks at the current character to decide which alternative applies, consumes what it recognises and advances a shared position.",
+  "A rule that refers to another rule calls the corresponding function, and a rule that refers to itself, directly or not, makes the functions recursive.",
+  "Each function returns what it recognised: a value to compute with, or a node of a tree.",
+]
+
+[questions.translations.en]
+title = "Parsing by recursive descent"
+stem = "What is a recursive descent parser? How does a grammar turn into functions, how does each function decide what to do, and where does the recursion come from?"
+explanation = "The language to recognise is first written as a grammar, a set of rules such as \"an expression is a sum of terms\". Each rule becomes one function, which recognises its part of the input. That function looks at the current character to choose among the alternatives of its rule, consumes what it recognises and advances a position shared by all the functions. When a rule mentions another rule, the function calls the corresponding function; when a rule contains itself, directly or through other rules, as an expression between parentheses does, the functions become recursive. Each function returns what it has recognised: a value, or a node of a tree."
+
+[questions.translations.fr]
+title = "L'analyse par descente récursive"
+stem = "Qu'est-ce qu'un analyseur par descente récursive ? Comment une grammaire se transforme-t-elle en fonctions, comment chaque fonction décide-t-elle quoi faire, et d'où vient la récursion ?"
+explanation = "Le langage à reconnaître est d'abord écrit sous forme de grammaire, un ensemble de règles comme « une expression est une somme de termes ». Chaque règle devient une fonction, qui reconnaît sa partie de l'entrée. Cette fonction regarde le caractère courant pour choisir parmi les alternatives de sa règle, consomme ce qu'elle reconnaît et fait avancer une position partagée par toutes les fonctions. Quand une règle en mentionne une autre, la fonction appelle la fonction correspondante ; quand une règle se contient elle-même, directement ou à travers d'autres règles, comme une expression entre parenthèses, les fonctions deviennent récursives. Chaque fonction renvoie ce qu'elle a reconnu : une valeur, ou un nœud d'arbre."
+
+[questions.translations.es]
+title = "El análisis por descenso recursivo"
+stem = "¿Qué es un analizador por descenso recursivo? ¿Cómo se convierte una gramática en funciones, cómo decide cada función qué hacer y de dónde viene la recursión?"
+explanation = "El lenguaje que se quiere reconocer se escribe primero como una gramática, un conjunto de reglas como «una expresión es una suma de términos». Cada regla se convierte en una función, que reconoce su parte de la entrada. Esa función mira el carácter actual para elegir entre las alternativas de su regla, consume lo que reconoce y hace avanzar una posición compartida por todas las funciones. Cuando una regla menciona otra, la función llama a la función correspondiente; cuando una regla se contiene a sí misma, directamente o a través de otras reglas, como una expresión entre paréntesis, las funciones se vuelven recursivas. Cada función devuelve lo que ha reconocido: un valor o un nodo de un árbol."
+
+[[questions.choices]]
+correct = true
+text = { en = "Each grammar rule becomes a function that looks at the current character, consumes what it recognises and advances a shared position; a rule referring to itself makes the functions recursive", fr = "Chaque règle de grammaire devient une fonction qui regarde le caractère courant, consomme ce qu'elle reconnaît et avance une position partagée ; une règle qui se réfère à elle-même rend les fonctions récursives", es = "Cada regla de la gramática se vuelve una función que mira el carácter actual, consume lo que reconoce y avanza una posición compartida; una regla que se refiere a sí misma hace recursivas las funciones" }
+
+[[questions.choices]]
+text = { en = "The whole input is first cut into tokens, then a table says which rule applies to each one", fr = "L'entrée est d'abord découpée en jetons, puis une table dit quelle règle s'applique à chacun", es = "La entrada se corta primero en fichas y después una tabla dice qué regla se aplica a cada una" }
+
+[[questions.choices]]
+text = { en = "Each function works on its own copy of the input, which is why they never interfere", fr = "Chaque fonction travaille sur sa propre copie de l'entrée, c'est pourquoi elles n'interfèrent jamais", es = "Cada función trabaja sobre su propia copia de la entrada, por eso nunca interfieren" }
+
+[[questions.choices]]
+text = { en = "The recursion comes from the length of the input: one call per character read", fr = "La récursion vient de la longueur de l'entrée : un appel par caractère lu", es = "La recursión viene de la longitud de la entrada: una llamada por carácter leído" }
+
+[[questions]]
+slug = "rank04-l1-operator-precedence"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["input-parsing", "algorithms"]
+key_points = [
+  "Precedence is encoded by layering the grammar: expr = term { '+' term }, term = factor { '*' factor }, factor = digit | '(' expr ')'.",
+  "The operator of lowest precedence sits in the top rule, so the operands of + are whole products, which are computed first.",
+  "With this grammar 2+3*4 is 14, not 20, because the term 3*4 is computed before being added.",
+  "A new level of precedence is a new rule between existing ones.",
+]
+
+[questions.translations.en]
+title = "Operator precedence in a grammar"
+stem = "An expression parser must compute `2+3*4` as 14 and `(2+3)*4` as 20. How do you write the grammar so that multiplication binds tighter than addition, without any precedence table? Give the rules."
+explanation = "Precedence comes from the way the rules are layered: `expr = term { '+' term }`, `term = factor { '*' factor }`, `factor = digit | '(' expr ')'`. The lowest-priority operator lives in the top rule, so the operands of `+` are whole terms, and a term is a complete product, computed before the addition sees it: in `2+3*4`, the term `3*4` gives 12 and the result is 14. Parentheses go back to the top rule from inside `factor`, which is why `(2+3)*4` gives 20. Adding another level of priority means adding one more rule between the existing ones."
+
+[questions.translations.fr]
+title = "La priorité des opérateurs dans une grammaire"
+stem = "Un analyseur d'expressions doit calculer `2+3*4` comme 14 et `(2+3)*4` comme 20. Comment écrire la grammaire pour que la multiplication soit prioritaire sur l'addition, sans aucune table de priorités ? Donnez les règles."
+explanation = "La priorité vient de l'étagement des règles : `expr = term { '+' term }`, `term = factor { '*' factor }`, `factor = chiffre | '(' expr ')'`. L'opérateur le moins prioritaire se trouve dans la règle du haut : les opérandes de `+` sont donc des termes entiers, et un terme est un produit complet, calculé avant que l'addition ne le voie. Dans `2+3*4`, le terme `3*4` donne 12 et le résultat vaut 14. Les parenthèses remontent à la règle du haut depuis `factor`, c'est pourquoi `(2+3)*4` donne 20. Ajouter un niveau de priorité revient à ajouter une règle entre celles qui existent."
+
+[questions.translations.es]
+title = "La prioridad de los operadores en una gramática"
+stem = "Un analizador de expresiones debe calcular `2+3*4` como 14 y `(2+3)*4` como 20. ¿Cómo escribes la gramática para que la multiplicación tenga prioridad sobre la suma, sin ninguna tabla de prioridades? Da las reglas."
+explanation = "La prioridad sale de cómo se escalonan las reglas: `expr = term { '+' term }`, `term = factor { '*' factor }`, `factor = cifra | '(' expr ')'`. El operador de menor prioridad está en la regla superior, así que los operandos de `+` son términos enteros, y un término es un producto completo, calculado antes de que la suma lo vea: en `2+3*4`, el término `3*4` da 12 y el resultado es 14. Los paréntesis vuelven a la regla superior desde `factor`, por eso `(2+3)*4` da 20. Añadir un nivel de prioridad consiste en añadir una regla entre las que ya existen."
+
+[[questions.choices]]
+correct = true
+text = { en = "Layer the grammar: `expr = term { '+' term }`, `term = factor { '*' factor }`, `factor = digit | '(' expr ')'` — the lowest precedence sits in the top rule", fr = "Étager la grammaire : `expr = terme { '+' terme }`, `terme = facteur { '*' facteur }`, `facteur = chiffre | '(' expr ')'` — la priorité la plus faible est dans la règle du haut", es = "Estratificar la gramática: `expr = term { '+' term }`, `term = factor { '*' factor }`, `factor = cifra | '(' expr ')'` — la prioridad más baja va en la regla de arriba" }
+
+[[questions.choices]]
+text = { en = "Put the highest precedence in the top rule: `expr = term { '*' term }` and `term = factor { '+' factor }`", fr = "Mettre la priorité la plus forte dans la règle du haut : `expr = terme { '*' terme }` et `terme = facteur { '+' facteur }`", es = "Poner la prioridad más alta en la regla de arriba: `expr = term { '*' term }` y `term = factor { '+' factor }`" }
+
+[[questions.choices]]
+text = { en = "A single rule `expr = expr op expr` is enough, with a table giving each operator's precedence", fr = "Une seule règle `expr = expr op expr` suffit, avec une table donnant la priorité de chaque opérateur", es = "Basta una sola regla `expr = expr op expr`, con una tabla que dé la prioridad de cada operador" }
+
+[[questions.choices]]
+text = { en = "With that layered grammar `2+3*4` gives 20, since `2+3` is recognised first", fr = "Avec cette grammaire étagée, `2+3*4` donne 20, puisque `2+3` est reconnu en premier", es = "Con esa gramática estratificada, `2+3*4` da 20, ya que `2+3` se reconoce primero" }
+
+[[questions]]
+slug = "rank04-l1-parentheses-and-recursion"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["recursion", "input-parsing"]
+key_points = [
+  "When the factor rule meets '(', it consumes it, calls the top rule to parse the whole inner expression, then requires a ')'.",
+  "The inner expression is therefore computed completely before the operator outside the parentheses uses its value.",
+  "Each level of nesting adds one level of recursion, so the recursion depth follows the nesting depth.",
+  "A missing ')' is detected when the inner call returns and the current character is not ')'.",
+]
+
+[questions.translations.en]
+title = "Parentheses and recursion"
+stem = "In a recursive descent parser for arithmetic, how are parentheses handled? Why does this make the inside of the parentheses be computed first, how deep does the recursion go, and how is a missing `)` detected?"
+explanation = "When the rule for a factor meets `(`, it consumes it and calls the top rule, the one for a whole expression, which parses everything inside; when that call returns, the current character must be `)`, which is then consumed. The value of the parenthesised expression is therefore complete before the operator outside uses it. Each level of nesting adds a level of recursion: in `2*(3+(4*(1+1)))` the calls go three levels deep. If the inner call returns on any character other than `)`, a closing parenthesis is missing, and that is where the error is reported."
+
+[questions.translations.fr]
+title = "Les parenthèses et la récursion"
+stem = "Dans un analyseur arithmétique par descente récursive, comment traite-t-on les parenthèses ? Pourquoi cela fait-il calculer l'intérieur des parenthèses en premier, jusqu'à quelle profondeur va la récursion, et comment détecte-t-on une `)` manquante ?"
+explanation = "Quand la règle d'un facteur rencontre `(`, elle la consomme et appelle la règle du haut, celle d'une expression entière, qui analyse tout l'intérieur ; au retour de cet appel, le caractère courant doit être `)`, qui est alors consommée. La valeur de l'expression entre parenthèses est donc complète avant que l'opérateur extérieur ne s'en serve. Chaque niveau d'imbrication ajoute un niveau de récursion : dans `2*(3+(4*(1+1)))`, les appels descendent de trois niveaux. Si l'appel intérieur revient sur un autre caractère que `)`, une parenthèse fermante manque, et c'est là que l'erreur est signalée."
+
+[questions.translations.es]
+title = "Los paréntesis y la recursión"
+stem = "En un analizador aritmético por descenso recursivo, ¿cómo se tratan los paréntesis? ¿Por qué hace esto que el interior de los paréntesis se calcule primero, hasta qué profundidad llega la recursión y cómo se detecta un `)` que falta?"
+explanation = "Cuando la regla de un factor encuentra `(`, lo consume y llama a la regla superior, la de una expresión completa, que analiza todo el interior; al volver de esa llamada, el carácter actual debe ser `)`, que entonces se consume. El valor de la expresión entre paréntesis está, por tanto, completo antes de que el operador exterior lo use. Cada nivel de anidamiento añade un nivel de recursión: en `2*(3+(4*(1+1)))`, las llamadas bajan tres niveles. Si la llamada interior vuelve sobre un carácter distinto de `)`, falta un paréntesis de cierre, y es ahí donde se informa del error."
+
+[[questions.choices]]
+correct = true
+text = { en = "The `factor` rule consumes `(`, calls the top rule for the whole inner expression, then requires `)`; the depth follows the nesting, and a missing `)` is caught on return", fr = "La règle `facteur` consomme `(`, appelle la règle du haut pour toute l'expression intérieure, puis exige `)` ; la profondeur suit l'imbrication, et un `)` manquant est détecté au retour", es = "La regla `factor` consume `(`, llama a la regla de arriba para toda la expresión interior y después exige `)`; la profundidad sigue al anidamiento, y un `)` que falta se detecta al volver" }
+
+[[questions.choices]]
+text = { en = "The parser first counts the parentheses to find the matching one, then parses what is between them", fr = "L'analyseur compte d'abord les parenthèses pour trouver la correspondante, puis analyse ce qu'il y a entre elles", es = "El analizador cuenta primero los paréntesis para hallar el correspondiente y después analiza lo que hay entre ellos" }
+
+[[questions.choices]]
+text = { en = "Parentheses are handled by the `term` rule, since they change the precedence of the operators", fr = "Les parenthèses sont traitées par la règle `terme`, puisqu'elles changent la priorité des opérateurs", es = "Los paréntesis los trata la regla `term`, ya que cambian la prioridad de los operadores" }
+
+[[questions.choices]]
+text = { en = "The recursion depth stays constant, whatever the nesting of the parentheses", fr = "La profondeur de récursion reste constante, quelle que soit l'imbrication des parenthèses", es = "La profundidad de recursión sigue constante, sea cual sea el anidamiento de los paréntesis" }
+
+[[questions]]
+slug = "rank04-l1-reporting-parse-errors"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["input-parsing", "error-handling"]
+key_points = [
+  "An error is detected where the grammar expects something specific (a digit, an operand, a closing parenthesis) and the current character does not fit.",
+  "Two cases are told apart: an unexpected character, reported with that character, and the input ending too early, reported as such.",
+  "After a complete expression, any remaining character is also an error (for example the ')' in 2)).",
+  "Once an error is found, parsing stops, and the first error is the one reported, with a failure exit status.",
+]
+
+[questions.translations.en]
+title = "Reporting parse errors"
+stem = "A parser must reject malformed expressions such as `2+`, `(2`, `2)` or `2+*3`, and say what went wrong. Where exactly is each error detected, which two kinds of error must be told apart, and what happens after the first one?"
+explanation = "An error shows up where the grammar expects something precise, a digit, an operand or a closing parenthesis, and the current character does not fit. Two kinds must be told apart. Either a character is there but is not acceptable, and it is named in the message: `*` in `2+*3`, where an operand was expected. Or the input ends while something is still expected: after the `+` of `2+`, or before the `)` of `(2`. A complete expression followed by more characters is also an error: the `)` of `2)`. Parsing stops at the first error, which is the one reported, and the program exits with a failure status."
+
+[questions.translations.fr]
+title = "Signaler les erreurs d'analyse"
+stem = "Un analyseur doit refuser des expressions mal formées comme `2+`, `(2`, `2)` ou `2+*3`, et dire ce qui ne va pas. Où chaque erreur est-elle détectée exactement, quelles deux sortes d'erreurs faut-il distinguer, et que se passe-t-il après la première ?"
+explanation = "Une erreur apparaît là où la grammaire attend quelque chose de précis, un chiffre, un opérande ou une parenthèse fermante, et où le caractère courant ne convient pas. Il faut distinguer deux sortes d'erreurs. Soit un caractère est présent mais pas acceptable, et on le nomme dans le message : le `*` de `2+*3`, là où un opérande était attendu. Soit l'entrée se termine alors que quelque chose est encore attendu : après le `+` de `2+`, ou avant la `)` de `(2`. Une expression complète suivie d'autres caractères est aussi une erreur : la `)` de `2)`. L'analyse s'arrête à la première erreur, qui est celle qu'on signale, et le programme se termine avec un code d'échec."
+
+[questions.translations.es]
+title = "Informar de errores de análisis"
+stem = "Un analizador debe rechazar expresiones mal formadas como `2+`, `(2`, `2)` o `2+*3`, y decir qué falla. ¿Dónde se detecta exactamente cada error, qué dos tipos de error hay que distinguir y qué pasa después del primero?"
+explanation = "Un error aparece donde la gramática espera algo concreto, una cifra, un operando o un paréntesis de cierre, y el carácter actual no encaja. Hay que distinguir dos tipos. O bien hay un carácter pero no es aceptable, y se nombra en el mensaje: el `*` de `2+*3`, donde se esperaba un operando. O bien la entrada termina cuando todavía se espera algo: después del `+` de `2+`, o antes del `)` de `(2`. Una expresión completa seguida de más caracteres también es un error: el `)` de `2)`. El análisis se detiene en el primer error, que es el que se comunica, y el programa termina con un código de fallo."
+
+[[questions.choices]]
+correct = true
+text = { en = "Where a rule expects something precise; an unexpected character and an input ending too early are told apart, a leftover character after a complete expression is an error too, and the first error stops the parse", fr = "Là où une règle attend quelque chose de précis ; un caractère inattendu et une entrée qui s'arrête trop tôt sont distingués, un caractère restant après une expression complète est aussi une erreur, et la première erreur arrête l'analyse", es = "Donde una regla espera algo concreto; se distinguen un carácter inesperado y una entrada que acaba pronto, un carácter sobrante tras una expresión completa también es error, y el primer error para el análisis" }
+
+[[questions.choices]]
+text = { en = "Errors are collected to the end and reported together, which is more helpful", fr = "Les erreurs sont collectées jusqu'au bout et signalées ensemble, ce qui aide davantage", es = "Los errores se recogen hasta el final y se informan juntos, lo que ayuda más" }
+
+[[questions.choices]]
+text = { en = "`2)` is valid: the parser stops on a complete expression and ignores what follows", fr = "`2)` est valide : l'analyseur s'arrête sur une expression complète et ignore ce qui suit", es = "`2)` es válido: el analizador para en una expresión completa e ignora lo que sigue" }
+
+[[questions.choices]]
+text = { en = "An input ending too early and an unexpected character are the same case, since neither matches the grammar", fr = "Une entrée qui s'arrête trop tôt et un caractère inattendu sont le même cas, puisque ni l'un ni l'autre ne colle à la grammaire", es = "Una entrada que acaba pronto y un carácter inesperado son el mismo caso, ya que ninguno encaja con la gramática" }
+
+[[questions]]
+slug = "rank04-l1-associativity"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["input-parsing", "algorithms"]
+key_points = [
+  "Operators of equal precedence are usually left-associative: 8-3-2 means (8-3)-2, which is 3.",
+  "A rule written with a loop (term { '-' term }) accumulates from left to right and gives left associativity.",
+  "A rule written with right recursion (expr = term '-' expr) groups from the right and computes 8-(3-2), which is 7.",
+  "For + and *, which are associative, both give the same value; for - and / the choice changes the result.",
+]
+
+[questions.translations.en]
+title = "Associativity: left or right"
+stem = "`8-3-2` should equal 3. A parser written with the rule `expr = term '-' expr` returns 7. Why? How must the rule be written to get the usual behaviour, and why does the problem not show with `+` and `*`?"
+explanation = "Operators of equal precedence are normally grouped from the left: `8-3-2` means `(8-3)-2`, which is 3. The rule `expr = term '-' expr` is right-recursive: it takes 8, then parses everything after the minus as a whole expression, which computes `8-(3-2)`, that is 7. Written with a loop, `expr = term { '-' term }`, the value is accumulated from left to right, each new term being subtracted from the running result, which gives left associativity. With `+` and `*`, which are associative, both groupings give the same value, which is why the mistake only shows with `-` and `/`."
+
+[questions.translations.fr]
+title = "L'associativité : à gauche ou à droite"
+stem = "`8-3-2` devrait valoir 3. Un analyseur écrit avec la règle `expr = term '-' expr` renvoie 7. Pourquoi ? Comment écrire la règle pour obtenir le comportement habituel, et pourquoi le problème ne se voit-il pas avec `+` et `*` ?"
+explanation = "Les opérateurs de même priorité se regroupent normalement à partir de la gauche : `8-3-2` signifie `(8-3)-2`, soit 3. La règle `expr = term '-' expr` est récursive à droite : elle prend 8, puis analyse tout ce qui suit le moins comme une expression entière, ce qui calcule `8-(3-2)`, soit 7. Écrite avec une boucle, `expr = term { '-' term }`, la valeur s'accumule de gauche à droite, chaque nouveau terme étant retranché du résultat courant, ce qui donne l'associativité à gauche. Avec `+` et `*`, qui sont associatifs, les deux regroupements donnent la même valeur : c'est pourquoi l'erreur ne se voit qu'avec `-` et `/`."
+
+[questions.translations.es]
+title = "La asociatividad: por la izquierda o por la derecha"
+stem = "`8-3-2` debería valer 3. Un analizador escrito con la regla `expr = term '-' expr` devuelve 7. ¿Por qué? ¿Cómo hay que escribir la regla para obtener el comportamiento habitual, y por qué el problema no se nota con `+` y `*`?"
+explanation = "Los operadores de igual prioridad se agrupan normalmente desde la izquierda: `8-3-2` significa `(8-3)-2`, es decir, 3. La regla `expr = term '-' expr` es recursiva por la derecha: toma el 8 y después analiza todo lo que sigue al menos como una expresión completa, lo que calcula `8-(3-2)`, es decir, 7. Escrita con un bucle, `expr = term { '-' term }`, el valor se acumula de izquierda a derecha, restando cada término nuevo del resultado actual, lo que da asociatividad por la izquierda. Con `+` y `*`, que son asociativos, las dos agrupaciones dan el mismo valor: por eso el error solo se nota con `-` y `/`."
+
+[[questions.choices]]
+correct = true
+text = { en = "Right recursion groups from the right and computes `8-(3-2)`; a loop `term { '-' term }` accumulates left to right, and for `+` and `*` both give the same value", fr = "La récursion à droite groupe par la droite et calcule `8-(3-2)` ; une boucle `terme { '-' terme }` accumule de gauche à droite, et pour `+` et `*` les deux donnent la même valeur", es = "La recursión por la derecha agrupa desde la derecha y calcula `8-(3-2)`; un bucle `term { '-' term }` acumula de izquierda a derecha, y para `+` y `*` ambas dan lo mismo" }
+
+[[questions.choices]]
+text = { en = "The rule is right: `8-3-2` really is 7, and the expected 3 comes from a wrong reading", fr = "La règle est juste : `8-3-2` vaut bien 7, et le 3 attendu vient d'une lecture erronée", es = "La regla es correcta: `8-3-2` vale 7, y el 3 esperado viene de una lectura equivocada" }
+
+[[questions.choices]]
+text = { en = "Associativity is a matter of precedence: giving `-` a higher precedence than `+` fixes it", fr = "L'associativité est une affaire de priorité : donner à `-` une priorité plus forte qu'à `+` corrige le problème", es = "La asociatividad es cuestión de prioridad: dar a `-` más prioridad que a `+` lo arregla" }
+
+[[questions.choices]]
+text = { en = "The same problem shows with `+` and `*`, whose results also change with the grouping", fr = "Le même problème apparaît avec `+` et `*`, dont les résultats changent aussi avec le groupement", es = "El mismo problema aparece con `+` y `*`, cuyos resultados también cambian con la agrupación" }
+
+[[questions]]
+slug = "rank04-l1-evaluate-or-build-a-tree"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["data-structures", "memory"]
+key_points = [
+  "A parser can compute the value directly as it recognises the input: each function returns a number.",
+  "It can instead build a syntax tree: each function returns a node whose children are the sub-expressions, and a separate pass evaluates or prints the tree.",
+  "The tree separates parsing from what is done with the result, at the cost of allocating nodes.",
+  "Every node must be freed recursively (children first) once used, and on an error the partial tree must be freed too.",
+]
+
+[questions.translations.en]
+title = "Computing directly or building a tree"
+stem = "A parser can return the value of an expression directly, or build a syntax tree that another function then evaluates or prints. How does each approach work, what does the tree bring, and what memory work does it require, including when an error occurs?"
+explanation = "Computing directly is the simplest: each parsing function returns a number, and the value comes out as the input is recognised. Building a tree means each function returns a node instead, for instance an operator whose children are the two sub-expressions; a separate function then walks the tree to evaluate it, print it or transform it. The tree separates recognising the input from using it, which pays off as soon as the result is used several times or in several ways. In return, every node is allocated, and the whole tree must be freed recursively, children before their parent, including the partial tree left behind when an error stops the parsing."
+
+[questions.translations.fr]
+title = "Calculer directement ou construire un arbre"
+stem = "Un analyseur peut renvoyer directement la valeur d'une expression, ou construire un arbre syntaxique qu'une autre fonction évalue ou affiche ensuite. Comment fonctionne chaque approche, qu'apporte l'arbre, et quel travail mémoire demande-t-il, y compris quand une erreur survient ?"
+explanation = "Calculer directement est le plus simple : chaque fonction d'analyse renvoie un nombre, et la valeur sort au fur et à mesure que l'entrée est reconnue. Construire un arbre signifie que chaque fonction renvoie plutôt un nœud, par exemple un opérateur dont les enfants sont les deux sous-expressions ; une fonction séparée parcourt ensuite l'arbre pour l'évaluer, l'afficher ou le transformer. L'arbre sépare la reconnaissance de l'entrée de son utilisation, ce qui paie dès que le résultat sert plusieurs fois ou de plusieurs façons. En échange, chaque nœud est alloué, et tout l'arbre doit être libéré récursivement, les enfants avant leur parent, y compris l'arbre partiel laissé par une erreur qui interrompt l'analyse."
+
+[questions.translations.es]
+title = "Calcular directamente o construir un árbol"
+stem = "Un analizador puede devolver directamente el valor de una expresión, o construir un árbol sintáctico que otra función evalúa o muestra después. ¿Cómo funciona cada enfoque, qué aporta el árbol y qué trabajo de memoria exige, también cuando se produce un error?"
+explanation = "Calcular directamente es lo más sencillo: cada función de análisis devuelve un número, y el valor sale a medida que se reconoce la entrada. Construir un árbol significa que cada función devuelve en cambio un nodo, por ejemplo un operador cuyos hijos son las dos subexpresiones; una función aparte recorre después el árbol para evaluarlo, mostrarlo o transformarlo. El árbol separa el reconocimiento de la entrada de su uso, lo que compensa en cuanto el resultado sirve varias veces o de varias formas. A cambio, cada nodo se reserva, y todo el árbol debe liberarse recursivamente, los hijos antes que su padre, incluido el árbol parcial que deja un error que interrumpe el análisis."
+
+[[questions.choices]]
+correct = true
+text = { en = "Either each function returns a number, or it returns a node whose children are the sub-expressions; the tree separates parsing from use, and must be freed children first, partial tree included on an error", fr = "Soit chaque fonction renvoie un nombre, soit elle renvoie un nœud dont les enfants sont les sous-expressions ; l'arbre sépare l'analyse de l'usage, et se libère enfants d'abord, arbre partiel compris en cas d'erreur", es = "O cada función devuelve un número, o devuelve un nodo cuyos hijos son las subexpresiones; el árbol separa el análisis del uso y se libera hijos primero, árbol parcial incluido si hay error" }
+
+[[questions.choices]]
+text = { en = "The tree is freed from the root down, the node before its children", fr = "L'arbre se libère depuis la racine, le nœud avant ses enfants", es = "El árbol se libera desde la raíz, el nodo antes que sus hijos" }
+
+[[questions.choices]]
+text = { en = "On an error the partial tree can be left as it is: it is unreachable, so it costs nothing", fr = "En cas d'erreur l'arbre partiel peut être laissé tel quel : il est inaccessible, donc sans coût", es = "Si hay error el árbol parcial puede dejarse tal cual: es inalcanzable, así que no cuesta nada" }
+
+[[questions.choices]]
+text = { en = "A tree is required to respect precedence; computing directly can only apply the operators left to right", fr = "Un arbre est nécessaire pour respecter les priorités ; calculer directement ne peut qu'appliquer les opérateurs de gauche à droite", es = "Hace falta un árbol para respetar las prioridades; calcular directamente solo puede aplicar los operadores de izquierda a derecha" }
+
+[[questions]]
+slug = "rank04-l1-json-value-grammar"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["input-parsing", "recursion"]
+key_points = [
+  "A JSON value is recognised by its first character: a digit or '-' starts a number, '\"' starts a string, '{' starts an object.",
+  "An object is '{', then zero or more pairs separated by ',', each pair being a string key, ':', and a value, then '}'.",
+  "Because a value inside an object can itself be an object, the value and object functions call each other recursively, to any depth.",
+  "Any character that does not fit where it appears (a missing ':', a trailing ',', end of input inside an object) is an error.",
+]
+
+[questions.translations.en]
+title = "The grammar of a JSON value"
+stem = "A parser handles a subset of JSON made of integers, strings and objects. How does it know which kind of value comes next, what is the structure of an object, and why is the parser naturally recursive?"
+explanation = "The first character of a value is enough to know its kind: a digit or a `-` starts a number, a `\"` starts a string, a `{` starts an object; anything else is an error. An object is a `{`, then zero or more pairs separated by commas, each made of a string key, a `:` and a value, then a `}`. Since the value of a pair can itself be an object, the function that parses a value and the one that parses an object call each other, as deep as the nesting goes. Everything is checked on the way: a missing `:`, a comma just before `}`, or the input ending inside an object are errors."
+
+[questions.translations.fr]
+title = "La grammaire d'une valeur JSON"
+stem = "Un analyseur traite un sous-ensemble de JSON fait d'entiers, de chaînes et d'objets. Comment sait-il quel genre de valeur arrive, quelle est la structure d'un objet, et pourquoi l'analyseur est-il naturellement récursif ?"
+explanation = "Le premier caractère d'une valeur suffit à en connaître le genre : un chiffre ou un `-` commence un nombre, un `\"` commence une chaîne, une `{` commence un objet ; tout autre caractère est une erreur. Un objet est une `{`, puis zéro, une ou plusieurs paires séparées par des virgules, chacune formée d'une clé qui est une chaîne, d'un `:` et d'une valeur, puis une `}`. Comme la valeur d'une paire peut elle-même être un objet, la fonction qui analyse une valeur et celle qui analyse un objet s'appellent l'une l'autre, aussi profondément que va l'imbrication. Tout est vérifié au passage : un `:` manquant, une virgule juste avant `}`, ou une entrée qui se termine à l'intérieur d'un objet sont des erreurs."
+
+[questions.translations.es]
+title = "La gramática de un valor JSON"
+stem = "Un analizador trata un subconjunto de JSON formado por enteros, cadenas y objetos. ¿Cómo sabe qué tipo de valor viene, cuál es la estructura de un objeto y por qué el analizador es recursivo de forma natural?"
+explanation = "El primer carácter de un valor basta para saber su tipo: una cifra o un `-` empiezan un número, una `\"` empieza una cadena, una `{` empieza un objeto; cualquier otro carácter es un error. Un objeto es una `{`, después cero o más pares separados por comas, cada uno formado por una clave que es una cadena, un `:` y un valor, y después una `}`. Como el valor de un par puede ser a su vez un objeto, la función que analiza un valor y la que analiza un objeto se llaman una a otra, tan hondo como llegue el anidamiento. Todo se comprueba por el camino: un `:` que falta, una coma justo antes de `}` o una entrada que termina dentro de un objeto son errores."
+
+[[questions.choices]]
+correct = true
+text = { en = "The first character decides: a digit or `-` a number, `\"` a string, `{` an object; an object holds pairs `key : value` separated by `,`, and a value may itself be an object, hence the recursion", fr = "Le premier caractère décide : un chiffre ou `-` un nombre, `\"` une chaîne, `{` un objet ; un objet contient des paires `clé : valeur` séparées par `,`, et une valeur peut elle-même être un objet, d'où la récursion", es = "El primer carácter decide: una cifra o `-` un número, `\"` una cadena, `{` un objeto; un objeto tiene pares `clave : valor` separados por `,`, y un valor puede ser a su vez un objeto, de ahí la recursión" }
+
+[[questions.choices]]
+text = { en = "The whole text must be read first to know the kind of each value", fr = "Tout le texte doit être lu d'abord pour connaître le type de chaque valeur", es = "Hay que leer todo el texto primero para saber el tipo de cada valor" }
+
+[[questions.choices]]
+text = { en = "An object's keys can be of any kind, which is what makes the parser recursive", fr = "Les clés d'un objet peuvent être de n'importe quel type, c'est ce qui rend l'analyseur récursif", es = "Las claves de un objeto pueden ser de cualquier tipo, eso es lo que hace recursivo al analizador" }
+
+[[questions.choices]]
+text = { en = "A comma after the last pair is harmless and must be accepted", fr = "Une virgule après la dernière paire est sans conséquence et doit être acceptée", es = "Una coma tras el último par no molesta y debe aceptarse" }
+
+[[questions]]
+slug = "rank04-l1-strings-with-escapes"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["input-parsing", "strings"]
+key_points = [
+  "A string runs from its opening quote to the next quote that is not escaped.",
+  "A backslash means the next character is taken literally: \\\" stores a quote and \\\\ stores a backslash; any other escape the format does not support is an error.",
+  "Reaching the end of the input before the closing quote is an error (unterminated string).",
+  "Since the stored text is shorter than its written form, the characters are copied one by one, skipping the backslashes, into a buffer that grows as needed.",
+]
+
+[questions.translations.en]
+title = "Reading a quoted string with escapes"
+stem = "In a quoted string, a quote can appear inside the text if it is escaped, as in `\"say \\\"hi\\\"\"`. How does a parser find the end of the string, what does a backslash do, and which situations are errors?"
+explanation = "The string starts at its opening quote and ends at the next quote that is not escaped. A backslash means the character after it is taken literally: `\\\"` puts a quote into the text instead of ending the string, and `\\\\` puts a single backslash; so `\"say \\\"hi\\\"\"` holds the text `say \"hi\"`. An escape the format does not support, or the input ending before the closing quote, are errors. Since the stored text is shorter than what was written, the characters are copied one at a time without their backslashes, into a buffer that grows as needed."
+
+[questions.translations.fr]
+title = "Lire une chaîne entre guillemets avec échappements"
+stem = "Dans une chaîne entre guillemets, un guillemet peut apparaître dans le texte s'il est échappé, comme dans `\"say \\\"hi\\\"\"`. Comment un analyseur trouve-t-il la fin de la chaîne, que fait une barre oblique inverse, et quelles situations sont des erreurs ?"
+explanation = "La chaîne commence à son guillemet ouvrant et se termine au guillemet suivant qui n'est pas échappé. Une barre oblique inverse signifie que le caractère qui la suit est pris tel quel : `\\\"` met un guillemet dans le texte au lieu de terminer la chaîne, et `\\\\` met une seule barre oblique inverse ; `\"say \\\"hi\\\"\"` contient ainsi le texte `say \"hi\"`. Un échappement que le format ne prévoit pas, ou une entrée qui se termine avant le guillemet fermant, sont des erreurs. Comme le texte rangé est plus court que ce qui était écrit, les caractères sont copiés un à un sans leurs barres obliques inverses, dans un tampon qui grandit au besoin."
+
+[questions.translations.es]
+title = "Leer una cadena entre comillas con escapes"
+stem = "En una cadena entre comillas, una comilla puede aparecer dentro del texto si está escapada, como en `\"say \\\"hi\\\"\"`. ¿Cómo encuentra un analizador el final de la cadena, qué hace una barra invertida y qué situaciones son errores?"
+explanation = "La cadena empieza en su comilla de apertura y termina en la siguiente comilla que no esté escapada. Una barra invertida significa que el carácter que la sigue se toma literalmente: `\\\"` pone una comilla en el texto en lugar de terminar la cadena, y `\\\\` pone una sola barra invertida; así, `\"say \\\"hi\\\"\"` contiene el texto `say \"hi\"`. Un escape que el formato no contempla, o una entrada que termina antes de la comilla de cierre, son errores. Como el texto guardado es más corto que lo escrito, los caracteres se copian uno a uno sin sus barras invertidas, en un búfer que crece según haga falta."
+
+[[questions.choices]]
+correct = true
+text = { en = "The string ends at the first quote that is not escaped; a backslash takes the next character literally, and an input ending before the closing quote is an error", fr = "La chaîne se termine à la première guillemet non échappée ; une barre oblique inverse prend le caractère suivant au pied de la lettre, et une entrée qui s'arrête avant la guillemet fermante est une erreur", es = "La cadena termina en la primera comilla no escapada; una barra invertida toma el siguiente carácter tal cual, y una entrada que acaba antes de la comilla de cierre es un error" }
+
+[[questions.choices]]
+text = { en = "The string ends at the next quote, whatever comes before it", fr = "La chaîne se termine à la guillemet suivante, quoi qu'il y ait avant elle", es = "La cadena termina en la siguiente comilla, haya lo que haya antes" }
+
+[[questions.choices]]
+text = { en = "A backslash is always kept in the stored text, which therefore has the same length as what was written", fr = "Une barre oblique inverse est toujours conservée dans le texte rangé, qui a donc la même longueur que ce qui a été écrit", es = "La barra invertida siempre se conserva en el texto guardado, que por tanto tiene la misma longitud que lo escrito" }
+
+[[questions.choices]]
+text = { en = "Any character after a backslash is valid, whatever the format supports", fr = "N'importe quel caractère après une barre oblique inverse est valide, quel que soit ce que le format accepte", es = "Cualquier carácter tras una barra invertida es válido, admítalo o no el formato" }
+
+[[questions]]
+slug = "rank04-l1-representing-parsed-values"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["data-structures", "memory"]
+key_points = [
+  "A value that can be of several kinds is stored as a structure with an enum field saying which kind it is (a tag), plus the data for that kind; since only one kind is used at a time, that data can share the same memory.",
+  "An object holds a dynamic array of key/value pairs, grown with realloc as pairs are parsed, together with its size.",
+  "The code reads the tag before touching the data, since reading the member of another kind is meaningless.",
+  "Freeing is recursive: free a string's text, or each key and each value of an object, then the array of pairs.",
+]
+
+[questions.translations.en]
+title = "Storing a parsed value in C"
+stem = "A parser returns values that can be an integer, a string or an object made of key/value pairs, where values can nest. How can one C type represent all of them, how is an object's content stored, and how is such a value freed?"
+explanation = "The usual answer is a tagged structure: it holds an `enum` that says which kind of value it is, and the data of that kind, an `int`, a `char *`, or the description of an object; since only one kind is used at a time, these members can share the same memory. An object keeps a dynamic array of key/value pairs and its size, the array growing with `realloc` as the pairs are parsed; each pair holds a key and a nested value of the same type. The code must always read the tag before touching the data, since reading the member of another kind makes no sense. Freeing follows the same structure, recursively: the text of a string, or each key and each value of an object, then the array of pairs itself."
+
+[questions.translations.fr]
+title = "Ranger une valeur analysée en C"
+stem = "Un analyseur renvoie des valeurs qui peuvent être un entier, une chaîne ou un objet fait de paires clé/valeur, les valeurs pouvant s'imbriquer. Comment un seul type C peut-il toutes les représenter, comment ranger le contenu d'un objet, et comment libérer une telle valeur ?"
+explanation = "La réponse habituelle est une structure étiquetée : elle contient un `enum` indiquant le genre de la valeur, et les données de ce genre, un `int`, un `char *` ou la description d'un objet ; comme un seul genre sert à la fois, ces membres peuvent partager la même mémoire. Un objet garde un tableau dynamique de paires clé/valeur et sa taille, le tableau grandissant avec `realloc` à mesure que les paires sont analysées ; chaque paire contient une clé et une valeur imbriquée du même type. Le code doit toujours lire l'étiquette avant de toucher aux données, car lire le membre d'un autre genre n'a pas de sens. La libération suit la même structure, récursivement : le texte d'une chaîne, ou chaque clé et chaque valeur d'un objet, puis le tableau de paires lui-même."
+
+[questions.translations.es]
+title = "Guardar un valor analizado en C"
+stem = "Un analizador devuelve valores que pueden ser un entero, una cadena o un objeto formado por pares clave/valor, y los valores pueden anidarse. ¿Cómo puede un solo tipo de C representarlos todos, cómo se guarda el contenido de un objeto y cómo se libera un valor así?"
+explanation = "La respuesta habitual es una estructura etiquetada: contiene un `enum` que indica el tipo de valor, y los datos de ese tipo, un `int`, un `char *` o la descripción de un objeto; como solo se usa un tipo a la vez, esos miembros pueden compartir la misma memoria. Un objeto guarda un array dinámico de pares clave/valor y su tamaño, y el array crece con `realloc` a medida que se analizan los pares; cada par contiene una clave y un valor anidado del mismo tipo. El código debe leer siempre la etiqueta antes de tocar los datos, porque leer el miembro de otro tipo no tiene sentido. La liberación sigue la misma estructura, de forma recursiva: el texto de una cadena, o cada clave y cada valor de un objeto, y después el propio array de pares."
+
+[[questions.choices]]
+correct = true
+text = { en = "A structure with a tag saying the kind, plus data that can share the same memory since only one kind is used at a time; an object keeps a growing array of pairs, and freeing is recursive", fr = "Une structure avec une étiquette disant le type, plus des données qui peuvent partager la même mémoire puisqu'un seul type sert à la fois ; un objet garde un tableau extensible de paires, et la libération est récursive", es = "Una estructura con una etiqueta que dice el tipo, más datos que pueden compartir la misma memoria ya que solo se usa un tipo a la vez; un objeto guarda un array ampliable de pares, y liberar es recursivo" }
+
+[[questions.choices]]
+text = { en = "One structure per kind, the parser returning a `void *` the caller converts by guessing", fr = "Une structure par type, l'analyseur renvoyant un `void *` que l'appelant convertit en devinant", es = "Una estructura por tipo, con el analizador devolviendo un `void *` que quien llama convierte adivinando" }
+
+[[questions.choices]]
+text = { en = "Every member can be read whatever the tag says, since they all exist at the same time", fr = "Tous les membres peuvent être lus quel que soit le type annoncé, puisqu'ils existent tous en même temps", es = "Todos los miembros se pueden leer diga lo que diga la etiqueta, ya que todos existen a la vez" }
+
+[[questions.choices]]
+text = { en = "Freeing the top structure is enough: its keys and values go with it", fr = "Libérer la structure du dessus suffit : ses clés et ses valeurs partent avec elle", es = "Basta con liberar la estructura de arriba: sus claves y valores se van con ella" }
+
+[[questions]]
+slug = "rank04-l1-printing-a-value-back"
+topic = "exam-rank-04-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "data-structures"]
+key_points = [
+  "Printing a parsed value back walks it recursively: a number as digits, an object as '{', its pairs separated by ',', each written key ':' value, then '}'.",
+  "A string is printed between quotes, and the characters that were escaped on input (quote and backslash) must be escaped again on output.",
+  "Parsing then printing should give back an equivalent text, which makes a simple way to test the parser (round trip).",
+]
+
+[questions.translations.en]
+title = "Printing a parsed value back"
+stem = "After parsing, a program prints the value back in the same format. How is an object printed, what must be done with the characters of a string, and why is parsing followed by printing a useful test?"
+explanation = "Printing walks the value recursively, following the same shape as the parser: a number becomes its digits, an object becomes a `{`, then its pairs separated by commas, each written as a key, a `:` and the value, then a `}`. A string goes between quotes, and the characters that needed an escape on input, the quote and the backslash, must get their backslash back on output; otherwise the printed text is no longer valid. Parsing then printing should give back an equivalent text, and comparing the two is a simple way to test the parser on many inputs."
+
+[questions.translations.fr]
+title = "Réécrire une valeur analysée"
+stem = "Après l'analyse, un programme réécrit la valeur dans le même format. Comment un objet est-il écrit, que faut-il faire des caractères d'une chaîne, et pourquoi analyser puis réécrire est-il un test utile ?"
+explanation = "L'écriture parcourt la valeur récursivement, en suivant la même forme que l'analyseur : un nombre devient ses chiffres, un objet devient une `{`, puis ses paires séparées par des virgules, chacune écrite comme une clé, un `:` et la valeur, puis une `}`. Une chaîne se place entre guillemets, et les caractères qui demandaient un échappement en entrée, le guillemet et la barre oblique inverse, doivent retrouver leur barre oblique inverse en sortie ; sinon le texte écrit n'est plus valide. Analyser puis réécrire doit redonner un texte équivalent, et comparer les deux est un moyen simple de tester l'analyseur sur beaucoup d'entrées."
+
+[questions.translations.es]
+title = "Volver a escribir un valor analizado"
+stem = "Después del análisis, un programa vuelve a escribir el valor en el mismo formato. ¿Cómo se escribe un objeto, qué hay que hacer con los caracteres de una cadena, y por qué analizar y luego escribir es una prueba útil?"
+explanation = "La escritura recorre el valor de forma recursiva, siguiendo la misma forma que el analizador: un número se convierte en sus cifras, un objeto en una `{`, después sus pares separados por comas, cada uno escrito como una clave, un `:` y el valor, y después una `}`. Una cadena va entre comillas, y los caracteres que necesitaban un escape en la entrada, la comilla y la barra invertida, deben recuperar su barra invertida en la salida; si no, el texto escrito deja de ser válido. Analizar y después escribir debe devolver un texto equivalente, y comparar ambos es una forma sencilla de probar el analizador con muchas entradas."
+
+[[questions.choices]]
+correct = true
+text = { en = "A recursive walk; the characters escaped on input (quote and backslash) must be escaped again on output, and parsing then printing should give back an equivalent text", fr = "Un parcours récursif ; les caractères échappés à l'entrée (guillemet et barre oblique inverse) doivent l'être à nouveau en sortie, et analyser puis réafficher doit redonner un texte équivalent", es = "Un recorrido recursivo; los caracteres escapados en la entrada (comilla y barra invertida) deben escaparse otra vez en la salida, y analizar y luego imprimir debe devolver un texto equivalente" }
+
+[[questions.choices]]
+text = { en = "The escapes disappear on output, since the stored text is the real one", fr = "Les échappements disparaissent en sortie, puisque le texte rangé est le vrai", es = "Los escapes desaparecen en la salida, ya que el texto guardado es el real" }
+
+[[questions.choices]]
+text = { en = "The original text must be kept as it was, since printing it back from the value is impossible", fr = "Le texte d'origine doit être conservé tel quel, puisque le réafficher depuis la valeur est impossible", es = "Hay que conservar el texto original tal cual, ya que volver a imprimirlo desde el valor es imposible" }
+
+[[questions.choices]]
+text = { en = "A round trip proves nothing about the parser, since printing uses the same code", fr = "Un aller-retour ne prouve rien sur l'analyseur, puisque l'affichage utilise le même code", es = "Un viaje de ida y vuelta no prueba nada del analizador, ya que imprimir usa el mismo código" }

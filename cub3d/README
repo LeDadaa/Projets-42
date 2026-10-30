@@ -1,0 +1,53 @@
+
+*This project has been created as part of the 42 curriculum by damalca, mchiacha.*
+
+# cub3d – My First RayCaster
+
+## Description
+
+**cub3d** is a graphical project inspired by the game **Wolfenstein 3D**, the very first First-Person Shooter (FPS) game.  
+The goal of the project is to explore the fundamentals of **ray-casting** by creating a realistic 3D maze from a first-person perspective.
+
+The program reads a scene description file (`.cub`) containing:
+- Wall textures for each cardinal direction (North, South, East, West)
+- Floor and ceiling colors
+- A 2D map with walls (`1`), empty spaces (`0`), and the player's starting position and orientation (`N`, `S`, `E`, `W`)
+
+Using **ray-casting**, the program renders a dynamic 3D view inside the maze. The player can move using `W`, `A`, `S`, `D` and look around with the arrow keys (or mouse if bonuses are implemented).
+
+---
+
+## 🛠️ Instructions
+
+### 🔧 Compilation
+
+Clone the repository and compile the project using the provided `Makefile`:
+
+```
+git clone <your url from subject for evoluation> cub3d
+cd cub3d
+make
+```
+
+## For norminette
+- You can use `make norm` and it will do norminette in Libft, includes and srcs (not mlx directory)
+
+## Execution
+
+Run the program with a valid or not (if u wanna) .cub map file:
+
+```
+./cub3d maps/good/max.cub
+or
+./cub3d maps/bad/bad_two_players.cub
+```
+
+## Resources:
+- https://lodev.org/cgtutor/raycasting.html
+- https://www.youtube.com/watch?v=PC1RaETIx3Y
+- https://www.youtube.com/watch?v=gYRrGTC7GtA
+- https://www.youtube.com/watch?v=NbSee-XM7WA
+- https://www.youtube.com/watch?v=n4ybbxurnNY
+- Lodev Raycasting tutorial
+- 3blue1Brown vector videos
+- Peer to peer

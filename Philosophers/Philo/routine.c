@@ -1,0 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: damalca <damalca@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/01 12:07:49 by damalca           #+#    #+#             */
+/*   Updated: 2025/10/16 15:05:01 by damalca          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
+void	philo_thinks(t_philo *philo)
+{
+	print_message("is thinking", philo, philo->id);
+}
+
+void	philo_sleeps(t_philo *philo)
+{
+	print_message("is sleeping", philo, philo->id);
+	ft_usleep(philo->time_to_sleep);
+}
+
+void	philo_eats(t_philo *philo)
+{
+	pthread_mutex_lock(philo->r_fork);
+	print_message("has taken a fork", philo, philo->id);
+	if (philo->num_of_philos == 1)
+	{
+		ft_usleep(philo->time_to_die);
+		pthread_mutex_unlock(philo->r_fork);
+		return ;
+	}
+	pthread_mutex_lock(philo->l_fork);
+	print_message("has taken a fork", philo, philo->id);
+	pthread_mutex_lock(philo->meal_lock);
+	philo->eating = 1;
+	print_message("is eating", philo, philo->id);
+	philo->last_meal = get_current_time();
+	philo->meals_eaten++;
+	pthread_mutex_unlock(philo->meal_lock);
+	ft_usleep(philo->time_to_eat);
+	pthread_mutex_lock(philo->meal_lock);
+	philo->eating = 0;
+	pthread_mutex_unlock(philo->meal_lock);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
+}

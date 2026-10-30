@@ -1,0 +1,254 @@
+# The exam hierarchy, rank then level. Each level's questions live in their own
+# file, named after the level's slug.
+
+[[topics]]
+slug = "exam-rank-02"
+position = 2
+
+[topics.translations.en]
+name = "Exam Rank 02"
+
+[topics.translations.fr]
+name = "Exam Rank 02"
+
+[topics.translations.es]
+name = "Exam Rank 02"
+
+[[topics]]
+slug = "exam-rank-02-level-0"
+parent = "exam-rank-02"
+position = 0
+
+[topics.translations.en]
+name = "Level 0"
+description = "C: strings, characters, pointers, arguments and write"
+
+[topics.translations.fr]
+name = "Niveau 0"
+description = "C : chaînes, caractères, pointeurs, arguments et write"
+
+[topics.translations.es]
+name = "Nivel 0"
+description = "C: cadenas, caracteres, punteros, argumentos y write"
+
+[[topics]]
+slug = "exam-rank-02-level-1"
+parent = "exam-rank-02"
+position = 1
+
+[topics.translations.en]
+name = "Level 1"
+description = "C: string functions, bits, parsing numbers and simple algorithms"
+
+[topics.translations.fr]
+name = "Niveau 1"
+description = "C : fonctions de chaînes, bits, lecture de nombres et algorithmes simples"
+
+[topics.translations.es]
+name = "Nivel 1"
+description = "C: funciones de cadenas, bits, lectura de números y algoritmos sencillos"
+
+[[topics]]
+slug = "exam-rank-02-level-2"
+parent = "exam-rank-02"
+position = 2
+
+[topics.translations.en]
+name = "Level 2"
+description = "C: arithmetic, number bases, words in a string and a first linked list"
+
+[topics.translations.fr]
+name = "Niveau 2"
+description = "C : arithmétique, bases numériques, mots d'une chaîne et une première liste chaînée"
+
+[topics.translations.es]
+name = "Nivel 2"
+description = "C: aritmética, bases numéricas, palabras de una cadena y una primera lista enlazada"
+
+[[topics]]
+slug = "exam-rank-02-level-3"
+parent = "exam-rank-02"
+position = 3
+
+[topics.translations.en]
+name = "Level 3"
+description = "C: recursion, linked lists, function pointers and sorting"
+
+[topics.translations.fr]
+name = "Niveau 3"
+description = "C : récursion, listes chaînées, pointeurs de fonction et tri"
+
+[topics.translations.es]
+name = "Nivel 3"
+description = "C: recursión, listas enlazadas, punteros a función y ordenación"
+
+[[topics]]
+slug = "exam-rank-03"
+position = 3
+
+[topics.translations.en]
+name = "Exam Rank 03"
+
+[topics.translations.fr]
+name = "Exam Rank 03"
+
+[topics.translations.es]
+name = "Exam Rank 03"
+
+[[topics]]
+slug = "exam-rank-03-level-0"
+parent = "exam-rank-03"
+position = 0
+
+[topics.translations.en]
+name = "Level 0"
+description = "C: reading with a kept buffer, searching a stream, variadic functions and formatted input"
+
+[topics.translations.fr]
+name = "Niveau 0"
+description = "C : lecture avec tampon conservé, recherche dans un flux, fonctions variadiques et lecture formatée"
+
+[topics.translations.es]
+name = "Nivel 0"
+description = "C: lectura con búfer conservado, búsqueda en un flujo, funciones variádicas y lectura con formato"
+
+[[topics]]
+slug = "exam-rank-03-level-1"
+parent = "exam-rank-03"
+position = 1
+
+[topics.translations.en]
+name = "Level 1"
+description = "C: backtracking, combinatorics, pruning and exhaustive search"
+
+[topics.translations.fr]
+name = "Niveau 1"
+description = "C : retour sur trace, combinatoire, élagage et recherche exhaustive"
+
+[topics.translations.es]
+name = "Nivel 1"
+description = "C: vuelta atrás, combinatoria, poda y búsqueda exhaustiva"
+
+[[topics]]
+slug = "exam-rank-04"
+position = 4
+
+[topics.translations.en]
+name = "Exam Rank 04"
+
+[topics.translations.fr]
+name = "Exam Rank 04"
+
+[topics.translations.es]
+name = "Exam Rank 04"
+
+[[topics]]
+slug = "exam-rank-04-level-0"
+parent = "exam-rank-04"
+position = 0
+
+[topics.translations.en]
+name = "Level 0"
+description = "C: processes, pipes, redirections, signals and time limits"
+
+[topics.translations.fr]
+name = "Niveau 0"
+description = "C : processus, tubes, redirections, signaux et limites de temps"
+
+[topics.translations.es]
+name = "Nivel 0"
+description = "C: procesos, tuberías, redirecciones, señales y límites de tiempo"
+
+[[topics]]
+slug = "exam-rank-04-level-1"
+parent = "exam-rank-04"
+position = 1
+
+[topics.translations.en]
+name = "Level 1"
+description = "C: recursive parsing of expressions and of structured data"
+
+[topics.translations.fr]
+name = "Niveau 1"
+description = "C : analyse récursive d'expressions et de données structurées"
+
+[topics.translations.es]
+name = "Nivel 1"
+description = "C: análisis recursivo de expresiones y de datos estructurados"
+
+[[topics]]
+slug = "exam-rank-05"
+position = 5
+
+[topics.translations.en]
+name = "Exam Rank 05"
+
+[topics.translations.fr]
+name = "Exam Rank 05"
+
+[topics.translations.es]
+name = "Exam Rank 05"
+
+[[topics]]
+slug = "exam-rank-05-level-0"
+parent = "exam-rank-05"
+position = 0
+
+[topics.translations.en]
+name = "Level 0"
+description = "C++: classes, operator overloading, inheritance and polymorphism"
+
+[topics.translations.fr]
+name = "Niveau 0"
+description = "C++ : classes, surcharge d'opérateurs, héritage et polymorphisme"
+
+[topics.translations.es]
+name = "Nivel 0"
+description = "C++: clases, sobrecarga de operadores, herencia y polimorfismo"
+
+[[topics]]
+slug = "exam-rank-05-level-1"
+parent = "exam-rank-05"
+position = 1
+
+[topics.translations.en]
+name = "Level 1"
+description = "C: grids, dynamic programming, reading input and simulation"
+
+[topics.translations.fr]
+name = "Niveau 1"
+description = "C : grilles, programmation dynamique, lecture d'entrées et simulation"
+
+[topics.translations.es]
+name = "Nivel 1"
+description = "C: cuadrículas, programación dinámica, lectura de entradas y simulación"
+
+[[topics]]
+slug = "exam-rank-06"
+position = 6
+
+[topics.translations.en]
+name = "Exam Rank 06"
+
+[topics.translations.fr]
+name = "Exam Rank 06"
+
+[topics.translations.es]
+name = "Exam Rank 06"
+
+[[topics]]
+slug = "exam-rank-06-level-0"
+parent = "exam-rank-06"
+position = 0
+
+[topics.translations.en]
+name = "Level 0"
+description = "C and C++: network servers, select, text protocols and persistence"
+
+[topics.translations.fr]
+name = "Niveau 0"
+description = "C et C++ : serveurs réseau, select, protocoles texte et persistance"
+
+[topics.translations.es]
+name = "Nivel 0"
+description = "C y C++: servidores de red, select, protocolos de texto y persistencia"

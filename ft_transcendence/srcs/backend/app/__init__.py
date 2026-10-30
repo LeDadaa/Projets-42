@@ -1,0 +1,1 @@
+"""Maia — backend FastAPI."""

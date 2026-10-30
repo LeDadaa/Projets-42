@@ -1,0 +1,597 @@
+{
+  "nav": {
+    "dashboard": "Panel",
+    "exercices": "Ejercicios",
+    "trainingSession": "Sesión de entrenamiento",
+    "profil": "Perfil",
+    "settings": "Ajustes",
+    "messages": "Mensajes",
+    "friends": "Amigos",
+    "logout": "Cerrar sesión",
+    "multiplayer": "Multijugador",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú"
+  },
+  "theme": {
+    "light": "Tema claro",
+    "dark": "Tema oscuro"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "landing": {
+    "badge": "Repaso de exámenes · École 42",
+    "title": "Repasa pensando, no recitando.",
+    "subtitle": "Maïa te guía por las nociones evaluadas en los Exam Rank de 42 con preguntas socráticas. Entiendes en lugar de memorizar una respuesta.",
+    "ctaPrimary": "Empezar gratis",
+    "ctaSecondary": "Ya tengo una cuenta",
+    "pitch": {
+      "socratic": {
+        "title": "No te damos la respuesta",
+        "body": "Maïa te hace preguntas que te guían. Entiendes buscándolo tú mismo — el método socrático."
+      },
+      "exams": {
+        "title": "Las nociones de los exámenes de 42",
+        "body": "Cada ejercicio se centra en una noción evaluada en un Exam Rank concreto: nombre, nivel, cursus. Nunca el enunciado original — solo la noción que evalúa."
+      },
+      "progress": {
+        "title": "Avanza a tu ritmo",
+        "body": "Gana XP, mantén tu racha, desbloquea insignias. Sin presión, sin clasificaciones tóxicas."
+      }
+    },
+    "preview": {
+      "title": "Qué aspecto tiene",
+      "subtitle": "Tu espacio de repaso y, sobre todo, el razonamiento guiado que marca la diferencia.",
+      "dashboardEyebrow": "Tu panel",
+      "dashboardBody": "Tu progreso, tu XP y tu racha de un vistazo — y los ejercicios recomendados para retomar donde lo dejaste.",
+      "dashboardAlt": "Panel de Maïa — XP, estadísticas y ejercicios recomendados"
+    },
+    "how": {
+      "eyebrow": "Cómo funciona",
+      "title": "Tres pasos, cero memorización",
+      "pick": {
+        "title": "Elige un Exam Rank",
+        "body": "Repasa los Exam Rank del tronco común, del 02 al 06: cada examen desglosado noción por noción."
+      },
+      "answer": {
+        "title": "Responde, déjate guiar",
+        "body": "Equivócate sin estrés: Maïa insiste con preguntas hasta que hace clic."
+      },
+      "validate": {
+        "title": "Aprueba tu examen",
+        "body": "Llega con confianza el día D: has entendido cada noción, no solo memorizado una respuesta."
+      }
+    },
+    "reasoning": {
+      "eyebrow": "El razonamiento, de verdad",
+      "body": "Un enunciado planteado con sencillez y luego un diálogo que te hace razonar hasta el clic.",
+      "userFirst": "Solo devuelve un error, ¿no?",
+      "maia": "Seamos precisos: en la línea resaltada, ¿qué lee exactamente {str} si {str} vale {nullValue}?",
+      "userSecond": "Ah — desreferenciamos un puntero nulo, así que segfault.",
+      "success": "Exacto — has encontrado la causa"
+    }
+  },
+  "dashboard": {
+    "greeting": "¡Bienvenido!",
+    "streak": "racha de {n} días",
+    "level": "Nivel {n}",
+    "xp": "{current} / {max} XP",
+    "xpToNext": "Solo {n} XP antes del nivel {level}.",
+    "statsSolved": "Ejercicios resueltos",
+    "statsToReview": "A repasar",
+    "recommended": "Recomendado para ti",
+    "achievements": "Logros",
+    "achievementsCount": "{n} / {total} desbloqueados",
+    "locked": "Bloqueado",
+    "rules": {
+      "title": "¿Cómo gano XP?",
+      "correctLlm": "+{n} XP: respuesta correcta validada por la IA",
+      "correctSelf": "+{n} XP: respuesta correcta autoevaluada",
+      "matchPlayed": "+{n} XP: partida multijugador terminada",
+      "matchWon": "+{n} XP extra: victoria (mejor puntuación sin empate, o abandono del rival)",
+      "perLevel": "{n} XP por nivel. Cada pregunta da XP una sola vez.",
+      "streak": "Tu racha sube cada día que tienes actividad, y vuelve a cero si te saltas un día."
+    }
+  },
+  "achievements": {
+    "first_steps": {
+      "name": "Primeros pasos",
+      "desc": "Gana tus primeros XP"
+    },
+    "level_5": {
+      "name": "Nivel 5",
+      "desc": "Alcanza el nivel 5"
+    },
+    "level_10": {
+      "name": "Nivel 10",
+      "desc": "Alcanza el nivel 10"
+    },
+    "streak_3": {
+      "name": "En racha",
+      "desc": "3 días seguidos"
+    },
+    "streak_7": {
+      "name": "Semana perfecta",
+      "desc": "7 días seguidos"
+    }
+  },
+  "exercices": {
+    "title": "Ejercicios",
+    "subtitle": "Elige un examen, luego un nivel y después el ejercicio con el que practicar.",
+    "searchLabel": "Buscar una noción",
+    "searchPlaceholder": "Buscar una noción: {examples}…",
+    "levelsCount": "{n} nivel | {n} niveles",
+    "exercisesCount": "{n} ejercicio | {n} ejercicios",
+    "resultsCount": "{n} ejercicio encontrado | {n} ejercicios encontrados",
+    "noResults": "Ningún ejercicio trata esta noción.",
+    "empty": "Todavía no hay exámenes disponibles.",
+    "emptyTopic": "Todavía no hay ejercicios en este nivel.",
+    "topicNotFound": "Este examen o nivel no existe.",
+    "backToExams": "Volver a los exámenes",
+    "breadcrumb": "Ruta de navegación",
+    "loading": "Cargando preguntas…",
+    "loadFailed": "No se pudieron cargar las preguntas.",
+    "retry": "Reintentar",
+    "carousel": {
+      "label": "Elige un examen",
+      "previous": "Examen anterior",
+      "next": "Examen siguiente",
+      "slide": "{n} de {total}",
+      "current": "{name}, {n} de {total}",
+      "open": "Ver los niveles"
+    }
+  },
+  "exercise": {
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Intermedio",
+      "hard": "Difícil"
+    },
+    "notTranslated": "Versión en inglés",
+    "loading": "Cargando el ejercicio…",
+    "loadFailed": "No se pudo cargar el ejercicio.",
+    "retry": "Reintentar",
+    "notFound": "Este ejercicio no existe o ya no está disponible.",
+    "answerLabel": "Tu respuesta",
+    "answerPlaceholder": "Explícalo con tus propias palabras…"
+  },
+  "grader": {
+    "submit": "Enviar",
+    "grading": "Corrigiendo…",
+    "thread": "Corrección de tu respuesta",
+    "verdict": {
+      "correct": "Respuesta aceptada",
+      "imprecise": "Aceptada, pero incompleta",
+      "off_target": "Todavía no"
+    },
+    "flagged": "Tu respuesta contiene instrucciones para el corrector. Solo se evaluará tu explicación del tema.",
+    "attemptsLeft": "Te queda {n} intento hoy en esta pregunta. | Te quedan {n} intentos hoy en esta pregunta.",
+    "noAttemptsLeft": "Has agotado tus intentos diarios en esta pregunta. Lee la corrección y pasa a la siguiente.",
+    "referenceTitle": "Corrección",
+    "explanationFailed": "La explicación fue interrumpida.",
+    "fallback": {
+      "disabled": "La corrección automática está desactivada.",
+      "budget": "La corrección automática está saturada en este momento.",
+      "unavailable": "La corrección automática no responde.",
+      "prompt": "Compara tu respuesta con la corrección y dinos si tenías razón."
+    },
+    "selfCorrect": "Tenía razón",
+    "selfWrong": "No tenía razón",
+    "selfThanks": "Anotado.",
+    "errors": {
+      "exhausted": "Has agotado tus intentos diarios en esta pregunta. Vuelve mañana o pasa a la siguiente.",
+      "tooFast": "Demasiadas correcciones seguidas. Reintentar en {s} s.",
+      "notFound": "Este ejercicio ya no está disponible.",
+      "generic": "La corrección no pudo completarse. Reintentar.",
+      "selfFailed": "Tu respuesta no se pudo guardar."
+    }
+  },
+  "training": {
+    "loading": "Cargando preguntas…",
+    "loadFailed": "No se pudieron cargar las preguntas.",
+    "retry": "Reintentar",
+    "empty": "Todavía no hay preguntas disponibles.",
+    "progress": "Pregunta {n} de {total}",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "remaining": "Tiempo restante",
+    "elapsed": "Tiempo transcurrido",
+    "finish": "Terminar la sesión",
+    "setup": {
+      "intro": "Elige un examen en el carrusel y luego haz clic en el nivel que quieres repasar.",
+      "count": "Número de preguntas",
+      "all": "Todas ({n})",
+      "duration": "Duración máxima",
+      "duration30": "30 min",
+      "duration60": "1 h",
+      "duration120": "2 h",
+      "durationNone": "Sin límite",
+      "step": "Paso {n} de 2",
+      "back": "Cambiar de nivel",
+      "start": "Empezar"
+    },
+    "recap": {
+      "title": "Resumen de la sesión",
+      "timeUp": "Se acabó el tiempo: la sesión ha terminado.",
+      "finished": "Has terminado la sesión.",
+      "validated": "Validadas",
+      "toReview": "Para repasar",
+      "unanswered": "Sin respuesta",
+      "restart": "Nueva sesión"
+    }
+  },
+  "notions": {
+    "operator-overloading": "Sobrecarga de operadores",
+    "const-correctness": "Uso de const",
+    "arbitrary-precision": "Precisión arbitraria",
+    "algorithms": "Algoritmos",
+    "conversions": "Conversiones",
+    "canonical-form": "Forma canónica",
+    "memory": "Memoria",
+    "polymorphism": "Polimorfismo",
+    "inheritance": "Herencia",
+    "data-structures": "Estructuras de datos",
+    "complexity": "Complejidad",
+    "dynamic-programming": "Programación dinámica",
+    "file-io": "Entrada y salida",
+    "input-parsing": "Análisis de entradas",
+    "error-handling": "Manejo de errores",
+    "strings": "Cadenas de caracteres",
+    "characters": "Caracteres y ASCII",
+    "pointers": "Punteros",
+    "command-line": "Línea de comandos",
+    "bitwise": "Operaciones a nivel de bits",
+    "number-theory": "Aritmética",
+    "recursion": "Recursión",
+    "backtracking": "Vuelta atrás",
+    "linked-lists": "Listas enlazadas",
+    "sorting": "Ordenación",
+    "static-storage": "Variables estáticas",
+    "variadic-functions": "Funciones variádicas",
+    "processes": "Procesos",
+    "pipes": "Tuberías",
+    "signals": "Señales",
+    "file-descriptors": "Descriptores de fichero",
+    "sockets": "Sockets",
+    "io-multiplexing": "Multiplexación de E/S",
+    "stl-containers": "Contenedores de la STL"
+  },
+  "auth": {
+    "login": "Inicia sesión",
+    "signUp": "Crear una cuenta",
+    "signIn": "Iniciar sesión",
+    "createAccount": "Crea tu cuenta",
+    "email": "Correo electrónico",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "passwordConfirm": "Confirmar contraseña",
+    "forgotPassword": "¿Has olvidado tu contraseña?",
+    "requestNewPassword": "Recibir una nueva contraseña",
+    "loginTitle": "Bienvenido de nuevo",
+    "loginSubtitle": "Retoma donde lo dejaste.",
+    "signupTitle": "Crear una cuenta",
+    "signupSubtitle": "Comienza a repasar en segundos.",
+    "forgotTitle": "¿Olvidaste tu contraseña?",
+    "forgotSubtitle": "Indica tu login y te enviaremos una nueva contraseña.",
+    "login42": "Login 42",
+    "login42Placeholder": "jdoe",
+    "emailPlaceholder": "nombre{'@'}student.42.fr",
+    "passwordPlaceholder": "••••••••",
+    "or": "o",
+    "providers": {
+      "github": "GitHub",
+      "google": "Google",
+      "intra42": "Intra 42",
+      "continueWith": "Continuar con {provider}",
+      "signUpWith": "Regístrate con {provider}"
+    },
+    "errors": {
+      "passwordTooShort": "La contraseña debe tener al menos 10 caracteres",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "invalidLogin": "Correo o contraseña incorrectos.",
+      "tooMany": "Demasiados intentos, inténtalo más tarde.",
+      "generic": "Algo salió mal, inténtalo de nuevo.",
+      "emailTaken": "Ese correo ya está registrado.",
+      "nameTaken": "Ese nombre de usuario ya existe.",
+      "invalidInput": "Revisa los campos e inténtalo de nuevo.",
+      "passwordWeak": "Esta contraseña es demasiado común, elige otra.",
+      "passwordIsEmail": "La contraseña debe ser distinta del correo.",
+      "passwordNeedsLower": "La contraseña debe contener una minúscula.",
+      "passwordNeedsUpper": "La contraseña debe contener una mayúscula.",
+      "passwordNeedsDigit": "La contraseña debe contener un número.",
+      "passwordNeedsSpecial": "La contraseña debe contener un carácter especial (p. ej. ! ? # -)."
+    },
+    "signingIn": "Entrando…",
+    "creating": "Creando…",
+    "verify": "Verificar",
+    "totpPrompt": "Introduce el código de 6 dígitos de tu app de autenticación.",
+    "totpCode": "Código de autenticación",
+    "acceptTerms": "Acepto los {terms} y he leído la {privacy}.",
+    "oauthTerms": "Al continuar con GitHub, Google o 42, aceptas los {terms} y reconoces haber leído la {privacy}.",
+    "termsLink": "términos de servicio",
+    "privacyLink": "política de privacidad",
+    "passwordHint": "Mínimo 10 caracteres, con una mayúscula, una minúscula, un número y un carácter especial."
+  },
+  "chat": {
+    "send": "Enviar",
+    "placeholder": "Escribe tu mensaje",
+    "read": "Leído",
+    "loadOlder": "Cargar mensajes anteriores",
+    "empty": "Aún no hay mensajes con {name}.",
+    "typing": "{name} está escribiendo…",
+    "noConversations": "Aún no hay conversaciones.",
+    "pickConversation": "Elige una conversación para empezar a chatear.",
+    "sendBlocked": "No puedes escribir a este usuario.",
+    "sendFailed": "Mensaje no enviado, inténtalo de nuevo.",
+    "back": "Conversaciones"
+  },
+  "user": {
+    "level": "Niv {n}."
+  },
+  "realtime": {
+    "idle": "Sin conexión",
+    "connecting": "Conectando…",
+    "online": "Tiempo real activo",
+    "offline": "Reconectando…"
+  },
+  "presence": {
+    "online": "En línea",
+    "offline": "Desconectado"
+  },
+  "friends": {
+    "find": "Buscar personas",
+    "searchPlaceholder": "Buscar por nombre de usuario…",
+    "add": "Añadir",
+    "alreadyLinked": "Vinculado",
+    "noResults": "No se encontraron usuarios.",
+    "incoming": "Solicitudes recibidas",
+    "outgoing": "Solicitudes enviadas",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "cancel": "Cancelar",
+    "pending": "Pendiente",
+    "yourFriends": "Tus amigos",
+    "none": "Aún no tienes amigos.",
+    "message": "Mensaje",
+    "remove": "Quitar",
+    "block": "Bloquear",
+    "errConflict": "Ya hecho o no permitido.",
+    "errGeneric": "La acción falló, inténtalo de nuevo."
+  },
+  "profile": {
+    "notFound": "Este perfil no existe.",
+    "joined": "Se unió el {date}",
+    "noBio": "Sin biografía todavía.",
+    "friends": "Amigos",
+    "unblock": "Desbloquear",
+    "edit": "Editar",
+    "viewPublic": "Ver mi perfil público",
+    "language": "Idioma"
+  },
+  "settings": {
+    "avatar": "Avatar",
+    "chooseImage": "Elegir una imagen",
+    "uploading": "Subiendo…",
+    "avatarRejected": "Imagen rechazada (máx 2 MB, PNG/JPEG/WebP).",
+    "profile": "Perfil",
+    "bio": "Biografía",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "Cambios guardados.",
+    "saveError": "No se pudieron guardar los cambios.",
+    "twoFa": "Autenticación de dos factores",
+    "twoFaHint": "Protege tu cuenta con un código temporal.",
+    "twoFaOn": "La autenticación de dos factores está activada.",
+    "twoFaOff": "Desactivada",
+    "twoFaEnable": "Activar",
+    "twoFaScan": "Escanea este código QR e introduce el código que muestra.",
+    "twoFaConfirm": "Confirmar",
+    "twoFaDone": "Autenticación de dos factores activada.",
+    "twoFaDisable": "Desactivar",
+    "twoFaBadCode": "Código no válido.",
+    "backupCodes": "Guarda estos códigos de recuperación en un lugar seguro:",
+    "session": "Sesión",
+    "logout": "Cerrar sesión"
+  },
+  "multiplayer": {
+    "you": "tú",
+    "leave": "Salir de la partida",
+    "dismiss": "Cerrar",
+    "standings": "Clasificación",
+    "phase": {
+      "lobby": "Sala de espera",
+      "playing": "Partida en curso",
+      "finished": "Partida terminada",
+      "setup": "Preparación"
+    },
+    "offline": {
+      "title": "Conexión perdida",
+      "body": "El tiempo real está cortado. Tu plaza se guarda 60 segundos: vuelve a conectarte para seguir la partida.",
+      "retry": "Reconectar"
+    },
+    "create": {
+      "title": "Crear una partida",
+      "intro": "Abre una sala y comparte su código con tus amigos.",
+      "size": "Número máximo de jugadores",
+      "players": "{n} jugadores",
+      "submit": "Crear la sala",
+      "levels": "Niveles jugados",
+      "levelsHint": "Sin elección, las preguntas vienen de todos los niveles.",
+      "levelsLoading": "Cargando los niveles…",
+      "levelsFailed": "No se pudieron cargar los niveles: la partida tomará preguntas de todos los niveles.",
+      "selectedCount": "{n} preguntas disponibles"
+    },
+    "join": {
+      "title": "Unirse a una partida",
+      "intro": "¿Un amigo te dio un código? Escríbelo aquí.",
+      "code": "Código de la sala",
+      "submit": "Unirse"
+    },
+    "lobby": {
+      "code": "Código de la sala",
+      "copy": "Copiar el código",
+      "copied": "Copiado",
+      "share": "Comparte este código: cada jugador lo escribe en «Unirse a una partida».",
+      "needTwo": "Se necesitan al menos dos jugadores para empezar.",
+      "autoStart": "La partida empieza en cuanto todos estén listos ({ready} / {total}).",
+      "players": "Jugadores",
+      "emptySeat": "Plaza libre",
+      "ready": "Listo",
+      "notReady": "No listo",
+      "imReady": "Estoy listo",
+      "unready": "Ya no estoy listo",
+      "reconnecting": "Reconectando…",
+      "questions": "{n} preguntas",
+      "allLevels": "Todos los niveles"
+    },
+    "round": {
+      "waiting": "Respuesta enviada. Esperando a los demás jugadores ({n} / {total}).",
+      "hasAnswered": "Ha respondido",
+      "loading": "Siguiente pregunta…",
+      "correct": "Respuesta correcta.",
+      "wrong": "Respuesta incorrecta.",
+      "missed": "Se acabó el tiempo: sin respuesta."
+    },
+    "result": {
+      "title": "Partida terminada",
+      "won": "¡Victoria!",
+      "winner": "{name} gana la partida.",
+      "forfeit": "Los demás jugadores abandonaron: victoria por abandono.",
+      "rank": "Tu posición",
+      "score": "Tus puntos",
+      "again": "Nueva partida"
+    },
+    "rules": {
+      "title": "Reglas del juego",
+      "same": "Todos los jugadores reciben la misma pregunta al mismo tiempo.",
+      "timer": "Cada pregunta dura 20 segundos.",
+      "speed": "Una respuesta correcta da 10 puntos, más un bonus para los más rápidos en encontrarla: +5 al 1.º, +3 al 2.º, +1 al 3.º.",
+      "wrong": "Una respuesta incorrecta o ausente da 0 puntos.",
+      "win": "Gana la mejor puntuación tras la última pregunta. Una desconexión de más de 60 segundos cuenta como abandono."
+    },
+    "errors": {
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "MATCH_NOT_FOUND": "Ninguna partida corresponde a este código.",
+      "MATCH_ALREADY_STARTED": "Esta partida ya ha empezado.",
+      "MATCH_FULL": "Esta partida está completa.",
+      "NO_QUESTIONS_AVAILABLE": "No hay preguntas disponibles para empezar una partida.",
+      "INVALID_MAX_PLAYERS": "Número de jugadores no válido.",
+      "INVALID_MATCH_ID": "Código de sala no válido.",
+      "NOT_IN_MATCH": "No formas parte de esta partida.",
+      "INVALID_STATE": "Esta acción no es posible en este momento de la partida.",
+      "INVALID_QUESTION": "Pregunta no válida recibida del servidor.",
+      "INVALID_CHOICE": "Respuesta no válida."
+    },
+    "recap": {
+      "title": "El detalle de la partida",
+      "round": "Pregunta {n}",
+      "correctAnswer": "Respuesta correcta",
+      "yourAnswer": "Tu respuesta",
+      "answered": "{seconds} s · {points} pts",
+      "noAnswer": "Sin respuesta",
+      "loading": "Cargando el detalle…",
+      "failed": "No se pudo cargar el detalle de la partida."
+    }
+  },
+  "legal": {
+    "footer": {
+      "privacy": "Privacidad",
+      "terms": "Términos de servicio",
+      "project": "Proyecto estudiantil de 42 · ft_transcendence"
+    },
+    "updated": "Última actualización: 29 de septiembre de 2026",
+    "back": "Volver",
+    "privacy": {
+      "title": "Política de privacidad",
+      "intro": "Esta página explica qué datos recoge Maïa, por qué, cuánto tiempo se conservan y cuáles son tus derechos. Solo recogemos lo necesario para que la plataforma funcione.",
+      "sections": {
+        "controller": {
+          "title": "Quiénes somos",
+          "body": "Maïa es una plataforma de entrenamiento para los exámenes de 42, creada por un equipo de estudiantes en el marco del proyecto ft_transcendence. No es un servicio comercial ni un servicio oficial de 42. El equipo del proyecto es responsable del tratamiento de datos descrito aquí."
+        },
+        "data": {
+          "title": "Datos que recogemos",
+          "body": "• Cuenta: dirección de correo, nombre de usuario, contraseña (nunca almacenada en claro, solo con hash Argon2), avatar, biografía, idioma preferido.\n• Inicio de sesión con GitHub, Google o la intra de 42: el identificador de tu cuenta en ese proveedor y el correo que nos envía. Nunca recibimos tu contraseña de ese proveedor.\n• Actividad: tus respuestas a los ejercicios, las correcciones y notas obtenidas, tus sesiones de entrenamiento y tus partidas multijugador.\n• Social: tu lista de amigos, los usuarios bloqueados y tus mensajes privados.\n• Seguridad: tokens de sesión (almacenados con hash), secreto de doble autenticación si la activas (cifrado), fecha de última actividad y dirección IP asociada a algunas acciones sensibles en el registro de seguridad."
+        },
+        "purposes": {
+          "title": "Para qué los usamos",
+          "body": "• Crear y proteger tu cuenta, iniciar tu sesión y, si quieres, activar la doble autenticación.\n• Corregir tus respuestas, seguir tu progreso y mostrar tus estadísticas.\n• Hacer funcionar el chat, los amigos, la presencia en línea y el multijugador.\n• Proteger la plataforma contra abusos (límite de intentos, registro de seguridad).\nEstos tratamientos se basan en la prestación del servicio que solicitas al crear una cuenta y en nuestro interés legítimo en proteger la plataforma. No hacemos publicidad ni perfilado comercial."
+        },
+        "ai": {
+          "title": "Corrección con inteligencia artificial",
+          "body": "Las respuestas que envías pueden ser analizadas por un modelo de lenguaje para darte una devolución. Este modelo se aloja en la infraestructura del proyecto: tus respuestas no se venden ni se usan para entrenar ningún modelo. La devolución de la IA es pedagógica y puede contener errores."
+        },
+        "cookies": {
+          "title": "Cookies y almacenamiento local",
+          "body": "Maïa solo usa cookies estrictamente necesarias, sin rastreadores publicitarios ni herramientas de analítica:\n• access_token y refresh_token: mantienen tu sesión (inaccesibles desde JavaScript).\n• csrf_token: protege los formularios contra peticiones falsificadas.\n• mfa_token y estado OAuth: duran unos minutos, durante un inicio de sesión en dos pasos o con un proveedor.\n• maia_locale: recuerda tu idioma.\nTu elección de tema claro u oscuro se guarda en el almacenamiento local del navegador. Al ser imprescindibles, no requieren consentimiento."
+        },
+        "sharing": {
+          "title": "Compartición de datos",
+          "body": "Nunca vendemos ni alquilamos tus datos. Tu nombre de usuario, avatar, biografía, presencia en línea y resultados públicos son visibles para los demás usuarios conectados. Tus mensajes privados solo los ves tú y tu interlocutor. Si inicias sesión con GitHub, Google o 42, ese proveedor sabe que te conectaste a Maïa, según su propia política de privacidad."
+        },
+        "retention": {
+          "title": "Conservación",
+          "body": "Tus datos se conservan mientras exista tu cuenta. Las sesiones caducan automáticamente y los tokens revocados ya no sirven para conectarse. Al eliminar tu cuenta, se borran tus datos personales, salvo las entradas del registro de seguridad, que pueden conservarse unos meses para investigar abusos."
+        },
+        "security": {
+          "title": "Seguridad",
+          "body": "Todas las comunicaciones pasan por HTTPS. Las contraseñas y los tokens se guardan con hash, el secreto de doble autenticación está cifrado y la doble autenticación está disponible en los ajustes. Ningún sistema es infalible: usa una contraseña única."
+        },
+        "rights": {
+          "title": "Tus derechos",
+          "body": "Según el RGPD, puedes acceder a tus datos, corregirlos, exportarlos, oponerte a su tratamiento o pedir su eliminación. Puedes editar tu perfil directamente en los ajustes. Para cualquier otra solicitud, incluida la eliminación de tu cuenta, contacta con el equipo del proyecto: respondemos en el plazo de un mes. También puedes presentar una reclamación ante la CNIL, la autoridad francesa de protección de datos (cnil.fr)."
+        },
+        "changes": {
+          "title": "Cambios",
+          "body": "Si esta política cambia de forma importante, se actualizará la fecha en la parte superior de la página y te avisaremos en la plataforma."
+        }
+      }
+    },
+    "terms": {
+      "title": "Términos de servicio",
+      "intro": "Estos términos regulan el uso de Maïa. Al crear una cuenta, los aceptas. Si no estás de acuerdo, no uses la plataforma.",
+      "sections": {
+        "service": {
+          "title": "El servicio",
+          "body": "Maïa es una plataforma gratuita de entrenamiento para los exámenes de 42: ejercicios, corrección asistida por IA, sesiones cronometradas, multijugador, chat y amigos. Es un proyecto estudiantil realizado en el marco de ft_transcendence y no es un servicio oficial de 42."
+        },
+        "account": {
+          "title": "Tu cuenta",
+          "body": "Debes indicar un correo válido y elegir un nombre de usuario que no suplante a otra persona. Eres responsable de mantener tu contraseña en secreto y de todo lo que se haga con tu cuenta. La cuenta es personal: no la compartas. Te recomendamos activar la doble autenticación."
+        },
+        "conduct": {
+          "title": "Normas de conducta",
+          "body": "Está prohibido:\n• acosar, insultar, amenazar o discriminar a otros usuarios, en el chat, los nombres de usuario, las biografías o los avatares;\n• publicar contenido ilegal, de odio, pornográfico o spam;\n• hacer trampas en el multijugador o falsear las clasificaciones;\n• intentar acceder a cuentas ajenas, eludir las protecciones, atacar o sobrecargar la plataforma, o extraer sus datos de forma automatizada.\nPuedes bloquear a cualquier usuario que te moleste."
+        },
+        "content": {
+          "title": "Tus contenidos",
+          "body": "Sigues siendo propietario de lo que publicas (respuestas, mensajes, avatar, biografía). Solo nos autorizas a almacenarlo y mostrarlo para hacer funcionar el servicio. Garantizas que tienes derecho a publicarlo, en particular las imágenes que uses como avatar."
+        },
+        "ai": {
+          "title": "Corrección con IA",
+          "body": "Las correcciones y pistas generadas por la IA tienen fines pedagógicos. Pueden ser incompletas o erróneas y no sustituyen la corrección oficial de un examen ni el criterio de una persona. Las notas obtenidas en Maïa no tienen valor oficial."
+        },
+        "availability": {
+          "title": "Disponibilidad",
+          "body": "El servicio se ofrece tal cual, sin garantía de disponibilidad ni de conservación de los datos a largo plazo. Puede interrumpirse, modificarse o cerrarse en cualquier momento, por ejemplo por mantenimiento o al terminar el proyecto."
+        },
+        "termination": {
+          "title": "Suspensión y cierre",
+          "body": "Podemos eliminar contenido o suspender una cuenta que incumpla estos términos. Puedes dejar de usar Maïa en cualquier momento y pedir la eliminación de tu cuenta, como se explica en la política de privacidad."
+        },
+        "liability": {
+          "title": "Responsabilidad",
+          "body": "En la medida permitida por la ley, el equipo del proyecto no se hace responsable de los daños indirectos derivados del uso de la plataforma ni de los contenidos publicados por los usuarios."
+        },
+        "changes": {
+          "title": "Cambios y ley aplicable",
+          "body": "Estos términos pueden cambiar: la fecha en la parte superior indica la última versión, y seguir usando Maïa después de un cambio implica aceptarlo. Se rigen por la ley francesa."
+        }
+      }
+    }
+  },
+  "toast": {
+    "close": "Cerrar notificación",
+    "achievementUnlocked": "¡Logro desbloqueado!"
+  }
+}

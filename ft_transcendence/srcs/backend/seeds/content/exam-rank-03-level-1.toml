@@ -1,0 +1,450 @@
+# Exam Rank 03, level 1: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank03-l1-backtracking-pattern"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["backtracking", "recursion"]
+key_points = [
+  "Backtracking builds a solution one choice at a time: at each step it tries every possible choice, recurses to make the next ones, then undoes the choice before trying the next.",
+  "Undoing the choice restores the shared state exactly, so the next branch starts from the same situation.",
+  "When the partial solution is complete it is recorded or printed; when it can no longer lead to a solution, the branch is abandoned early (pruning).",
+  "The calls explore a tree of partial solutions, whose depth is the number of choices to make.",
+]
+
+[questions.translations.en]
+title = "Choose, explore, undo"
+stem = "Many search problems are solved by backtracking. Describe the pattern a backtracking function follows at each step. Why must each choice be undone after the recursive call, and when is a branch abandoned early?"
+explanation = "Backtracking builds a solution one choice at a time. At each step, the function tries every possible choice in turn: it applies it to the shared state, calls itself to make the following choices, then undoes it before trying the next one. Undoing matters because the state is shared by every branch: without it, the next attempt would start from a situation polluted by the previous one. When the partial solution is complete, it is recorded or printed; when it already breaks a rule and can no longer lead anywhere, the branch is abandoned at once, which is called pruning. The calls thereby walk a tree of partial solutions whose depth is the number of choices."
+
+[questions.translations.fr]
+title = "Choisir, explorer, annuler"
+stem = "Beaucoup de problèmes de recherche se résolvent par retour sur trace. Décrivez le schéma que suit une fonction de retour sur trace à chaque étape. Pourquoi faut-il annuler chaque choix après l'appel récursif, et quand abandonne-t-on une branche avant la fin ?"
+explanation = "Le retour sur trace construit une solution un choix à la fois. À chaque étape, la fonction essaie tour à tour chaque choix possible : elle l'applique à l'état partagé, s'appelle elle-même pour faire les choix suivants, puis l'annule avant d'essayer le suivant. L'annulation compte parce que l'état est partagé par toutes les branches : sans elle, l'essai suivant partirait d'une situation polluée par le précédent. Quand la solution partielle est complète, on l'enregistre ou on l'affiche ; quand elle enfreint déjà une règle et ne peut plus mener nulle part, on abandonne la branche aussitôt, ce qu'on appelle l'élagage. Les appels parcourent ainsi un arbre de solutions partielles dont la profondeur est le nombre de choix."
+
+[questions.translations.es]
+title = "Elegir, explorar, deshacer"
+stem = "Muchos problemas de búsqueda se resuelven con vuelta atrás. Describe el esquema que sigue en cada paso una función de vuelta atrás. ¿Por qué hay que deshacer cada elección después de la llamada recursiva, y cuándo se abandona una rama antes de terminar?"
+explanation = "La vuelta atrás construye una solución una elección cada vez. En cada paso, la función prueba por turnos cada elección posible: la aplica al estado compartido, se llama a sí misma para hacer las elecciones siguientes y después la deshace antes de probar la siguiente. Deshacer importa porque el estado lo comparten todas las ramas: sin ello, el intento siguiente partiría de una situación contaminada por el anterior. Cuando la solución parcial está completa, se registra o se muestra; cuando ya incumple una regla y no puede llevar a ninguna parte, la rama se abandona en el acto, lo que se llama poda. Así, las llamadas recorren un árbol de soluciones parciales cuya profundidad es el número de elecciones."
+
+[[questions.choices]]
+correct = true
+text = { en = "Try each choice, recurse, then **undo** it so the next branch starts from the same state; a branch that can no longer lead anywhere is abandoned early", fr = "Essayer chaque choix, récursiver, puis le **défaire** pour que la branche suivante reparte du même état ; une branche qui ne peut plus aboutir est abandonnée tôt", es = "Probar cada opción, recursionar y después **deshacerla** para que la siguiente rama parta del mismo estado; una rama que ya no puede llevar a nada se abandona pronto" }
+
+[[questions.choices]]
+text = { en = "The choice is undone before the recursive call, so that the deeper levels see a clean state", fr = "Le choix est défait avant l'appel récursif, pour que les niveaux plus profonds voient un état propre", es = "La opción se deshace antes de la llamada recursiva, para que los niveles más profundos vean un estado limpio" }
+
+[[questions.choices]]
+text = { en = "Nothing needs undoing when each branch works on its own copy of the state, which is always the case", fr = "Rien n'a besoin d'être défait puisque chaque branche travaille sur sa propre copie de l'état, ce qui est toujours le cas", es = "No hace falta deshacer nada, ya que cada rama trabaja sobre su propia copia del estado, lo que siempre ocurre" }
+
+[[questions.choices]]
+text = { en = "Pruning a branch early makes the search approximate: solutions may be lost", fr = "Élaguer une branche tôt rend la recherche approximative : des solutions peuvent être perdues", es = "Podar una rama pronto vuelve aproximada la búsqueda: se pueden perder soluciones" }
+
+[[questions]]
+slug = "rank03-l1-non-attacking-placements"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["backtracking", "algorithms"]
+key_points = [
+  "Place one piece per column, column by column, so two pieces can never share a column; for each column, try every row.",
+  "Two pieces at (r1, c1) and (r2, c2) share a diagonal exactly when |r1 - r2| == |c1 - c2|.",
+  "Keeping flags for used rows and for both diagonal directions, indexed by r + c and r - c + n - 1, makes each check constant time.",
+  "Remove the piece and clear its flags after the recursive call, before trying the next row.",
+]
+
+[questions.translations.en]
+title = "Placing pieces that must not attack each other"
+stem = "On an `n × n` board you must place `n` pieces so that no two share a row, a column or a diagonal, and print every placement. How does backtracking organise the search so that columns never clash? How do you detect a shared diagonal, and how can each check take constant time?"
+explanation = "Placing exactly one piece per column, column after column, rules out column clashes by construction; for each column, every row is tried. Two pieces at `(r1, c1)` and `(r2, c2)` are on the same diagonal exactly when `|r1 - r2| == |c1 - c2|`. Instead of comparing with every piece already placed, three arrays of flags record the rows in use and the two diagonal directions, indexed by `r + c` and `r - c + n - 1`, which makes each check a few reads. After the recursive call, the piece is removed and its flags cleared before the next row is tried. The number of solutions is irregular: none for sizes 2 and 3, 2 for 4, 92 for 8."
+
+[questions.translations.fr]
+title = "Placer des pièces qui ne doivent pas s'attaquer"
+stem = "Sur un plateau `n × n`, il faut placer `n` pièces de sorte qu'aucune paire ne partage une ligne, une colonne ou une diagonale, et afficher tous les placements. Comment le retour sur trace organise-t-il la recherche pour que les colonnes ne se gênent jamais ? Comment détecter une diagonale partagée, et comment chaque vérification peut-elle prendre un temps constant ?"
+explanation = "Placer exactement une pièce par colonne, colonne après colonne, écarte par construction tout conflit de colonne ; pour chaque colonne, on essaie chaque ligne. Deux pièces en `(r1, c1)` et `(r2, c2)` sont sur la même diagonale exactement quand `|r1 - r2| == |c1 - c2|`. Plutôt que de comparer avec chaque pièce déjà posée, trois tableaux d'indicateurs notent les lignes occupées et les deux directions de diagonales, indexées par `r + c` et `r - c + n - 1`, ce qui ramène chaque vérification à quelques lectures. Après l'appel récursif, on retire la pièce et on efface ses indicateurs avant d'essayer la ligne suivante. Le nombre de solutions est irrégulier : aucune pour les tailles 2 et 3, 2 pour 4, 92 pour 8."
+
+[questions.translations.es]
+title = "Colocar piezas que no deben atacarse"
+stem = "En un tablero `n × n` hay que colocar `n` piezas de forma que ningún par comparta fila, columna o diagonal, y mostrar todas las colocaciones. ¿Cómo organiza la vuelta atrás la búsqueda para que las columnas nunca choquen? ¿Cómo detectas una diagonal compartida, y cómo puede cada comprobación tardar un tiempo constante?"
+explanation = "Colocar exactamente una pieza por columna, columna tras columna, descarta por construcción cualquier conflicto de columna; para cada columna se prueba cada fila. Dos piezas en `(r1, c1)` y `(r2, c2)` están en la misma diagonal exactamente cuando `|r1 - r2| == |c1 - c2|`. En lugar de comparar con cada pieza ya colocada, tres arrays de indicadores registran las filas ocupadas y las dos direcciones de diagonales, indexadas por `r + c` y `r - c + n - 1`, lo que reduce cada comprobación a unas pocas lecturas. Tras la llamada recursiva, se quita la pieza y se borran sus indicadores antes de probar la fila siguiente. El número de soluciones es irregular: ninguna para los tamaños 2 y 3, 2 para 4, 92 para 8."
+
+[[questions.choices]]
+correct = true
+text = { en = "One piece per column, trying every row; a shared diagonal is `|r1 - r2| == |c1 - c2|`, and flags indexed by `r + c` and `r - c + n - 1` make each check constant", fr = "Une pièce par colonne, en essayant chaque ligne ; une diagonale commune est `|l1 - l2| == |c1 - c2|`, et des drapeaux indexés par `l + c` et `l - c + n - 1` rendent chaque test constant", es = "Una pieza por columna, probando cada fila; una diagonal común es `|f1 - f2| == |c1 - c2|`, y marcas indexadas por `f + c` y `f - c + n - 1` hacen constante cada comprobación" }
+
+[[questions.choices]]
+text = { en = "Every free square of the board is tried at each step, which is what makes the search exhaustive", fr = "Chaque case libre du plateau est essayée à chaque étape, c'est ce qui rend la recherche exhaustive", es = "Se prueba cada casilla libre del tablero en cada paso, eso es lo que hace exhaustiva la búsqueda" }
+
+[[questions.choices]]
+text = { en = "Two pieces share a diagonal when `r1 + c1 == r2 + c2`, and that single test covers both directions", fr = "Deux pièces partagent une diagonale quand `l1 + c1 == l2 + c2`, et ce seul test couvre les deux directions", es = "Dos piezas comparten diagonal cuando `f1 + c1 == f2 + c2`, y esa única prueba cubre las dos direcciones" }
+
+[[questions.choices]]
+text = { en = "Checking the diagonals means walking the pieces already placed, so it cannot be constant", fr = "Vérifier les diagonales suppose de parcourir les pièces déjà posées, donc cela ne peut pas être constant", es = "Comprobar las diagonales obliga a recorrer las piezas ya puestas, así que no puede ser constante" }
+
+[[questions]]
+slug = "rank03-l1-size-of-exhaustive-searches"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["complexity"]
+key_points = [
+  "A set of n distinct elements has n! orderings: 24 for 4 elements, over 3.6 million for 10.",
+  "It has 2^n subsets, since each element is either in a subset or not: 32 for 5 elements, over a million for 20.",
+  "An exhaustive search is therefore only feasible for small n; pruning reduces the work but does not change its exponential nature in the worst case.",
+]
+
+[questions.translations.en]
+title = "How fast exhaustive searches grow"
+stem = "How many orderings do `n` distinct elements have, and how many subsets? Give a few values, and explain what they mean for a program that lists or explores all of them."
+explanation = "`n` distinct elements can be ordered in `n!` ways: 24 for 4 elements, more than 3.6 million for 10. They have `2^n` subsets, since each element is independently in a subset or out of it: 32 for 5 elements, more than a million for 20. A program that lists or explores every case therefore stays fast only for small inputs, and each extra element multiplies the work. Pruning cuts branches that cannot succeed and often helps a lot, but in the worst case the search remains exponential."
+
+[questions.translations.fr]
+title = "La croissance des recherches exhaustives"
+stem = "Combien d'ordres différents possèdent `n` éléments distincts, et combien de sous-ensembles ? Donnez quelques valeurs, et expliquez ce qu'elles impliquent pour un programme qui les énumère ou les explore tous."
+explanation = "`n` éléments distincts peuvent être rangés de `n!` façons : 24 pour 4 éléments, plus de 3,6 millions pour 10. Ils ont `2^n` sous-ensembles, puisque chaque élément est, indépendamment des autres, dans le sous-ensemble ou en dehors : 32 pour 5 éléments, plus d'un million pour 20. Un programme qui énumère ou explore tous les cas ne reste donc rapide que sur de petites entrées, et chaque élément de plus multiplie le travail. L'élagage coupe les branches qui ne peuvent pas aboutir et aide souvent beaucoup, mais dans le pire cas la recherche reste exponentielle."
+
+[questions.translations.es]
+title = "Cómo crecen las búsquedas exhaustivas"
+stem = "¿Cuántas ordenaciones distintas tienen `n` elementos distintos, y cuántos subconjuntos? Da algunos valores y explica qué implican para un programa que los enumera o los explora todos."
+explanation = "`n` elementos distintos pueden ordenarse de `n!` maneras: 24 para 4 elementos, más de 3,6 millones para 10. Tienen `2^n` subconjuntos, ya que cada elemento está, independientemente de los demás, dentro o fuera del subconjunto: 32 para 5 elementos, más de un millón para 20. Un programa que enumera o explora todos los casos solo es rápido con entradas pequeñas, y cada elemento más multiplica el trabajo. La poda corta las ramas que no pueden tener éxito y a menudo ayuda mucho, pero en el peor caso la búsqueda sigue siendo exponencial."
+
+[[questions.choices]]
+correct = true
+text = { en = "`n!` orderings (24 for 4, over 3.6 million for 10) and `2^n` subsets (32 for 5, over a million for 20): exhaustive search only holds for small `n`", fr = "`n!` ordres (24 pour 4, plus de 3,6 millions pour 10) et `2^n` sous-ensembles (32 pour 5, plus d'un million pour 20) : l'exploration exhaustive ne tient que pour de petits `n`", es = "`n!` ordenaciones (24 para 4, más de 3,6 millones para 10) y `2^n` subconjuntos (32 para 5, más de un millón para 20): la búsqueda exhaustiva solo sirve con `n` pequeños" }
+
+[[questions.choices]]
+text = { en = "`2^n` orderings and `n!` subsets, the two counts being the other way round", fr = "`2^n` ordres et `n!` sous-ensembles, les deux comptes étant inversés", es = "`2^n` ordenaciones y `n!` subconjuntos, con las dos cuentas al revés" }
+
+[[questions.choices]]
+text = { en = "`n²` orderings and `2n` subsets, which stays reasonable up to a few hundred elements", fr = "`n²` ordres et `2n` sous-ensembles, ce qui reste raisonnable jusqu'à quelques centaines d'éléments", es = "`n²` ordenaciones y `2n` subconjuntos, lo que sigue siendo razonable hasta unos cientos de elementos" }
+
+[[questions.choices]]
+text = { en = "`n!` orderings and `2^n` subsets, but good pruning turns the search polynomial", fr = "`n!` ordres et `2^n` sous-ensembles, mais un bon élagage rend la recherche polynomiale", es = "`n!` ordenaciones y `2^n` subconjuntos, pero una buena poda vuelve polinómica la búsqueda" }
+
+[[questions]]
+slug = "rank03-l1-orderings-in-alphabetical-order"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["backtracking", "sorting"]
+key_points = [
+  "Build the ordering position by position; at each position try every character not used yet, marked in a table of used flags, and unmark it after the recursive call.",
+  "If the characters are first sorted and each position tries them from smallest to largest, the complete orderings come out in alphabetical order, with no sorting of the results.",
+  "The first position is decided first, so every ordering starting with a smaller character is produced before any starting with a larger one, and the same holds at each level.",
+]
+
+[questions.translations.en]
+title = "Every ordering of the letters, in alphabetical order"
+stem = "A program prints every ordering of the distinct letters of a word, in alphabetical order. How does backtracking build them, and how can they come out already sorted, without storing and sorting them afterwards?"
+explanation = "The ordering is built position by position. At each position, the function tries every letter not used yet, which a table of flags records, places it, recurses for the next position, then frees the letter again. If the letters are sorted first and each position tries them from the smallest to the largest, the results come out in alphabetical order by themselves: the first position is decided first, so every ordering that starts with a smaller letter is printed before any ordering that starts with a larger one, and the same reasoning holds at every level. For `abcd`, the 24 orderings come out sorted."
+
+[questions.translations.fr]
+title = "Tous les ordres des lettres, dans l'ordre alphabétique"
+stem = "Un programme affiche tous les ordres possibles des lettres distinctes d'un mot, dans l'ordre alphabétique. Comment le retour sur trace les construit-il, et comment peuvent-ils sortir déjà triés, sans les stocker puis les trier ?"
+explanation = "L'ordre se construit position par position. À chaque position, la fonction essaie chaque lettre pas encore utilisée, ce que note un tableau d'indicateurs, la place, s'appelle pour la position suivante, puis libère de nouveau la lettre. Si les lettres sont d'abord triées et que chaque position les essaie de la plus petite à la plus grande, les résultats sortent d'eux-mêmes dans l'ordre alphabétique : la première position est décidée en premier, donc tous les ordres qui commencent par une lettre plus petite sont affichés avant ceux qui commencent par une plus grande, et le même raisonnement vaut à chaque niveau. Pour `abcd`, les 24 ordres sortent triés."
+
+[questions.translations.es]
+title = "Todas las ordenaciones de las letras, en orden alfabético"
+stem = "Un programa muestra todas las ordenaciones posibles de las letras distintas de una palabra, en orden alfabético. ¿Cómo las construye la vuelta atrás, y cómo pueden salir ya ordenadas, sin guardarlas y ordenarlas después?"
+explanation = "La ordenación se construye posición a posición. En cada posición, la función prueba cada letra aún no usada, algo que registra una tabla de indicadores, la coloca, se llama para la posición siguiente y después vuelve a liberar la letra. Si las letras se ordenan antes y cada posición las prueba de la menor a la mayor, los resultados salen solos en orden alfabético: la primera posición se decide primero, así que todas las ordenaciones que empiezan por una letra menor se muestran antes que las que empiezan por una mayor, y el mismo razonamiento vale en cada nivel. Para `abcd`, las 24 ordenaciones salen ordenadas."
+
+[[questions.choices]]
+correct = true
+text = { en = "Sort the characters first, then at each position try the unused ones from smallest to largest: the complete orderings come out already sorted", fr = "Trier d'abord les caractères, puis à chaque position essayer les inutilisés du plus petit au plus grand : les ordres complets sortent déjà triés", es = "Ordenar primero los caracteres y luego en cada posición probar los no usados de menor a mayor: las ordenaciones completas salen ya ordenadas" }
+
+[[questions.choices]]
+text = { en = "The orderings come out in an order that cannot be predicted, so they must be stored and sorted at the end", fr = "Les ordres sortent dans un ordre imprévisible, il faut donc les stocker et les trier à la fin", es = "Las ordenaciones salen en un orden imprevisible, así que hay que guardarlas y ordenarlas al final" }
+
+[[questions.choices]]
+text = { en = "It is enough to sort the characters: the positions may then be tried in any order", fr = "Il suffit de trier les caractères : les positions peuvent ensuite être essayées dans n'importe quel ordre", es = "Basta con ordenar los caracteres: las posiciones pueden probarse después en cualquier orden" }
+
+[[questions.choices]]
+text = { en = "The last position has to be decided first, since it is the one that sorts the results", fr = "La dernière position doit être décidée en premier, puisque c'est elle qui trie les résultats", es = "La última posición debe decidirse primero, ya que es la que ordena los resultados" }
+
+[[questions]]
+slug = "rank03-l1-enumerating-subsets"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["backtracking", "recursion"]
+key_points = [
+  "Decide the elements one by one, in their original order: for each, one branch includes it and the other leaves it out.",
+  "A leaf of this binary tree of decisions, reached after the last element, is one subset; there are 2^n leaves.",
+  "Because the elements are decided in their original order, each subset keeps that order, and each subset is produced exactly once, with no duplicate such as 3 7 and 7 3.",
+]
+
+[questions.translations.en]
+title = "Listing every subset once"
+stem = "How does a recursive function list every subset of a set of `n` distinct numbers, each subset exactly once and with its elements in their original order? Why can it never produce both `3 7` and `7 3`?"
+explanation = "The function decides the elements one by one, in their original order. For the current element there are two branches: one includes it in the subset being built, the other leaves it out; then the next element is decided. After the last element, the choices made describe one subset, so the binary tree of decisions has `2^n` leaves, one per subset. Since the elements are always decided in their original order, each subset is built in that order, and each set of choices leads to a single leaf: the same subset can never come out twice, in whatever order."
+
+[questions.translations.fr]
+title = "Énumérer chaque sous-ensemble une seule fois"
+stem = "Comment une fonction récursive énumère-t-elle tous les sous-ensembles d'un ensemble de `n` nombres distincts, chacun exactement une fois et avec ses éléments dans leur ordre d'origine ? Pourquoi ne peut-elle jamais produire à la fois `3 7` et `7 3` ?"
+explanation = "La fonction décide des éléments un par un, dans leur ordre d'origine. Pour l'élément courant, il y a deux branches : l'une l'inclut dans le sous-ensemble en construction, l'autre le laisse de côté ; puis on décide de l'élément suivant. Après le dernier élément, les choix faits décrivent un sous-ensemble : l'arbre binaire des décisions a donc `2^n` feuilles, une par sous-ensemble. Comme les éléments sont toujours décidés dans leur ordre d'origine, chaque sous-ensemble est construit dans cet ordre, et chaque suite de choix mène à une seule feuille : un même sous-ensemble ne peut jamais sortir deux fois, dans quelque ordre que ce soit."
+
+[questions.translations.es]
+title = "Enumerar cada subconjunto una sola vez"
+stem = "¿Cómo recorre una función recursiva cada subconjunto posible de `n` números distintos, cada uno exactamente una vez y con sus elementos en su orden original? ¿Por qué nunca puede producir a la vez `3 7` y `7 3`?"
+explanation = "La función decide los elementos uno a uno, en su orden original. Para el elemento actual hay dos ramas: una lo incluye en el subconjunto que se está construyendo y la otra lo deja fuera; después se decide el elemento siguiente. Tras el último elemento, las elecciones hechas describen un subconjunto, así que el árbol binario de decisiones tiene `2^n` hojas, una por subconjunto. Como los elementos siempre se deciden en su orden original, cada subconjunto se construye en ese orden, y cada serie de elecciones lleva a una sola hoja: un mismo subconjunto nunca puede salir dos veces, en ningún orden."
+
+[[questions.choices]]
+correct = true
+text = { en = "Decide the elements one by one in their original order, one branch keeping the element and the other dropping it: `2^n` leaves, each subset once and in order", fr = "Décider les éléments un par un dans leur ordre d'origine, une branche gardant l'élément et l'autre l'écartant : `2^n` feuilles, chaque sous-ensemble une fois et dans l'ordre", es = "Decidir los elementos uno a uno en su orden original, una rama conservando el elemento y la otra descartándolo: `2^n` hojas, cada subconjunto una vez y en orden" }
+
+[[questions.choices]]
+text = { en = "Try every element at every position, then drop the duplicates found at the end", fr = "Essayer chaque élément à chaque position, puis retirer les doublons trouvés à la fin", es = "Probar cada elemento en cada posición y luego quitar los duplicados encontrados al final" }
+
+[[questions.choices]]
+text = { en = "`3 7` and `7 3` are both produced, and only a sort of each subset removes the duplicate", fr = "`3 7` et `7 3` sont tous deux produits, et seul un tri de chaque sous-ensemble enlève le doublon", es = "`3 7` y `7 3` se producen los dos, y solo ordenar cada subconjunto quita el duplicado" }
+
+[[questions.choices]]
+text = { en = "A set of `n` elements has `n!` subsets, one per ordering of its elements", fr = "Un ensemble de `n` éléments a `n!` sous-ensembles, un par ordre de ses éléments", es = "Un conjunto de `n` elementos tiene `n!` subconjuntos, uno por cada ordenación de sus elementos" }
+
+[[questions]]
+slug = "rank03-l1-pruning-a-sum-search"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["backtracking", "algorithms"]
+key_points = [
+  "Pruning a branch as soon as the partial sum exceeds the target is only correct when every number is non-negative, because then the sum can only grow.",
+  "With negative numbers a later element can bring the sum back down, so that cut loses solutions: with {5, -1} and a target of 4, it discards {5, -1}.",
+  "A safe cut must rely on a bound that holds whatever the remaining elements are, for instance the partial sum plus every remaining positive number still being below the target.",
+]
+
+[questions.translations.en]
+title = "When can a sum search be pruned?"
+stem = "A backtracking search looks for every subset of a set of integers whose sum equals a target. A tempting pruning abandons a branch as soon as the partial sum exceeds the target. When is that cut correct, and when does it lose solutions? Give an example."
+explanation = "The cut is correct only when every number is non-negative: adding elements can then only increase the sum, so a partial sum already above the target can never come back down to it. As soon as negative numbers are allowed, a later element can lower the sum again, and the same cut throws valid solutions away: with the set `{5, -1}` and a target of 4, the branch that takes 5 is abandoned at once, and `{5, -1}`, whose sum is 4, is never found. A safe pruning must rest on a bound that holds whatever the remaining elements are, for instance: even adding every remaining positive number, the sum cannot reach the target."
+
+[questions.translations.fr]
+title = "Quand peut-on élaguer une recherche de somme ?"
+stem = "Une recherche par retour sur trace cherche tous les sous-ensembles d'un ensemble d'entiers dont la somme vaut une cible. Un élagage tentant abandonne une branche dès que la somme partielle dépasse la cible. Quand cette coupe est-elle correcte, et quand fait-elle perdre des solutions ? Donnez un exemple."
+explanation = "La coupe n'est correcte que si tous les nombres sont positifs ou nuls : ajouter des éléments ne peut alors qu'augmenter la somme, donc une somme partielle déjà au-dessus de la cible ne pourra jamais y redescendre. Dès que des nombres négatifs sont permis, un élément suivant peut faire baisser la somme, et la même coupe jette des solutions valides : avec l'ensemble `{5, -1}` et une cible de 4, la branche qui prend 5 est abandonnée aussitôt, et `{5, -1}`, dont la somme vaut 4, n'est jamais trouvé. Un élagage sûr doit reposer sur une borne qui tient quels que soient les éléments restants, par exemple : même en ajoutant tous les nombres positifs restants, la somme ne peut pas atteindre la cible."
+
+[questions.translations.es]
+title = "¿Cuándo se puede podar una búsqueda de suma?"
+stem = "Una búsqueda con vuelta atrás recorre las combinaciones de elementos de una colección de enteros y retiene las que alcanzan exactamente un valor objetivo. Una poda tentadora abandona una rama en cuanto la suma parcial supera el objetivo. ¿Cuándo es correcto ese corte y cuándo hace perder soluciones? Da un ejemplo."
+explanation = "El corte solo es correcto si todos los números son no negativos: añadir elementos solo puede aumentar la suma, así que una suma parcial que ya supera el objetivo nunca podrá volver a bajar hasta él. En cuanto se permiten números negativos, un elemento posterior puede reducir la suma, y el mismo corte descarta soluciones válidas: con el conjunto `{5, -1}` y un objetivo de 4, la rama que toma el 5 se abandona en el acto y `{5, -1}`, cuya suma es 4, nunca se encuentra. Una poda segura debe basarse en una cota que se cumpla sean cuales sean los elementos restantes, por ejemplo: aunque se sumen todos los números positivos restantes, la suma no puede alcanzar el objetivo."
+
+[[questions.choices]]
+correct = true
+text = { en = "Only when every number is non-negative: with `{5, -1}` and a target of 4 the cut throws away `{5, -1}`, whose sum does reach the target", fr = "Seulement si tous les nombres sont positifs ou nuls : avec `{5, -1}` et une cible de 4, la coupe jette `{5, -1}`, dont la somme atteint pourtant la cible", es = "Solo si todos los números son no negativos: con `{5, -1}` y un objetivo de 4, el corte tira `{5, -1}`, cuya suma sí llega al objetivo" }
+
+[[questions.choices]]
+text = { en = "Always: a sum that has passed the target can never come back to it", fr = "Toujours : une somme qui a dépassé la cible ne peut jamais y revenir", es = "Siempre: una suma que ha pasado el objetivo nunca puede volver a él" }
+
+[[questions.choices]]
+text = { en = "Only when the numbers are sorted, whatever their signs", fr = "Seulement si les nombres sont triés, quels que soient leurs signes", es = "Solo si los números están ordenados, sean cuales sean sus signos" }
+
+[[questions.choices]]
+text = { en = "Never: any pruning at all makes an exhaustive search incomplete", fr = "Jamais : tout élagage rend une recherche exhaustive incomplète", es = "Nunca: cualquier poda vuelve incompleta una búsqueda exhaustiva" }
+
+[[questions]]
+slug = "rank03-l1-balanced-parentheses"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings", "algorithms"]
+key_points = [
+  "Walk the string keeping a counter of open parentheses: + 1 for '(' and - 1 for ')'.",
+  "If the counter would go below 0, a ')' has no matching '(' and the string is unbalanced.",
+  "At the end, the string is balanced only if the counter is back to 0; otherwise some '(' were never closed.",
+  "One pass, O(n) time and constant memory.",
+]
+
+[questions.translations.en]
+title = "Checking that parentheses are balanced"
+stem = "How do you check in a single pass that a string made of `(` and `)` is balanced? What are the two ways a string can fail the check?"
+explanation = "Walk the string with a counter of parentheses still open: add 1 for `(` and subtract 1 for `)`. A string can fail in two ways. If the counter would drop below 0, a `)` arrives with no `(` left to close, as in `())`. If the counter is not back to 0 at the end, some `(` were never closed, as in `(()`. A string that avoids both is balanced. The check takes one pass, in linear time, and needs nothing but the counter."
+
+[questions.translations.fr]
+title = "Vérifier que des parenthèses sont équilibrées"
+stem = "Comment vérifier en un seul passage qu'une chaîne formée de `(` et de `)` est équilibrée ? De quelles deux façons une chaîne peut-elle échouer à cette vérification ?"
+explanation = "On parcourt la chaîne avec un compteur des parenthèses encore ouvertes : on ajoute 1 pour `(` et on retire 1 pour `)`. Une chaîne peut échouer de deux façons. Si le compteur devait passer sous 0, une `)` arrive alors qu'aucune `(` ne reste à fermer, comme dans `())`. Si le compteur n'est pas revenu à 0 à la fin, des `(` n'ont jamais été fermées, comme dans `(()`. Une chaîne qui évite ces deux cas est équilibrée. La vérification tient en un passage, en temps linéaire, et n'a besoin de rien d'autre que le compteur."
+
+[questions.translations.es]
+title = "Comprobar que los paréntesis están equilibrados"
+stem = "¿Cómo compruebas en una sola pasada que una cadena formada por `(` y `)` está equilibrada? ¿De qué dos formas puede una cadena fallar esa comprobación?"
+explanation = "Se recorre la cadena con un contador de paréntesis todavía abiertos: se suma 1 por cada `(` y se resta 1 por cada `)`. Una cadena puede fallar de dos formas. Si el contador fuera a bajar de 0, llega un `)` sin ningún `(` que cerrar, como en `())`. Si el contador no ha vuelto a 0 al final, algunos `(` nunca se cerraron, como en `(()`. Una cadena que evita ambos casos está equilibrada. La comprobación se hace en una pasada, en tiempo lineal, y no necesita nada más que el contador."
+
+[[questions.choices]]
+correct = true
+text = { en = "A counter, +1 and -1: the string fails if the counter ever goes below 0, or if it is not back to 0 at the end", fr = "Un compteur, +1 et -1 : la chaîne échoue si le compteur passe sous 0, ou s'il n'est pas revenu à 0 à la fin", es = "Un contador, +1 y -1: la cadena falla si el contador baja de 0, o si no ha vuelto a 0 al final" }
+
+[[questions.choices]]
+text = { en = "Counting the `(` and the `)` and comparing the two totals is enough", fr = "Compter les `(` et les `)` et comparer les deux totaux suffit", es = "Basta con contar los `(` y los `)` y comparar los dos totales" }
+
+[[questions.choices]]
+text = { en = "A stack holding each `(` is needed: a simple counter cannot do it", fr = "Une pile contenant chaque `(` est nécessaire : un simple compteur n'y suffit pas", es = "Hace falta una pila con cada `(`: un simple contador no basta" }
+
+[[questions.choices]]
+text = { en = "Ending with the counter back at 0 is enough, whatever happened along the way", fr = "Terminer avec le compteur revenu à 0 suffit, quoi qu'il se soit passé en chemin", es = "Terminar con el contador de vuelta a 0 basta, pase lo que pase por el camino" }
+
+[[questions]]
+slug = "rank03-l1-minimum-removals"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["strings", "backtracking"]
+key_points = [
+  "One pass with a counter finds how many of each parenthesis must go: every ')' that arrives when the counter is 0 is an unmatched ')', and the counter's value at the end is the number of unmatched '('.",
+  "Those two counts give the minimum number of removals; removing fewer cannot balance the string.",
+  "Backtracking then tries removing parentheses of each kind until both counts reach 0, and keeps the results that are balanced.",
+  "Knowing the counts in advance prunes the search: a branch that removes more than needed is abandoned.",
+]
+
+[questions.translations.en]
+title = "The fewest parentheses to remove"
+stem = "A string of parentheses is unbalanced, and you must remove as few parentheses as possible to balance it, listing every way of doing so. How do you know in advance how many `(` and how many `)` must go? How does that number guide the search?"
+explanation = "One pass with the usual counter gives both numbers. Each `)` that arrives while the counter is 0 has no partner and must be removed; the value the counter still holds at the end is the number of `(` that were never closed. For `))((`, that means two of each. These counts are a minimum: removing fewer parentheses of either kind leaves one unmatched. A backtracking search then tries removing `(` and `)` until both counts drop to 0, and keeps the balanced results; any branch that would remove more than the counts allow is abandoned at once, which keeps the search small."
+
+[questions.translations.fr]
+title = "Le moins de parenthèses possible à retirer"
+stem = "Une chaîne de parenthèses est déséquilibrée, et il faut retirer le moins de parenthèses possible pour l'équilibrer, en énumérant toutes les façons de le faire. Comment savoir à l'avance combien de `(` et combien de `)` doivent disparaître ? Comment ce nombre guide-t-il la recherche ?"
+explanation = "Un seul passage avec le compteur habituel donne les deux nombres. Chaque `)` qui arrive alors que le compteur vaut 0 n'a pas de partenaire et doit être retirée ; la valeur que garde encore le compteur à la fin est le nombre de `(` jamais fermées. Pour `))((`, cela fait deux de chaque. Ces nombres sont un minimum : retirer moins de parenthèses de l'une ou l'autre sorte en laisse une sans partenaire. Une recherche par retour sur trace essaie ensuite de retirer des `(` et des `)` jusqu'à ce que les deux compteurs tombent à 0, et garde les résultats équilibrés ; toute branche qui retirerait plus que ne le permettent ces nombres est abandonnée aussitôt, ce qui garde la recherche petite."
+
+[questions.translations.es]
+title = "Quitar el menor número posible de paréntesis"
+stem = "Una cadena de paréntesis está desequilibrada, y hay que quitar el menor número posible de paréntesis para equilibrarla, enumerando todas las formas de hacerlo. ¿Cómo sabes de antemano cuántos `(` y cuántos `)` deben desaparecer? ¿Cómo guía ese número la búsqueda?"
+explanation = "Una sola pasada con el contador de siempre da los dos números. Cada `)` que llega cuando el contador vale 0 no tiene pareja y debe quitarse; el valor que aún tiene el contador al final es el número de `(` que nunca se cerraron. Para `))((`, son dos de cada. Esos números son un mínimo: quitar menos paréntesis de cualquiera de los dos tipos deja uno sin pareja. Después, una búsqueda con vuelta atrás prueba a quitar `(` y `)` hasta que los dos contadores llegan a 0, y conserva los resultados equilibrados; cualquier rama que quitaría más de lo que permiten esos números se abandona en el acto, lo que mantiene pequeña la búsqueda."
+
+[[questions.choices]]
+correct = true
+text = { en = "One pass counts the unmatched `)` and, at the end, the unmatched `(`; those two counts are the minimum, and they prune the search", fr = "Un passage compte les `)` non appariées et, à la fin, les `(` non appariées ; ces deux comptes sont le minimum, et ils élaguent la recherche", es = "Una pasada cuenta los `)` sin pareja y, al final, los `(` sin pareja; esas dos cuentas son el mínimo y podan la búsqueda" }
+
+[[questions.choices]]
+text = { en = "The minimum cannot be known in advance: every number of removals has to be tried from 1 upward", fr = "Le minimum ne peut pas être connu à l'avance : il faut essayer chaque nombre de retraits à partir de 1", es = "El mínimo no se puede saber de antemano: hay que probar cada número de eliminaciones desde 1" }
+
+[[questions.choices]]
+text = { en = "Removing all the parentheses in excess of the rarer kind is always the minimum", fr = "Retirer toutes les parenthèses en excès par rapport au type le plus rare est toujours le minimum", es = "Quitar todos los paréntesis que sobran respecto al tipo menos frecuente es siempre el mínimo" }
+
+[[questions.choices]]
+text = { en = "Only `)` ever need removing, since a `(` can always be closed at the end", fr = "Seules des `)` ont besoin d'être retirées, puisqu'une `(` peut toujours être fermée à la fin", es = "Solo hay que quitar `)`, ya que un `(` siempre puede cerrarse al final" }
+
+[[questions]]
+slug = "rank03-l1-duplicate-solutions"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["backtracking"]
+key_points = [
+  "Different sequences of choices can produce the same result: deleting either of two identical neighbouring characters gives the same string.",
+  "One fix skips, at a given step, a choice identical to the previous one tried at that step, such as a character equal to the one just before it.",
+  "Another fix records the results already produced and prints only new ones, at the cost of memory and lookups.",
+]
+
+[questions.translations.en]
+title = "Avoiding duplicate solutions"
+stem = "A backtracking search deletes characters from a string and prints every result it reaches. Why can the same result come out several times, as when one `)` is deleted from `())`? Give two ways to print each result only once."
+explanation = "Different sequences of choices can lead to the same result: in `())`, deleting the first `)` or the second both give `()`, so two branches print the same string. The first fix works at the source: at a given step, a choice identical to the one just tried at that step is skipped, for instance a character equal to the one right before it, since it would lead to the same results. The second fix records the results already printed and only prints new ones; it is simpler to get right, but costs memory and a lookup for each result."
+
+[questions.translations.fr]
+title = "Éviter les solutions en double"
+stem = "Une recherche par retour sur trace supprime des caractères d'une chaîne et affiche chaque résultat qu'elle atteint. Pourquoi un même résultat peut-il sortir plusieurs fois, comme quand on supprime une `)` de `())` ? Donnez deux façons de n'afficher chaque résultat qu'une fois."
+explanation = "Des suites de choix différentes peuvent mener au même résultat : dans `())`, supprimer la première `)` ou la seconde donne `()` dans les deux cas, donc deux branches affichent la même chaîne. La première correction agit à la source : à une étape donnée, on saute un choix identique à celui qu'on vient d'essayer à cette même étape, par exemple un caractère égal à celui qui le précède, puisqu'il mènerait aux mêmes résultats. La seconde correction garde les résultats déjà affichés et n'affiche que les nouveaux ; elle est plus simple à réussir, mais coûte de la mémoire et une recherche pour chaque résultat."
+
+[questions.translations.es]
+title = "Evitar soluciones repetidas"
+stem = "Una búsqueda con vuelta atrás borra caracteres de una cadena y muestra cada resultado al que llega. ¿Por qué un mismo resultado puede salir varias veces, como al borrar un `)` de `())`? Da dos formas de mostrar cada resultado una sola vez."
+explanation = "Series de elecciones distintas pueden llevar al mismo resultado: en `())`, borrar el primer `)` o el segundo da `()` en ambos casos, así que dos ramas muestran la misma cadena. La primera corrección actúa en el origen: en un paso dado, se salta una elección idéntica a la que se acaba de probar en ese mismo paso, por ejemplo un carácter igual al que lo precede, ya que llevaría a los mismos resultados. La segunda corrección guarda los resultados ya mostrados y solo muestra los nuevos; es más fácil de hacer bien, pero cuesta memoria y una búsqueda por cada resultado."
+
+[[questions.choices]]
+correct = true
+text = { en = "Different sequences of choices reach the same string; either skip a choice identical to the one just tried at that step, or record the results already produced", fr = "Des suites de choix différentes aboutissent à la même chaîne ; soit on saute un choix identique à celui qu'on vient d'essayer à cette étape, soit on retient les résultats déjà produits", es = "Secuencias de opciones distintas llegan a la misma cadena; o se salta una opción idéntica a la recién probada en ese paso, o se registran los resultados ya producidos" }
+
+[[questions.choices]]
+text = { en = "Duplicates come from a bug: a correct backtracking search never reaches the same result twice", fr = "Les doublons viennent d'un bug : une recherche par retour arrière correcte n'atteint jamais deux fois le même résultat", es = "Los duplicados vienen de un fallo: una búsqueda con retroceso correcta nunca llega dos veces al mismo resultado" }
+
+[[questions.choices]]
+text = { en = "Sorting the results and printing them in order removes the duplicates on its own", fr = "Trier les résultats et les afficher dans l'ordre supprime les doublons tout seul", es = "Ordenar los resultados y mostrarlos en orden quita los duplicados por sí solo" }
+
+[[questions.choices]]
+text = { en = "Deleting only the first of two identical characters loses solutions, so it must not be done", fr = "Ne supprimer que le premier de deux caractères identiques fait perdre des solutions, donc c'est à éviter", es = "Borrar solo el primero de dos caracteres idénticos pierde soluciones, así que no debe hacerse" }
+
+[[questions]]
+slug = "rank03-l1-shortest-closed-tour"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["complexity", "algorithms"]
+key_points = [
+  "The exhaustive method tries every order of visiting the points, computes each closed tour's length as a sum of distances sqrt(dx² + dy²) including the return to the start, and keeps the smallest.",
+  "A closed tour has no real starting point, so the first point can be fixed, leaving (n - 1)! orders to try; each tour is also found in both directions, which halves the distinct ones.",
+  "That count grows factorially: 24 orders for 5 points, 362 880 for 10, nearly 40 million for 12, so the method only works for a handful of points.",
+]
+
+[questions.translations.en]
+title = "The shortest closed tour through every point"
+stem = "Given `n` points in the plane, you want the shortest closed path that visits each point once and returns to its start. How does an exhaustive search find it, why can the first point be fixed, and how many orders does that leave to try?"
+explanation = "The exhaustive search tries every order of visiting the points; for each, it adds up the distances `sqrt(dx² + dy²)` between consecutive points, including the way back to the start, and keeps the smallest total. Since the tour is closed, it has no real starting point: fixing the first point loses nothing and leaves `(n - 1)!` orders; each tour is also met in both directions, which halves the distinct ones. That count grows factorially: 24 orders for 5 points, 362 880 for 10, almost 40 million for 12. Exhaustive search is therefore only usable for a handful of points."
+
+[questions.translations.fr]
+title = "Le plus court circuit passant par tous les points"
+stem = "Étant donnés `n` points du plan, on cherche le plus court chemin fermé qui passe une fois par chaque point et revient à son départ. Comment une recherche exhaustive le trouve-t-elle, pourquoi peut-on fixer le premier point, et combien d'ordres reste-t-il alors à essayer ?"
+explanation = "La recherche exhaustive essaie tous les ordres de visite des points ; pour chacun, elle additionne les distances `sqrt(dx² + dy²)` entre points consécutifs, retour au départ compris, et garde le plus petit total. Comme le circuit est fermé, il n'a pas de vrai point de départ : fixer le premier point ne fait rien perdre et laisse `(n - 1)!` ordres ; chaque circuit est aussi rencontré dans les deux sens, ce qui divise par deux ceux qui sont distincts. Ce nombre croît de façon factorielle : 24 ordres pour 5 points, 362 880 pour 10, près de 40 millions pour 12. La recherche exhaustive n'est donc utilisable que pour une poignée de points."
+
+[questions.translations.es]
+title = "El circuito cerrado más corto por todos los puntos"
+stem = "Dados `n` puntos del plano, se busca el camino cerrado más corto que pasa una vez por cada punto y vuelve a su inicio. ¿Cómo lo encuentra una búsqueda exhaustiva, por qué se puede fijar el primer punto y cuántos órdenes quedan entonces por probar?"
+explanation = "La búsqueda exhaustiva prueba todos los órdenes de visita de los puntos; para cada uno, suma las distancias `sqrt(dx² + dy²)` entre puntos consecutivos, incluida la vuelta al inicio, y se queda con el menor total. Como el circuito es cerrado, no tiene un verdadero punto de partida: fijar el primer punto no hace perder nada y deja `(n - 1)!` órdenes; además, cada circuito aparece en los dos sentidos, lo que divide por dos los distintos. Ese número crece de forma factorial: 24 órdenes para 5 puntos, 362 880 para 10, casi 40 millones para 12. La búsqueda exhaustiva solo sirve, por tanto, para unos pocos puntos."
+
+[[questions.choices]]
+correct = true
+text = { en = "Try every order, sum the distances including the return; a closed tour has no start, so the first point is fixed, leaving `(n - 1)!` orders", fr = "Essayer tous les ordres, sommer les distances retour compris ; un tour fermé n'a pas de départ, donc le premier point est fixé, ce qui laisse `(n - 1)!` ordres", es = "Probar todos los órdenes, sumar las distancias incluido el regreso; un recorrido cerrado no tiene inicio, así que el primer punto se fija, dejando `(n - 1)!` órdenes" }
+
+[[questions.choices]]
+text = { en = "`n!` orders have to be tried: fixing the first point would leave tours out", fr = "Il faut essayer `n!` ordres : fixer le premier point laisserait des tours de côté", es = "Hay que probar `n!` órdenes: fijar el primer punto dejaría fuera recorridos" }
+
+[[questions.choices]]
+text = { en = "Visiting the nearest point each time gives the shortest tour, so no search is needed", fr = "Visiter le point le plus proche à chaque fois donne le tour le plus court, aucune recherche n'est donc nécessaire", es = "Visitar cada vez el punto más cercano da el recorrido más corto, así que no hace falta buscar" }
+
+[[questions.choices]]
+text = { en = "The count grows as `2^n`, which stays workable up to about thirty points", fr = "Le compte croît en `2^n`, ce qui reste praticable jusqu'à une trentaine de points", es = "La cuenta crece como `2^n`, lo que sigue siendo viable hasta unos treinta puntos" }
+
+[[questions]]
+slug = "rank03-l1-best-so-far-pruning"
+topic = "exam-rank-03-level-1"
+kind = "free_text"
+difficulty = 1400
+tags = ["backtracking", "complexity"]
+key_points = [
+  "While searching for a minimum, keep the cost of the best complete solution found so far.",
+  "If a partial solution already costs at least that much, abandon it: with non-negative costs, extending it can only make it longer.",
+  "Finding a good solution early (for instance by trying the nearest points first) makes this cut much more effective.",
+  "The result is still exact, because only branches that cannot beat the best are cut, but the worst case stays exponential.",
+]
+
+[questions.translations.en]
+title = "Pruning with the best solution found so far"
+stem = "An exhaustive search looks for the order of visits with the smallest total distance. How can the best complete solution found so far be used to abandon partial solutions early? Why does this never lose the optimum, and what makes it more effective?"
+explanation = "The search keeps the length of the best complete tour found so far. When a partial tour already costs as much as that length or more, it is abandoned: distances are never negative, so extending it can only make it longer, and it cannot win. Only branches that cannot beat the best are cut, so the answer stays exact. The cut works better when a good tour is found early, for instance by trying the nearest points first: the bound is tight sooner and more branches fall. In the worst case, though, the search remains exponential."
+
+[questions.translations.fr]
+title = "Élaguer avec la meilleure solution trouvée"
+stem = "Une recherche exhaustive cherche l'ordre de visite dont la distance totale est la plus petite. Comment la meilleure solution complète trouvée jusqu'ici permet-elle d'abandonner tôt des solutions partielles ? Pourquoi cela ne fait-il jamais perdre l'optimum, et qu'est-ce qui rend la coupe plus efficace ?"
+explanation = "La recherche garde la longueur du meilleur circuit complet trouvé jusqu'ici. Quand un circuit partiel coûte déjà autant que cette longueur ou plus, on l'abandonne : les distances ne sont jamais négatives, donc le prolonger ne peut que l'allonger, et il ne peut pas gagner. Seules les branches incapables de battre le meilleur sont coupées, donc la réponse reste exacte. La coupe fonctionne mieux quand un bon circuit est trouvé tôt, par exemple en essayant d'abord les points les plus proches : la borne se resserre plus vite et davantage de branches tombent. Dans le pire cas, la recherche reste pourtant exponentielle."
+
+[questions.translations.es]
+title = "Podar con la mejor solución encontrada"
+stem = "Una búsqueda exhaustiva busca el orden de visita cuya distancia total es la menor. ¿Cómo permite la mejor solución completa encontrada hasta ahora abandonar pronto soluciones parciales? ¿Por qué nunca hace perder el óptimo, y qué hace más eficaz el corte?"
+explanation = "La búsqueda guarda la longitud del mejor circuito completo encontrado hasta ahora. Cuando un circuito parcial ya cuesta tanto como esa longitud o más, se abandona: las distancias nunca son negativas, así que prolongarlo solo puede alargarlo, y no puede ganar. Solo se cortan las ramas incapaces de superar la mejor, así que la respuesta sigue siendo exacta. El corte funciona mejor cuando se encuentra pronto un buen circuito, por ejemplo probando primero los puntos más cercanos: la cota se ajusta antes y caen más ramas. En el peor caso, sin embargo, la búsqueda sigue siendo exponencial."
+
+[[questions.choices]]
+correct = true
+text = { en = "Abandon a partial solution that already costs as much as the best complete one found: with non-negative costs it can only grow, so the optimum is never lost", fr = "Abandonner une solution partielle qui coûte déjà autant que la meilleure complète trouvée : avec des coûts positifs ou nuls, elle ne peut que croître, donc l'optimum n'est jamais perdu", es = "Abandonar una solución parcial que ya cuesta tanto como la mejor completa hallada: con costes no negativos solo puede crecer, así que el óptimo nunca se pierde" }
+
+[[questions.choices]]
+text = { en = "The cut is an approximation: it trades the guaranteed optimum for speed", fr = "La coupe est une approximation : elle échange l'optimum garanti contre de la vitesse", es = "El corte es una aproximación: cambia el óptimo garantizado por velocidad" }
+
+[[questions.choices]]
+text = { en = "It is more effective when the first solutions found are bad, since the bound then moves more often", fr = "Elle est plus efficace quand les premières solutions trouvées sont mauvaises, puisque la borne bouge alors plus souvent", es = "Es más eficaz cuando las primeras soluciones halladas son malas, ya que la cota se mueve más a menudo" }
+
+[[questions.choices]]
+text = { en = "With the cut in place the worst case becomes polynomial", fr = "Avec la coupe, le pire des cas devient polynomial", es = "Con el corte, el peor caso se vuelve polinómico" }

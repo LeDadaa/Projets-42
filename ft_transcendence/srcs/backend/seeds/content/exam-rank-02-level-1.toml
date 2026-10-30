@@ -1,0 +1,533 @@
+# Exam Rank 02, level 1: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank02-l1-mirror-letter"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["characters"]
+key_points = [
+  "A letter and its mirror are at the same distance from the two ends of the alphabet, so their codes always add up to 'a' + 'z'.",
+  "The mirror of a lowercase letter c is therefore 'a' + 'z' - c, and that of a capital is 'A' + 'Z' - c.",
+  "Each case uses its own range, which keeps the case, and characters that are not letters are left unchanged.",
+]
+
+[questions.translations.en]
+title = "The mirror of a letter"
+stem = "You want to replace each letter by its mirror in the alphabet: `a` by `z`, `b` by `y`, and so on, keeping the case. What single computation gives the mirror of a lowercase letter `c`, and why does it work?"
+explanation = "A letter and its mirror are at the same distance from the two ends of the alphabet: `c` is `c - 'a'` places after `'a'`, and its mirror is as many places before `'z'`. Their codes therefore always add up to `'a' + 'z'`, and the mirror is `'a' + 'z' - c`: `'a'` gives `'z'`, `'d'` gives `'w'`. Capitals use their own range, `'A' + 'Z' - c`, which keeps the case, and characters that are not letters are copied unchanged."
+
+[questions.translations.fr]
+title = "La lettre miroir"
+stem = "On veut remplacer chaque lettre par son miroir dans l'alphabet : `a` par `z`, `b` par `y`, et ainsi de suite, en gardant la casse. Quel calcul unique donne le miroir d'une minuscule `c`, et pourquoi fonctionne-t-il ?"
+explanation = "Une lettre et son miroir sont à la même distance des deux bouts de l'alphabet : `c` est `c - 'a'` rangs après `'a'`, et son miroir autant de rangs avant `'z'`. Leurs codes ont donc toujours pour somme `'a' + 'z'`, et le miroir vaut `'a' + 'z' - c` : `'a'` donne `'z'`, `'d'` donne `'w'`. Les majuscules utilisent leur propre plage, `'A' + 'Z' - c`, ce qui conserve la casse, et les caractères qui ne sont pas des lettres sont recopiés tels quels."
+
+[questions.translations.es]
+title = "La letra espejo"
+stem = "Quieres sustituir cada letra por su espejo en el alfabeto: `a` por `z`, `b` por `y`, y así sucesivamente, conservando la caja. ¿Qué cálculo único da el espejo de una minúscula `c`, y por qué funciona?"
+explanation = "Una letra y su espejo están a la misma distancia de los dos extremos del alfabeto: `c` está `c - 'a'` posiciones después de `'a'`, y su espejo otras tantas antes de `'z'`. Sus códigos suman por tanto siempre `'a' + 'z'`, y el espejo es `'a' + 'z' - c`: `'a'` da `'z'`, `'d'` da `'w'`. Las mayúsculas usan su propio rango, `'A' + 'Z' - c`, lo que conserva la caja, y los caracteres que no son letras se copian sin cambios."
+
+[[questions.choices]]
+correct = true
+text = { en = "`'a' + 'z' - c`: a letter and its mirror are the same distance from the two ends, so their codes always add up to `'a' + 'z'`", fr = "`'a' + 'z' - c` : une lettre et son miroir sont à la même distance des deux bouts, donc leurs codes s'additionnent toujours en `'a' + 'z'`", es = "`'a' + 'z' - c`: una letra y su reflejo están a la misma distancia de los dos extremos, así que sus códigos siempre suman `'a' + 'z'`" }
+
+[[questions.choices]]
+text = { en = "`'z' - c`, since the mirror is the distance that separates the letter from the end of the alphabet", fr = "`'z' - c`, puisque le miroir est la distance qui sépare la lettre de la fin de l'alphabet", es = "`'z' - c`, ya que el reflejo es la distancia que separa la letra del final del alfabeto" }
+
+[[questions.choices]]
+text = { en = "`26 - c`, because the alphabet holds 26 letters", fr = "`26 - c`, parce que l'alphabet compte 26 lettres", es = "`26 - c`, porque el alfabeto tiene 26 letras" }
+
+[[questions.choices]]
+text = { en = "`c + 13`, wrapping around at the end of the alphabet", fr = "`c + 13`, en repassant au début à la fin de l'alphabet", es = "`c + 13`, volviendo al principio al final del alfabeto" }
+
+[[questions]]
+slug = "rank02-l1-parsing-an-integer"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["conversions", "input-parsing"]
+key_points = [
+  "Skip the leading whitespace (spaces, tabs, newlines and the other isspace characters).",
+  "Read at most one sign, '+' or '-'; a second sign or a sign followed by a space ends the number, giving 0.",
+  "Accumulate the digits with result = result * 10 + (c - '0') and stop at the first non-digit character.",
+  "atoi cannot report an error, and a value that does not fit in an int is undefined behaviour.",
+]
+
+[questions.translations.en]
+title = "How atoi reads a number"
+stem = "Describe the rules `atoi` follows to turn a string into an `int`: what it skips, how it handles signs, how it builds the value and when it stops. What do `atoi(\"  -42abc\")`, `atoi(\"+-5\")` and `atoi(\"- 3\")` return?"
+explanation = "`atoi` first skips leading whitespace: spaces, tabs, newlines and the other `isspace` characters. It then accepts at most one sign, then builds the value digit by digit with `result = result * 10 + (c - '0')`, stopping at the first character that is not a digit. So `atoi(\"  -42abc\")` is -42, while `atoi(\"+-5\")` and `atoi(\"- 3\")` are 0: after the sign comes no digit. `atoi` has no way to report an error, and a value that does not fit in an `int` is undefined behaviour; `strtol` exists for input that must be checked."
+
+[questions.translations.fr]
+title = "Comment atoi lit un nombre"
+stem = "Décrivez les règles que suit `atoi` pour transformer une chaîne en `int` : ce qu'elle saute, comment elle traite les signes, comment elle construit la valeur et quand elle s'arrête. Que renvoient `atoi(\"  -42abc\")`, `atoi(\"+-5\")` et `atoi(\"- 3\")` ?"
+explanation = "`atoi` saute d'abord les blancs du début : espaces, tabulations, retours à la ligne et les autres caractères de `isspace`. Elle accepte ensuite au plus un signe, puis construit la valeur chiffre par chiffre avec `result = result * 10 + (c - '0')`, et s'arrête au premier caractère qui n'est pas un chiffre. Ainsi `atoi(\"  -42abc\")` vaut -42, tandis que `atoi(\"+-5\")` et `atoi(\"- 3\")` valent 0 : après le signe ne vient aucun chiffre. `atoi` n'a aucun moyen de signaler une erreur, et une valeur qui ne tient pas dans un `int` est un comportement indéfini ; `strtol` existe pour les entrées qu'il faut vérifier."
+
+[questions.translations.es]
+title = "Cómo lee atoi un número"
+stem = "Describe las reglas que sigue `atoi` para convertir una cadena en un `int`: qué se salta, cómo trata los signos, cómo construye el valor y cuándo se detiene. ¿Qué devuelven `atoi(\"  -42abc\")`, `atoi(\"+-5\")` y `atoi(\"- 3\")`?"
+explanation = "`atoi` se salta primero los espacios en blanco iniciales: espacios, tabulaciones, saltos de línea y los demás caracteres de `isspace`. Después acepta como mucho un signo y construye el valor cifra a cifra con `result = result * 10 + (c - '0')`, deteniéndose en el primer carácter que no es una cifra. Así, `atoi(\"  -42abc\")` vale -42, mientras que `atoi(\"+-5\")` y `atoi(\"- 3\")` valen 0: después del signo no viene ninguna cifra. `atoi` no puede informar de un error, y un valor que no cabe en un `int` es comportamiento indefinido; `strtol` existe para las entradas que hay que comprobar."
+
+[[questions.choices]]
+correct = true
+text = { en = "`-42`, `0` and `0`: one sign at most, and a second sign or a space after it ends the number before any digit", fr = "`-42`, `0` et `0` : un seul signe au plus, et un second signe ou une espace après lui termine le nombre avant tout chiffre", es = "`-42`, `0` y `0`: un signo como mucho, y un segundo signo o un espacio tras él termina el número antes de cualquier cifra" }
+
+[[questions.choices]]
+text = { en = "`-42`, `-5` and `-3`: the extra sign and the space are skipped like the leading whitespace", fr = "`-42`, `-5` et `-3` : le signe en trop et l'espace sont sautés comme les blancs du début", es = "`-42`, `-5` y `-3`: el signo de más y el espacio se saltan como los blancos iniciales" }
+
+[[questions.choices]]
+text = { en = "`-42`, `0` and `-3`: a space is always ignored, wherever it sits", fr = "`-42`, `0` et `-3` : une espace est toujours ignorée, où qu'elle se trouve", es = "`-42`, `0` y `-3`: un espacio siempre se ignora, esté donde esté" }
+
+[[questions.choices]]
+text = { en = "`0`, `0` and `0`: any character that is not a digit makes the whole conversion fail", fr = "`0`, `0` et `0` : tout caractère qui n'est pas un chiffre fait échouer toute la conversion", es = "`0`, `0` y `0`: cualquier carácter que no sea una cifra hace fallar toda la conversión" }
+
+[[questions]]
+slug = "rank02-l1-comparing-strings"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings"]
+key_points = [
+  "strcmp walks both strings while the characters are equal and neither has ended.",
+  "It returns a negative value, zero or a positive value depending on how the first differing characters compare; only the sign is guaranteed, not the magnitude.",
+  "When one string is a prefix of the other, its '\\0' is what differs, so the shorter string compares as smaller.",
+  "Characters are compared as unsigned char, so a byte above 127 is larger than any ASCII letter.",
+]
+
+[questions.translations.en]
+title = "Comparing two strings"
+stem = "How does `strcmp(s1, s2)` decide its result? What does it return, what may you rely on in that value, and what happens when one string is a prefix of the other, as with `\"abc\"` and `\"abcd\"`?"
+explanation = "`strcmp` advances in both strings while the characters are equal and neither has reached its end, then compares the first pair that differs. It returns a negative value if `s1` comes first, zero if the strings are equal, and a positive value otherwise; only the sign is guaranteed, so the result is compared with 0, never with -1 or 1. When one string is a prefix of the other, the difference is its `'\\0'`, the smallest character, so `\"abc\"` comes before `\"abcd\"`. The comparison is made on `unsigned char` values: a byte above 127 comes after every ASCII letter."
+
+[questions.translations.fr]
+title = "Comparer deux chaînes"
+stem = "Comment `strcmp(s1, s2)` décide-t-il de son résultat ? Que renvoie-t-il, sur quoi peut-on compter dans cette valeur, et que se passe-t-il quand une chaîne est le début de l'autre, comme `\"abc\"` et `\"abcd\"` ?"
+explanation = "`strcmp` avance dans les deux chaînes tant que les caractères sont égaux et qu'aucune n'est terminée, puis compare la première paire qui diffère. Il renvoie une valeur négative si `s1` vient avant, zéro si les chaînes sont égales, et une valeur positive sinon ; seul le signe est garanti, donc on compare le résultat à 0, jamais à -1 ou à 1. Quand une chaîne est le début de l'autre, la différence est son `'\\0'`, le plus petit caractère : `\"abc\"` vient donc avant `\"abcd\"`. La comparaison se fait sur des valeurs `unsigned char` : un octet au-dessus de 127 vient après toutes les lettres ASCII."
+
+[questions.translations.es]
+title = "Comparar dos cadenas"
+stem = "¿Cómo decide `strcmp(s1, s2)` su resultado? ¿Qué devuelve, en qué se puede confiar de ese valor y qué pasa cuando una cadena es el principio de la otra, como `\"abc\"` y `\"abcd\"`?"
+explanation = "`strcmp` avanza en las dos cadenas mientras los caracteres son iguales y ninguna ha terminado, y después compara el primer par que difiere. Devuelve un valor negativo si `s1` va antes, cero si las cadenas son iguales y un valor positivo en caso contrario; solo el signo está garantizado, así que el resultado se compara con 0, nunca con -1 o 1. Cuando una cadena es el principio de la otra, la diferencia es su `'\\0'`, el carácter más pequeño, así que `\"abc\"` va antes que `\"abcd\"`. La comparación se hace con valores `unsigned char`: un byte por encima de 127 va después de todas las letras ASCII."
+
+[[questions.choices]]
+correct = true
+text = { en = "The sign of the comparison at the first differing character; only that sign is guaranteed, and a string that is a prefix of the other compares as smaller", fr = "Le signe de la comparaison au premier caractère qui diffère ; seul ce signe est garanti, et une chaîne préfixe de l'autre est la plus petite", es = "El signo de la comparación en el primer carácter que difiere; solo ese signo está garantizado, y una cadena que es prefijo de la otra es la menor" }
+
+[[questions.choices]]
+text = { en = "Exactly `-1`, `0` or `1`, so the three values can be tested one by one", fr = "Exactement `-1`, `0` ou `1`, donc on peut tester les trois valeurs une à une", es = "Exactamente `-1`, `0` o `1`, así que se pueden probar los tres valores uno a uno" }
+
+[[questions.choices]]
+text = { en = "`1` when the strings are equal and `0` otherwise", fr = "`1` quand les chaînes sont égales et `0` sinon", es = "`1` cuando las cadenas son iguales y `0` si no" }
+
+[[questions.choices]]
+text = { en = "The difference between the two lengths, so the longer string is always the greater one", fr = "La différence des deux longueurs, donc la plus longue est toujours la plus grande", es = "La diferencia de las dos longitudes, así que la más larga siempre es la mayor" }
+
+[[questions]]
+slug = "rank02-l1-span-functions"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "complexity"]
+key_points = [
+  "strspn(s, accept) returns the length of the initial part of s made only of characters from accept.",
+  "strcspn(s, reject) returns the length of the initial part of s containing no character from reject, which is the index of the first such character or the length of s.",
+  "Checking each character of s against every character of the set costs O(n·m).",
+  "A table of 256 flags indexed by unsigned char, filled once from the set, answers each membership test in constant time: O(n + m).",
+]
+
+[questions.translations.en]
+title = "Measuring a prefix with strspn and strcspn"
+stem = "What do `strspn(s, accept)` and `strcspn(s, reject)` return? What are `strcspn(\"hello\", \"lo\")` and `strspn(\"aab c\", \"ab\")`? A simple version compares every character of `s` with every character of the set: what does it cost, and how do you do better?"
+explanation = "`strspn` returns the length of the initial part of `s` made only of characters from `accept`: `strspn(\"aab c\", \"ab\")` is 3. `strcspn` does the opposite: the length of the initial part that contains no character from `reject`, that is the index of the first such character, or the length of `s` if there is none; `strcspn(\"hello\", \"lo\")` is 2. Comparing each character of `s` with the whole set costs `O(n·m)`. A table of 256 flags indexed by `unsigned char`, filled once from the set, turns every test into a single read: `O(n + m)`."
+
+[questions.translations.fr]
+title = "Mesurer un début de chaîne avec strspn et strcspn"
+stem = "Que renvoient `strspn(s, accept)` et `strcspn(s, reject)` ? Que valent `strcspn(\"hello\", \"lo\")` et `strspn(\"aab c\", \"ab\")` ? Une version simple compare chaque caractère de `s` à chaque caractère de l'ensemble : que coûte-t-elle, et comment faire mieux ?"
+explanation = "`strspn` renvoie la longueur du début de `s` formé uniquement de caractères de `accept` : `strspn(\"aab c\", \"ab\")` vaut 3. `strcspn` fait l'inverse : la longueur du début qui ne contient aucun caractère de `reject`, c'est-à-dire l'indice du premier tel caractère, ou la longueur de `s` s'il n'y en a pas ; `strcspn(\"hello\", \"lo\")` vaut 2. Comparer chaque caractère de `s` à tout l'ensemble coûte `O(n·m)`. Un tableau de 256 indicateurs indexé par `unsigned char`, rempli une fois à partir de l'ensemble, transforme chaque test en une seule lecture : `O(n + m)`."
+
+[questions.translations.es]
+title = "Medir el principio de una cadena con strspn y strcspn"
+stem = "¿Qué devuelven `strspn(s, accept)` y `strcspn(s, reject)`? ¿Cuánto valen `strcspn(\"hello\", \"lo\")` y `strspn(\"aab c\", \"ab\")`? Una versión sencilla compara cada carácter de `s` con cada carácter del conjunto: ¿cuánto cuesta y cómo se puede mejorar?"
+explanation = "`strspn` devuelve la longitud del principio de `s` formado solo por caracteres de `accept`: `strspn(\"aab c\", \"ab\")` vale 3. `strcspn` hace lo contrario: la longitud del principio que no contiene ningún carácter de `reject`, es decir, el índice del primero de ellos, o la longitud de `s` si no hay ninguno; `strcspn(\"hello\", \"lo\")` vale 2. Comparar cada carácter de `s` con todo el conjunto cuesta `O(n·m)`. Una tabla de 256 indicadores indexada por `unsigned char`, rellenada una vez a partir del conjunto, convierte cada comprobación en una sola lectura: `O(n + m)`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`2` and `3`, and a table of 256 flags filled once from the set brings the cost down to O(n + m)", fr = "`2` et `3`, et une table de 256 drapeaux remplie une fois depuis l'ensemble ramène le coût à O(n + m)", es = "`2` y `3`, y una tabla de 256 marcas rellenada una vez desde el conjunto baja el coste a O(n + m)" }
+
+[[questions.choices]]
+text = { en = "`3` and `2`: the first counts the characters of the set, the second those outside it", fr = "`3` et `2` : la première compte les caractères de l'ensemble, la seconde ceux qui n'y sont pas", es = "`3` y `2`: la primera cuenta los caracteres del conjunto, la segunda los que no están" }
+
+[[questions.choices]]
+text = { en = "`2` and `3`, but nothing can beat comparing every character with every character: O(n·m)", fr = "`2` et `3`, mais rien ne fait mieux que comparer chaque caractère à chaque caractère : O(n·m)", es = "`2` y `3`, pero nada supera comparar cada carácter con cada carácter: O(n·m)" }
+
+[[questions.choices]]
+text = { en = "`2` and `5`: the characters outside the set are skipped and counting goes on", fr = "`2` et `5` : les caractères hors de l'ensemble sont sautés et le comptage continue", es = "`2` y `5`: los caracteres fuera del conjunto se saltan y el conteo sigue" }
+
+[[questions]]
+slug = "rank02-l1-duplicating-a-string"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings", "memory"]
+key_points = [
+  "Measure the source, then allocate length + 1 bytes with malloc, the extra byte being for the terminator.",
+  "If malloc returns NULL, the function returns NULL without copying.",
+  "Copy every character and then the '\\0'.",
+  "The copy lives on the heap: the caller owns it and must free it.",
+]
+
+[questions.translations.en]
+title = "Duplicating a string"
+stem = "A function returns a new copy of a string, allocated with `malloc`, like `strdup`. What size must it allocate, what must it check, what exactly must it copy, and who frees the copy?"
+explanation = "The function measures the source and allocates `length + 1` bytes: the extra byte holds the terminator. If `malloc` returns `NULL`, it returns `NULL` straight away, without writing anything. It then copies every character followed by the `'\\0'`, and returns the new address. The copy lives on the heap and outlives the function: from then on it belongs to the caller, who must release it with `free` once done, otherwise it leaks."
+
+[questions.translations.fr]
+title = "Dupliquer une chaîne"
+stem = "Une fonction renvoie une nouvelle copie d'une chaîne, allouée avec `malloc`, comme `strdup`. Quelle taille doit-elle allouer, que doit-elle vérifier, que doit-elle copier exactement, et qui libère la copie ?"
+explanation = "La fonction mesure la source et alloue `longueur + 1` octets : l'octet en plus accueille le terminateur. Si `malloc` renvoie `NULL`, elle renvoie `NULL` aussitôt, sans rien écrire. Elle copie ensuite tous les caractères suivis du `'\\0'`, et renvoie la nouvelle adresse. La copie vit sur le tas et survit à la fonction : elle appartient désormais à l'appelant, qui doit la rendre avec `free` une fois qu'il n'en a plus besoin, sans quoi elle fuit."
+
+[questions.translations.es]
+title = "Duplicar una cadena"
+stem = "Una función devuelve una copia nueva de una cadena, reservada con `malloc`, como `strdup`. ¿Qué tamaño debe reservar, qué debe comprobar, qué debe copiar exactamente y quién libera la copia?"
+explanation = "La función mide el origen y reserva `longitud + 1` bytes: el byte de más aloja el terminador. Si `malloc` devuelve `NULL`, devuelve `NULL` en el acto, sin escribir nada. Después copia todos los caracteres seguidos del `'\\0'` y devuelve la nueva dirección. La copia vive en el montón y sobrevive a la función: a partir de ahí pertenece a quien llama, que debe liberarla con `free` cuando ya no la necesite, o se perderá esa memoria."
+
+[[questions.choices]]
+correct = true
+text = { en = "`length + 1` bytes, `NULL` returned if the allocation fails, the terminator copied too, and the caller frees the copy", fr = "`longueur + 1` octets, `NULL` renvoyé si l'allocation échoue, le terminateur copié aussi, et l'appelant libère la copie", es = "`longitud + 1` bytes, `NULL` si la reserva falla, el terminador copiado también, y quien llama libera la copia" }
+
+[[questions.choices]]
+text = { en = "`length` bytes are enough: the terminator is added by the allocation", fr = "`longueur` octets suffisent : le terminateur est ajouté par l'allocation", es = "`longitud` bytes bastan: el terminador lo añade la reserva" }
+
+[[questions.choices]]
+text = { en = "`length + 1` bytes, and the function frees the copy itself before returning it", fr = "`longueur + 1` octets, et la fonction libère elle-même la copie avant de la renvoyer", es = "`longitud + 1` bytes, y la función libera ella misma la copia antes de devolverla" }
+
+[[questions.choices]]
+text = { en = "The size of the pointer, since a string is just an address", fr = "La taille du pointeur, puisqu'une chaîne n'est qu'une adresse", es = "El tamaño del puntero, ya que una cadena solo es una dirección" }
+
+[[questions]]
+slug = "rank02-l1-reversing-in-place"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["strings", "algorithms"]
+key_points = [
+  "Use two indices, one at the first character and one at the last (length - 1), and swap the characters they point to.",
+  "Move them towards each other and stop when they meet or cross, that is after length / 2 swaps.",
+  "Swapping index i with length - 1 - i for every i up to length - 1 is wrong: past the middle each pair is swapped back and the original string is restored.",
+  "The terminator stays in place, and no extra buffer is needed.",
+]
+
+[questions.translations.en]
+title = "Reversing a string in place"
+stem = "How do you reverse a string in its own memory, without a second buffer? Where do you start, when do you stop, and why does going past the middle give back the original string?"
+explanation = "Take two indices, one on the first character and one on the last, at `length - 1`, and swap the two characters. Then move them one step towards each other and repeat until they meet or cross, which makes `length / 2` swaps; a middle character in an odd-length string stays where it is. Going past the middle would swap every pair a second time and restore the original. The `'\\0'` never moves, and no other memory is needed."
+
+[questions.translations.fr]
+title = "Inverser une chaîne sur place"
+stem = "Comment inverser une chaîne dans sa propre mémoire, sans second tampon ? Où commencer, quand s'arrêter, et pourquoi dépasser le milieu redonne-t-il la chaîne d'origine ?"
+explanation = "On prend deux indices, l'un sur le premier caractère et l'autre sur le dernier, en `longueur - 1`, et on échange les deux caractères. On les rapproche ensuite d'un pas et on recommence jusqu'à ce qu'ils se rejoignent ou se croisent, ce qui fait `longueur / 2` échanges ; le caractère du milieu d'une chaîne de longueur impaire reste en place. Dépasser le milieu échangerait chaque paire une seconde fois et rétablirait l'original. Le `'\\0'` ne bouge jamais, et aucune autre mémoire n'est nécessaire."
+
+[questions.translations.es]
+title = "Invertir una cadena en el sitio"
+stem = "¿Cómo inviertes una cadena en su propia memoria, sin un segundo búfer? ¿Dónde empiezas, cuándo te detienes y por qué pasar del centro devuelve la cadena original?"
+explanation = "Se toman dos índices, uno en el primer carácter y otro en el último, en `longitud - 1`, y se intercambian los dos caracteres. Después se acercan un paso y se repite hasta que se encuentran o se cruzan, lo que hace `longitud / 2` intercambios; el carácter central de una cadena de longitud impar se queda donde está. Pasar del centro volvería a intercambiar cada par y restauraría el original. El `'\\0'` nunca se mueve y no hace falta ninguna otra memoria."
+
+[[questions.choices]]
+correct = true
+text = { en = "Two indices, one at each end, swapped and moved towards each other until they meet: `length / 2` swaps", fr = "Deux indices, un à chaque bout, échangés et rapprochés jusqu'à se rejoindre : `longueur / 2` échanges", es = "Dos índices, uno en cada extremo, intercambiados y acercados hasta encontrarse: `longitud / 2` intercambios" }
+
+[[questions.choices]]
+text = { en = "Swap the character at `i` with the one at `length - 1 - i` for every `i` up to `length - 1`", fr = "Échanger le caractère en `i` avec celui en `longueur - 1 - i` pour chaque `i` jusqu'à `longueur - 1`", es = "Intercambiar el carácter en `i` con el de `longitud - 1 - i` para cada `i` hasta `longitud - 1`" }
+
+[[questions.choices]]
+text = { en = "Walk the string once and move each character one place to the left", fr = "Parcourir la chaîne une fois et décaler chaque caractère d'une place vers la gauche", es = "Recorrer la cadena una vez y mover cada carácter un sitio a la izquierda" }
+
+[[questions.choices]]
+text = { en = "Read the string backwards into a second buffer, then copy it back over the first", fr = "Lire la chaîne à l'envers dans un second tampon, puis le recopier par-dessus le premier", es = "Leer la cadena al revés en un segundo búfer y después copiarlo sobre el primero" }
+
+[[questions]]
+slug = "rank02-l1-presence-table"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["characters", "data-structures"]
+key_points = [
+  "Keep an array of 256 flags, one per possible byte value, all initialised to zero.",
+  "Before printing a character, check its flag; print it only if the flag is clear, then set the flag, so each character is printed once, at its first appearance.",
+  "Index the array with (unsigned char)c: a plain char can be negative for bytes above 127, which would index before the array.",
+  "Each character costs one read and one write, so the whole work is linear, instead of searching the output again for every character.",
+]
+
+[questions.translations.en]
+title = "A presence table indexed by character"
+stem = "A program must print the characters of one or two strings, each character only once, in the order they first appear. How can an array indexed by character do that in linear time? Why must the index be converted to `unsigned char`?"
+explanation = "Keep an array of 256 flags, one per possible byte value, all set to zero at the start. For each character, look at its flag: if it is clear, print the character and set the flag; if it is set, the character has already been printed and is skipped. Each character costs one read and one write, so the whole pass is linear, instead of searching what has already been printed at every step. The index must be `(unsigned char)c`: where `char` is signed, a byte such as 0xE9 is -23, and would index before the start of the array."
+
+[questions.translations.fr]
+title = "Un tableau de présence indexé par caractère"
+stem = "Un programme doit afficher les caractères d'une ou de deux chaînes, chacun une seule fois, dans l'ordre de leur première apparition. Comment un tableau indexé par caractère permet-il de le faire en temps linéaire ? Pourquoi faut-il convertir l'indice en `unsigned char` ?"
+explanation = "On garde un tableau de 256 indicateurs, un par valeur d'octet possible, tous à zéro au départ. Pour chaque caractère, on regarde son indicateur : s'il est à zéro, on affiche le caractère et on le met à un ; s'il est déjà à un, le caractère a déjà été affiché et on le saute. Chaque caractère coûte une lecture et une écriture, donc tout le parcours est linéaire, au lieu de rechercher à chaque pas dans ce qui a déjà été affiché. L'indice doit être `(unsigned char)c` : là où `char` est signé, un octet comme 0xE9 vaut -23, et indexerait avant le début du tableau."
+
+[questions.translations.es]
+title = "Una tabla de presencia indexada por carácter"
+stem = "Un programa debe mostrar los caracteres de una o dos cadenas, cada uno una sola vez, en el orden de su primera aparición. ¿Cómo permite hacerlo en tiempo lineal un array indexado por carácter? ¿Por qué hay que convertir el índice a `unsigned char`?"
+explanation = "Se mantiene un array de 256 indicadores, uno por cada valor de byte posible, todos a cero al principio. Para cada carácter se mira su indicador: si está a cero, se muestra el carácter y se pone a uno; si ya está a uno, el carácter ya se mostró y se salta. Cada carácter cuesta una lectura y una escritura, así que todo el recorrido es lineal, en lugar de buscar en cada paso en lo que ya se ha mostrado. El índice debe ser `(unsigned char)c`: donde `char` tiene signo, un byte como 0xE9 vale -23 e indexaría antes del principio del array."
+
+[[questions.choices]]
+correct = true
+text = { en = "An array of 256 flags indexed by `(unsigned char)c`: one read and one write per character, so the work stays linear", fr = "Un tableau de 256 drapeaux indexé par `(unsigned char)c` : une lecture et une écriture par caractère, donc un travail linéaire", es = "Un array de 256 marcas indexado por `(unsigned char)c`: una lectura y una escritura por carácter, así que el trabajo es lineal" }
+
+[[questions.choices]]
+text = { en = "The same array indexed by `c` directly: the conversion changes nothing to the index", fr = "Le même tableau indexé par `c` directement : la conversion ne change rien à l'indice", es = "El mismo array indexado por `c` directamente: la conversión no cambia nada al índice" }
+
+[[questions.choices]]
+text = { en = "Search what has already been printed before each character, which is linear too", fr = "Chercher dans ce qui a déjà été affiché avant chaque caractère, ce qui est linéaire aussi", es = "Buscar en lo ya mostrado antes de cada carácter, que también es lineal" }
+
+[[questions.choices]]
+text = { en = "Sort the characters first, then skip the ones that repeat", fr = "Trier d'abord les caractères, puis sauter ceux qui se répètent", es = "Ordenar primero los caracteres y después saltar los que se repiten" }
+
+[[questions]]
+slug = "rank02-l1-power-of-two"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["bitwise"]
+key_points = [
+  "A power of two has exactly one bit set in binary.",
+  "Subtracting 1 clears that bit and sets every bit below it, so n & (n - 1) is 0 exactly when n has a single bit set.",
+  "0 has no bit set but also gives 0, so it must be excluded: n != 0 && (n & (n - 1)) == 0.",
+]
+
+[questions.translations.en]
+title = "Recognising a power of two"
+stem = "Without a loop, how can you tell whether an unsigned integer `n` is a power of two? Explain why the expression works, and which value needs special care."
+explanation = "In binary, a power of two has exactly one bit set: 8 is `1000`. Subtracting 1 clears that bit and sets every bit below it: 7 is `0111`. For a power of two, `n & (n - 1)` is therefore 0; for any other number, the highest set bit survives the subtraction and the result is not 0. The exception is 0, which has no bit set and still gives 0, so the complete test is `n != 0 && (n & (n - 1)) == 0`."
+
+[questions.translations.fr]
+title = "Reconnaître une puissance de deux"
+stem = "Sans boucle, comment savoir si un entier non signé `n` est une puissance de deux ? Expliquez pourquoi l'expression fonctionne, et quelle valeur demande une attention particulière."
+explanation = "En binaire, une puissance de deux a exactement un bit à un : 8 s'écrit `1000`. Retrancher 1 éteint ce bit et allume tous ceux qui sont en dessous : 7 s'écrit `0111`. Pour une puissance de deux, `n & (n - 1)` vaut donc 0 ; pour tout autre nombre, le bit à un le plus haut survit à la soustraction et le résultat n'est pas nul. L'exception est 0, qui n'a aucun bit à un et donne pourtant 0 : le test complet est `n != 0 && (n & (n - 1)) == 0`."
+
+[questions.translations.es]
+title = "Reconocer una potencia de dos"
+stem = "Sin bucles, ¿cómo sabes si un entero sin signo `n` es una potencia de dos? Explica por qué funciona la expresión y qué valor requiere un cuidado especial."
+explanation = "En binario, una potencia de dos tiene exactamente un bit a uno: 8 es `1000`. Restar 1 apaga ese bit y enciende todos los que están por debajo: 7 es `0111`. Para una potencia de dos, `n & (n - 1)` vale por tanto 0; para cualquier otro número, el bit a uno más alto sobrevive a la resta y el resultado no es 0. La excepción es 0, que no tiene ningún bit a uno y aun así da 0, así que la comprobación completa es `n != 0 && (n & (n - 1)) == 0`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`n != 0 && (n & (n - 1)) == 0`: subtracting 1 clears the only set bit, and `0` has to be excluded by hand", fr = "`n != 0 && (n & (n - 1)) == 0` : soustraire 1 éteint le seul bit allumé, et `0` doit être écarté à la main", es = "`n != 0 && (n & (n - 1)) == 0`: restar 1 apaga el único bit encendido, y `0` hay que excluirlo a mano" }
+
+[[questions.choices]]
+text = { en = "`(n & (n - 1)) == 0` on its own: `0` passes the test and is a power of two", fr = "`(n & (n - 1)) == 0` seul : `0` passe le test et est une puissance de deux", es = "`(n & (n - 1)) == 0` solo: `0` pasa la prueba y es una potencia de dos" }
+
+[[questions.choices]]
+text = { en = "`n % 2 == 0`, since a power of two is an even number", fr = "`n % 2 == 0`, puisqu'une puissance de deux est un nombre pair", es = "`n % 2 == 0`, ya que una potencia de dos es un número par" }
+
+[[questions.choices]]
+text = { en = "`(n | (n - 1)) == 0`, which keeps the bits of both operands", fr = "`(n | (n - 1)) == 0`, qui garde les bits des deux opérandes", es = "`(n | (n - 1)) == 0`, que conserva los bits de los dos operandos" }
+
+[[questions]]
+slug = "rank02-l1-printing-bits"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["bitwise"]
+key_points = [
+  "Walk the positions from 7 down to 0 so that the most significant bit is printed first.",
+  "The bit at position i is (octet >> i) & 1: the shift brings it to the right, the mask keeps only it.",
+  "Turn it into a character with '0' + bit, so the byte 5 prints as 00000101.",
+]
+
+[questions.translations.en]
+title = "Printing the bits of a byte"
+stem = "How do you print the eight bits of an `unsigned char` as `0` and `1` characters, most significant bit first? How do you isolate one bit, and what does the byte 5 print?"
+explanation = "Walk the positions from 7 down to 0, so that the most significant bit comes out first. The bit at position `i` is `(octet >> i) & 1`: the shift brings it to the rightmost place, and the mask `& 1` keeps only that bit. It then becomes a character with `'0' + bit`. For the byte 5, the result is `00000101`: all eight positions are printed, leading zeros included."
+
+[questions.translations.fr]
+title = "Afficher les bits d'un octet"
+stem = "Comment afficher les huit bits d'un `unsigned char` sous forme de caractères `0` et `1`, bit de poids fort en premier ? Comment isoler un bit, et qu'affiche l'octet 5 ?"
+explanation = "On parcourt les positions de 7 à 0, pour que le bit de poids fort sorte en premier. Le bit en position `i` vaut `(octet >> i) & 1` : le décalage l'amène tout à droite, et le masque `& 1` ne garde que ce bit. Il devient ensuite un caractère avec `'0' + bit`. Pour l'octet 5, le résultat est `00000101` : les huit positions sont affichées, zéros de tête compris."
+
+[questions.translations.es]
+title = "Mostrar los bits de un byte"
+stem = "¿Cómo muestras los ocho bits de un `unsigned char` como caracteres `0` y `1`, con el bit más significativo primero? ¿Cómo aíslas un bit y qué muestra el byte 5?"
+explanation = "Se recorren las posiciones de 7 a 0, para que el bit más significativo salga primero. El bit de la posición `i` es `(octet >> i) & 1`: el desplazamiento lo lleva al extremo derecho y la máscara `& 1` conserva solo ese bit. Después se convierte en carácter con `'0' + bit`. Para el byte 5, el resultado es `00000101`: se muestran las ocho posiciones, ceros iniciales incluidos."
+
+[[questions.choices]]
+correct = true
+text = { en = "From position 7 down to 0, printing `'0' + ((b >> i) & 1)`: the byte 5 comes out as `00000101`", fr = "De la position 7 jusqu'à 0, en affichant `'0' + ((b >> i) & 1)` : l'octet 5 sort en `00000101`", es = "De la posición 7 hasta la 0, mostrando `'0' + ((b >> i) & 1)`: el byte 5 sale como `00000101`" }
+
+[[questions.choices]]
+text = { en = "From position 0 up to 7, which prints the byte 5 as `10100000`", fr = "De la position 0 jusqu'à 7, ce qui affiche l'octet 5 en `10100000`", es = "De la posición 0 hasta la 7, lo que muestra el byte 5 como `10100000`" }
+
+[[questions.choices]]
+text = { en = "The shift alone is enough: `b >> i` already gives `0` or `1` without a mask", fr = "Le décalage seul suffit : `b >> i` donne déjà `0` ou `1` sans masque", es = "El desplazamiento solo basta: `b >> i` ya da `0` o `1` sin máscara" }
+
+[[questions.choices]]
+text = { en = "The byte 5 prints as `101`: the leading zeros carry no information", fr = "L'octet 5 s'affiche `101` : les zéros de tête ne portent aucune information", es = "El byte 5 se muestra `101`: los ceros a la izquierda no aportan información" }
+
+[[questions]]
+slug = "rank02-l1-moving-bits"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["bitwise"]
+key_points = [
+  "Swapping the two halves of a byte is (b << 4) | (b >> 4): the low half moves up, the high half moves down.",
+  "In C the operands are promoted to int before the shift, so b << 4 keeps its high bits (0x41 gives 0x414); the result must be truncated to 8 bits, by a cast to unsigned char or a mask with 0xFF.",
+  "Reversing the order of the 8 bits takes a loop of 8 steps: shift the result left, add the lowest bit of the input (b & 1), then shift the input right.",
+]
+
+[questions.translations.en]
+title = "Moving bits inside a byte"
+stem = "For an `unsigned char b`, how do you exchange its two halves of four bits? Why can `b << 4 | b >> 4` give a value larger than a byte? And how do you reverse the order of its eight bits?"
+explanation = "Exchanging the halves is `(b << 4) | (b >> 4)`: the low half moves up four places and the high half moves down four. But C promotes `b` to `int` before shifting, so the bits pushed out of the byte are not lost: with `b = 0x41`, the expression is `0x414`, not `0x14`. The result must be brought back to eight bits, with a cast to `unsigned char` or a mask `& 0xFF`. To reverse the eight bits, loop eight times: shift the result left by one, add the lowest bit of the input with `b & 1`, then shift the input right; `0x26` becomes `0x64`."
+
+[questions.translations.fr]
+title = "Déplacer les bits d'un octet"
+stem = "Pour un `unsigned char b`, comment échanger ses deux moitiés de quatre bits ? Pourquoi `b << 4 | b >> 4` peut-il donner une valeur plus grande qu'un octet ? Et comment inverser l'ordre de ses huit bits ?"
+explanation = "Échanger les moitiés s'écrit `(b << 4) | (b >> 4)` : la moitié basse monte de quatre rangs et la moitié haute descend de quatre. Mais le C promeut `b` en `int` avant le décalage, donc les bits qui sortent de l'octet ne sont pas perdus : avec `b = 0x41`, l'expression vaut `0x414`, et non `0x14`. Il faut ramener le résultat sur huit bits, par une conversion en `unsigned char` ou un masque `& 0xFF`. Pour inverser les huit bits, on boucle huit fois : on décale le résultat d'un rang vers la gauche, on y ajoute le bit le plus bas de l'entrée avec `b & 1`, puis on décale l'entrée vers la droite ; `0x26` devient `0x64`."
+
+[questions.translations.es]
+title = "Mover los bits de un byte"
+stem = "Para un `unsigned char b`, ¿cómo intercambias sus dos mitades de cuatro bits? ¿Por qué `b << 4 | b >> 4` puede dar un valor mayor que un byte? ¿Y cómo inviertes el orden de sus ocho bits?"
+explanation = "Intercambiar las mitades se escribe `(b << 4) | (b >> 4)`: la mitad baja sube cuatro posiciones y la alta baja cuatro. Pero C promueve `b` a `int` antes del desplazamiento, así que los bits que salen del byte no se pierden: con `b = 0x41`, la expresión vale `0x414`, no `0x14`. Hay que volver a ocho bits con una conversión a `unsigned char` o una máscara `& 0xFF`. Para invertir los ocho bits se repite ocho veces: se desplaza el resultado una posición a la izquierda, se le añade el bit más bajo de la entrada con `b & 1` y se desplaza la entrada a la derecha; `0x26` se convierte en `0x64`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`(b << 4) | (b >> 4)`, then truncated to 8 bits: the operands are promoted to `int`, so the high bits survive the shift", fr = "`(b << 4) | (b >> 4)`, puis tronqué à 8 bits : les opérandes sont promus en `int`, donc les bits hauts survivent au décalage", es = "`(b << 4) | (b >> 4)`, luego truncado a 8 bits: los operandos se promueven a `int`, así que los bits altos sobreviven al desplazamiento" }
+
+[[questions.choices]]
+text = { en = "`(b << 4) | (b >> 4)` as it is: an `unsigned char` cannot hold more than 8 bits, so the result is already truncated", fr = "`(b << 4) | (b >> 4)` tel quel : un `unsigned char` ne peut pas tenir plus de 8 bits, donc le résultat est déjà tronqué", es = "`(b << 4) | (b >> 4)` tal cual: un `unsigned char` no puede tener más de 8 bits, así que el resultado ya está truncado" }
+
+[[questions.choices]]
+text = { en = "`b << 4` is enough, since the half that leaves on the left comes back on the right", fr = "`b << 4` suffit, puisque la moitié qui sort à gauche revient à droite", es = "`b << 4` basta, ya que la mitad que sale por la izquierda vuelve por la derecha" }
+
+[[questions.choices]]
+text = { en = "Swapping the two halves and reversing the eight bits are the same operation", fr = "Échanger les deux moitiés et inverser les huit bits sont la même opération", es = "Intercambiar las dos mitades e invertir los ocho bits son la misma operación" }
+
+[[questions]]
+slug = "rank02-l1-maximum-of-an-array"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1000
+tags = ["algorithms"]
+key_points = [
+  "Start from the first element, not from 0: with only negative values, a start of 0 would return 0, which is not in the array.",
+  "Walk the remaining elements and keep the larger value each time.",
+  "An empty array has no maximum: the function must check the length first and return the value its contract gives for that case.",
+]
+
+[questions.translations.en]
+title = "The largest value of an array"
+stem = "A function returns the largest value of an array of `int` given with its length. What should the running result start at, why is 0 a bad choice, and what must happen when the length is 0?"
+explanation = "The running result starts at the first element, then each following element replaces it when it is larger. Starting at 0 looks harmless but is wrong as soon as every value is negative: for `{-5, -2, -9}` it returns 0, a value that is not even in the array, instead of -2. An empty array has no largest value, and reading its first element would read memory that does not belong to it: the length must be checked first, and the function returns whatever its contract specifies for that case."
+
+[questions.translations.fr]
+title = "La plus grande valeur d'un tableau"
+stem = "Une fonction renvoie la plus grande valeur d'un tableau d'`int` donné avec sa longueur. Par quoi faut-il initialiser le résultat en cours, pourquoi 0 est-il un mauvais choix, et que doit-il se passer quand la longueur vaut 0 ?"
+explanation = "Le résultat en cours part du premier élément, puis chaque élément suivant le remplace s'il est plus grand. Partir de 0 semble anodin mais devient faux dès que toutes les valeurs sont négatives : pour `{-5, -2, -9}`, on renvoie 0, une valeur qui n'est même pas dans le tableau, au lieu de -2. Un tableau vide n'a pas de plus grande valeur, et lire son premier élément lirait une mémoire qui ne lui appartient pas : il faut d'abord vérifier la longueur, et la fonction renvoie ce que son contrat prévoit pour ce cas."
+
+[questions.translations.es]
+title = "El mayor valor de un array"
+stem = "Una función devuelve el mayor valor de un array de `int` que recibe con su longitud. ¿Con qué hay que inicializar el resultado en curso, por qué 0 es una mala elección y qué debe pasar cuando la longitud vale 0?"
+explanation = "El resultado en curso parte del primer elemento, y cada elemento siguiente lo sustituye si es mayor. Partir de 0 parece inofensivo, pero es incorrecto en cuanto todos los valores son negativos: para `{-5, -2, -9}` devuelve 0, un valor que ni siquiera está en el array, en lugar de -2. Un array vacío no tiene valor máximo, y leer su primer elemento leería memoria que no le pertenece: primero hay que comprobar la longitud, y la función devuelve lo que su contrato indique para ese caso."
+
+[[questions.choices]]
+correct = true
+text = { en = "Start from the first element, after checking the length: with only negative values a start at `0` would return a value absent from the array", fr = "Partir du premier élément, après avoir vérifié la longueur : avec des valeurs toutes négatives, partir de `0` renverrait une valeur absente du tableau", es = "Partir del primer elemento, tras comprobar la longitud: con valores todos negativos, partir de `0` devolvería un valor que no está en el array" }
+
+[[questions.choices]]
+text = { en = "Start the result at `0` and compare every element with it: the largest one wins in the end", fr = "Partir de `0` et comparer chaque élément avec ce résultat : le plus grand finit par l'emporter", es = "Partir de `0` y comparar cada elemento con ese resultado: el mayor acaba ganando" }
+
+[[questions.choices]]
+text = { en = "Start at `INT_MIN`, which makes the check on the length useless", fr = "Partir de `INT_MIN`, ce qui rend inutile la vérification de la longueur", es = "Partir de `INT_MIN`, lo que hace inútil comprobar la longitud" }
+
+[[questions.choices]]
+text = { en = "Sort the array and return its last element, for the same cost", fr = "Trier le tableau et renvoyer son dernier élément, pour le même coût", es = "Ordenar el array y devolver su último elemento, por el mismo coste" }
+
+[[questions]]
+slug = "rank02-l1-subsequence-test"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["strings", "algorithms"]
+key_points = [
+  "Keep one position in each string; advance in the second string at every step, and in the first only when the two current characters match.",
+  "The first string can be formed from the second, in order, exactly when its position reaches its end.",
+  "Taking the earliest match is always safe (greedy): it leaves the most characters for what remains.",
+  "Each string is walked once: O(n + m), with no backtracking.",
+]
+
+[questions.translations.en]
+title = "Finding a string as a subsequence"
+stem = "How do you check whether the characters of a string `a` appear, in the same order but not necessarily side by side, inside a string `b`? For example `\"fya\"` in `\"faaaya\"`. What does your method cost, and why is taking the first match that comes always right?"
+explanation = "Keep one position in each string. Move forward in `b` at every step, and in `a` only when the two current characters are equal. `a` is found when its position reaches its `'\\0'`; if `b` ends first, it is not. Using the earliest possible match is always safe: it leaves the largest part of `b` for the characters still to find, so no other choice could succeed where this one fails. Each string is read once, with no going back: `O(n + m)`."
+
+[questions.translations.fr]
+title = "Retrouver une chaîne comme sous-suite"
+stem = "Comment vérifier que les caractères d'une chaîne `a` apparaissent, dans le même ordre mais pas forcément côte à côte, dans une chaîne `b` ? Par exemple `\"fya\"` dans `\"faaaya\"`. Que coûte votre méthode, et pourquoi prendre la première correspondance qui se présente est-il toujours juste ?"
+explanation = "On garde une position dans chaque chaîne. On avance dans `b` à chaque pas, et dans `a` seulement quand les deux caractères courants sont égaux. `a` est trouvée quand sa position atteint son `'\\0'` ; si `b` se termine avant, elle ne l'est pas. Utiliser la correspondance la plus précoce est toujours sûr : elle laisse la plus grande partie de `b` pour les caractères qui restent à trouver, donc aucun autre choix ne pourrait réussir là où celui-ci échoue. Chaque chaîne est lue une seule fois, sans retour en arrière : `O(n + m)`."
+
+[questions.translations.es]
+title = "Encontrar una cadena como subsecuencia"
+stem = "¿Cómo compruebas que los caracteres de una cadena `a` aparecen, en el mismo orden pero no necesariamente juntos, dentro de una cadena `b`? Por ejemplo `\"fya\"` en `\"faaaya\"`. ¿Cuánto cuesta tu método y por qué tomar la primera coincidencia que aparece es siempre correcto?"
+explanation = "Se mantiene una posición en cada cadena. Se avanza en `b` en cada paso, y en `a` solo cuando los dos caracteres actuales son iguales. `a` se encuentra cuando su posición llega a su `'\\0'`; si `b` termina antes, no. Usar la coincidencia más temprana siempre es seguro: deja la mayor parte de `b` para los caracteres que faltan, así que ninguna otra elección podría tener éxito donde esta falla. Cada cadena se lee una sola vez, sin volver atrás: `O(n + m)`."
+
+[[questions.choices]]
+correct = true
+text = { en = "One position in each string, advancing in the second at every step and in the first on a match: O(n + m), and taking the earliest match is always safe", fr = "Une position dans chaque chaîne, avancée dans la seconde à chaque pas et dans la première quand les caractères coïncident : O(n + m), et prendre la première correspondance est toujours sûr", es = "Una posición en cada cadena, avanzando en la segunda a cada paso y en la primera cuando coinciden: O(n + m), y tomar la primera coincidencia siempre es seguro" }
+
+[[questions.choices]]
+text = { en = "Every possible match has to be tried, so the search must backtrack: O(n·m)", fr = "Toutes les correspondances possibles doivent être essayées, donc la recherche doit revenir en arrière : O(n·m)", es = "Hay que probar todas las coincidencias posibles, así que la búsqueda debe retroceder: O(n·m)" }
+
+[[questions.choices]]
+text = { en = "Check that every character of the first string appears in the second, whatever the order", fr = "Vérifier que chaque caractère de la première chaîne apparaît dans la seconde, quel que soit l'ordre", es = "Comprobar que cada carácter de la primera cadena aparece en la segunda, sea cual sea el orden" }
+
+[[questions.choices]]
+text = { en = "Sort both strings, then compare them character by character", fr = "Trier les deux chaînes, puis les comparer caractère par caractère", es = "Ordenar las dos cadenas y luego compararlas carácter a carácter" }
+
+[[questions]]
+slug = "rank02-l1-integer-division"
+topic = "exam-rank-02-level-1"
+kind = "free_text"
+difficulty = 1200
+tags = ["number-theory", "error-handling"]
+key_points = [
+  "Integer division truncates toward zero: -7 / 2 is -3.",
+  "The remainder has the sign of the dividend, so that (a / b) * b + a % b == a: -7 % 2 is -1 and 7 % -2 is 1.",
+  "Dividing by zero, with / or %, is undefined behaviour and usually kills the program (SIGFPE), so the divisor must be checked first.",
+  "INT_MIN / -1 overflows, since the result does not fit in an int, and also usually raises SIGFPE.",
+]
+
+[questions.translations.en]
+title = "Integer division and remainder"
+stem = "A small calculator reads two `int` values and an operator among `+ - * / %`. What do `-7 / 2`, `-7 % 2` and `7 % -2` give in C, and why? Which operations must be checked before being computed?"
+explanation = "Integer division truncates toward zero, so `-7 / 2` is -3. The remainder is defined so that `(a / b) * b + a % b == a`, which gives it the sign of the dividend: `-7 % 2` is -1 and `7 % -2` is 1. Dividing by zero, with `/` as well as `%`, is undefined behaviour and in practice kills the program with `SIGFPE`, so the divisor is checked first. One more case overflows: `INT_MIN / -1` would be 2147483648, which does not fit in an `int`, and it usually raises `SIGFPE` too."
+
+[questions.translations.fr]
+title = "Division entière et reste"
+stem = "Une petite calculatrice lit deux `int` et un opérateur parmi `+ - * / %`. Que donnent `-7 / 2`, `-7 % 2` et `7 % -2` en C, et pourquoi ? Quelles opérations faut-il vérifier avant de les calculer ?"
+explanation = "La division entière tronque vers zéro : `-7 / 2` vaut -3. Le reste est défini pour que `(a / b) * b + a % b == a`, ce qui lui donne le signe du dividende : `-7 % 2` vaut -1 et `7 % -2` vaut 1. Diviser par zéro, avec `/` comme avec `%`, est un comportement indéfini qui, en pratique, tue le programme par `SIGFPE` : on vérifie donc le diviseur d'abord. Un autre cas déborde : `INT_MIN / -1` vaudrait 2147483648, qui ne tient pas dans un `int`, et déclenche lui aussi, en général, `SIGFPE`."
+
+[questions.translations.es]
+title = "División entera y resto"
+stem = "Una pequeña calculadora lee dos `int` y un operador entre `+ - * / %`. ¿Qué dan `-7 / 2`, `-7 % 2` y `7 % -2` en C, y por qué? ¿Qué operaciones hay que comprobar antes de calcularlas?"
+explanation = "La división entera trunca hacia cero: `-7 / 2` vale -3. El resto se define para que `(a / b) * b + a % b == a`, lo que le da el signo del dividendo: `-7 % 2` vale -1 y `7 % -2` vale 1. Dividir entre cero, tanto con `/` como con `%`, es comportamiento indefinido y en la práctica mata el programa con `SIGFPE`, así que primero se comprueba el divisor. Otro caso desborda: `INT_MIN / -1` valdría 2147483648, que no cabe en un `int`, y normalmente también provoca `SIGFPE`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`-3`, `-1` and `1`: the division truncates toward zero and the remainder takes the sign of the dividend", fr = "`-3`, `-1` et `1` : la division tronque vers zéro et le reste prend le signe du dividende", es = "`-3`, `-1` y `1`: la división trunca hacia cero y el resto toma el signo del dividendo" }
+
+[[questions.choices]]
+text = { en = "`-4`, `1` and `-1`: the division rounds down and the remainder takes the sign of the divisor", fr = "`-4`, `1` et `-1` : la division arrondit vers le bas et le reste prend le signe du diviseur", es = "`-4`, `1` y `-1`: la división redondea hacia abajo y el resto toma el signo del divisor" }
+
+[[questions.choices]]
+text = { en = "`-3`, `1` and `1`: a remainder is never negative", fr = "`-3`, `1` et `1` : un reste n'est jamais négatif", es = "`-3`, `1` y `1`: un resto nunca es negativo" }
+
+[[questions.choices]]
+text = { en = "`-3`, `-1` and `1`, and a division by zero simply gives `0`", fr = "`-3`, `-1` et `1`, et une division par zéro donne simplement `0`", es = "`-3`, `-1` y `1`, y una división entre cero da simplemente `0`" }

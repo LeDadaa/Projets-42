@@ -1,0 +1,597 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "exercices": "Exercises",
+    "trainingSession": "Training session",
+    "profil": "Profile",
+    "settings": "Settings",
+    "messages": "Messages",
+    "friends": "Friends",
+    "logout": "Log out",
+    "multiplayer": "Multiplayer",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "theme": {
+    "light": "Light theme",
+    "dark": "Dark theme"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "landing": {
+    "badge": "Exam revision · École 42",
+    "title": "Revise by thinking, not by reciting.",
+    "subtitle": "Maïa guides you through the notions tested at 42's Exam Ranks with socratic questions. You understand instead of memorising an answer.",
+    "ctaPrimary": "Start for free",
+    "ctaSecondary": "I already have an account",
+    "pitch": {
+      "socratic": {
+        "title": "We never hand you the answer",
+        "body": "Maïa asks guiding questions. You understand by working it out yourself — the socratic method."
+      },
+      "exams": {
+        "title": "The notions from 42's exams",
+        "body": "Every exercise targets a notion tested at a given Exam Rank: name, level, cursus. Never the original brief — only the notion it tests."
+      },
+      "progress": {
+        "title": "Move at your own pace",
+        "body": "Earn XP, keep your streak, unlock badges. No pressure, no toxic leaderboard."
+      }
+    },
+    "preview": {
+      "title": "What it looks like",
+      "subtitle": "Your revision space — and above all the guided reasoning that makes the difference.",
+      "dashboardEyebrow": "Your dashboard",
+      "dashboardBody": "Your progress, your XP and your streak at a glance — plus the exercises recommended to pick up where you left off.",
+      "dashboardAlt": "Maïa dashboard — XP, stats and recommended exercises"
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "title": "Three steps, zero rote learning",
+      "pick": {
+        "title": "Pick an Exam Rank",
+        "body": "Revise every Exam Rank from the common core, 02 to 06: each exam broken down notion by notion."
+      },
+      "answer": {
+        "title": "Answer, get guided",
+        "body": "Get it wrong without stress: Maïa follows up with questions until it clicks."
+      },
+      "validate": {
+        "title": "Pass your exam",
+        "body": "Walk in confident on the day: you understood every notion, not just memorised an answer."
+      }
+    },
+    "reasoning": {
+      "eyebrow": "The reasoning, for real",
+      "body": "A brief stated plainly, then a dialogue that makes you reason your way to the click.",
+      "userFirst": "It just returns an error, doesn't it?",
+      "maia": "Let's be precise: on the highlighted line, what exactly does {str} read if {str} is {nullValue}?",
+      "userSecond": "Ah — we dereference a null pointer, so a segfault.",
+      "success": "Exactly — you found the cause"
+    }
+  },
+  "dashboard": {
+    "greeting": "Welcome back,",
+    "streak": "{n}-day streak",
+    "level": "Level {n}",
+    "xp": "{current} / {max} XP",
+    "xpToNext": "Only {n} XP until level {level}.",
+    "statsSolved": "Exercises solved",
+    "statsToReview": "To review",
+    "recommended": "Recommended for you",
+    "achievements": "Achievements",
+    "achievementsCount": "{n} / {total} unlocked",
+    "locked": "Locked",
+    "rules": {
+      "title": "How do I earn XP?",
+      "correctLlm": "+{n} XP: right answer validated by the AI",
+      "correctSelf": "+{n} XP: right answer, self-assessed",
+      "matchPlayed": "+{n} XP: multiplayer match finished",
+      "matchWon": "+{n} bonus XP: win (top score with no tie, or opponent forfeit)",
+      "perLevel": "{n} XP per level. Each question pays XP only once.",
+      "streak": "Your streak grows on every day you are active, and resets if you skip a day."
+    }
+  },
+  "achievements": {
+    "first_steps": {
+      "name": "First steps",
+      "desc": "Earn your first XP"
+    },
+    "level_5": {
+      "name": "Level 5",
+      "desc": "Reach level 5"
+    },
+    "level_10": {
+      "name": "Level 10",
+      "desc": "Reach level 10"
+    },
+    "streak_3": {
+      "name": "On a roll",
+      "desc": "3 days in a row"
+    },
+    "streak_7": {
+      "name": "Perfect week",
+      "desc": "7 days in a row"
+    }
+  },
+  "exercices": {
+    "title": "Exercises",
+    "subtitle": "Pick an exam, then a level, then the exercise you want to practise.",
+    "searchLabel": "Search a notion",
+    "searchPlaceholder": "Search a notion: {examples}…",
+    "levelsCount": "{n} level | {n} levels",
+    "exercisesCount": "{n} exercise | {n} exercises",
+    "resultsCount": "{n} exercise found | {n} exercises found",
+    "noResults": "No exercise covers this notion.",
+    "empty": "No exams available yet.",
+    "emptyTopic": "No exercises in this level yet.",
+    "topicNotFound": "This exam or level does not exist.",
+    "backToExams": "Back to exams",
+    "breadcrumb": "Breadcrumb",
+    "loading": "Loading questions…",
+    "loadFailed": "Could not load the questions.",
+    "retry": "Try again",
+    "carousel": {
+      "label": "Choose an exam",
+      "previous": "Previous exam",
+      "next": "Next exam",
+      "slide": "{n} of {total}",
+      "current": "{name}, {n} of {total}",
+      "open": "See the levels"
+    }
+  },
+  "exercise": {
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "notTranslated": "English version",
+    "loading": "Loading the exercise…",
+    "loadFailed": "Could not load the exercise.",
+    "retry": "Try again",
+    "notFound": "This exercise does not exist or is no longer available.",
+    "answerLabel": "Your answer",
+    "answerPlaceholder": "Explain in your own words…"
+  },
+  "grader": {
+    "submit": "Submit",
+    "grading": "Grading…",
+    "thread": "Grading of your answer",
+    "verdict": {
+      "correct": "Answer accepted",
+      "imprecise": "Accepted, but incomplete",
+      "off_target": "Not yet"
+    },
+    "flagged": "Your answer contains instructions for the grader. Only your explanation of the topic will be evaluated.",
+    "attemptsLeft": "You have {n} attempt left today on this question. | You have {n} attempts left today on this question.",
+    "noAttemptsLeft": "You've used your daily attempts on this question. Read the answer, then move on.",
+    "referenceTitle": "Answer",
+    "explanationFailed": "The explanation was interrupted.",
+    "fallback": {
+      "disabled": "Automatic grading is disabled.",
+      "budget": "Automatic grading is overwhelmed right now.",
+      "unavailable": "Automatic grading is not responding.",
+      "prompt": "Compare your answer to the reference, then tell us if you were right."
+    },
+    "selfCorrect": "I was right",
+    "selfWrong": "I was wrong",
+    "selfThanks": "Got it.",
+    "errors": {
+      "exhausted": "You've used your daily attempts on this question. Come back tomorrow or move on.",
+      "tooFast": "Too many grades in a row. Try again in {s} s.",
+      "notFound": "This exercise is no longer available.",
+      "generic": "Grading could not complete. Try again.",
+      "selfFailed": "Your response could not be recorded."
+    }
+  },
+  "training": {
+    "loading": "Loading questions…",
+    "loadFailed": "Could not load the questions.",
+    "retry": "Try again",
+    "empty": "No questions available yet.",
+    "progress": "Question {n} of {total}",
+    "previous": "Previous",
+    "next": "Next",
+    "remaining": "Time left",
+    "elapsed": "Time elapsed",
+    "finish": "End session",
+    "setup": {
+      "intro": "Pick an exam in the carousel, then click the level you want to practise.",
+      "count": "Number of questions",
+      "all": "All ({n})",
+      "duration": "Time limit",
+      "duration30": "30 min",
+      "duration60": "1 h",
+      "duration120": "2 h",
+      "durationNone": "No limit",
+      "step": "Step {n} of 2",
+      "back": "Change level",
+      "start": "Start"
+    },
+    "recap": {
+      "title": "Session summary",
+      "timeUp": "Time is up: the session is over.",
+      "finished": "You ended the session.",
+      "validated": "Validated",
+      "toReview": "To review",
+      "unanswered": "Unanswered",
+      "restart": "New session"
+    }
+  },
+  "notions": {
+    "operator-overloading": "Operator overloading",
+    "const-correctness": "Const correctness",
+    "arbitrary-precision": "Arbitrary precision",
+    "algorithms": "Algorithms",
+    "conversions": "Conversions",
+    "canonical-form": "Canonical form",
+    "memory": "Memory",
+    "polymorphism": "Polymorphism",
+    "inheritance": "Inheritance",
+    "data-structures": "Data structures",
+    "complexity": "Complexity",
+    "dynamic-programming": "Dynamic programming",
+    "file-io": "File I/O",
+    "input-parsing": "Input parsing",
+    "error-handling": "Error handling",
+    "strings": "Strings",
+    "characters": "Characters and ASCII",
+    "pointers": "Pointers",
+    "command-line": "Command line",
+    "bitwise": "Bitwise operations",
+    "number-theory": "Number theory",
+    "recursion": "Recursion",
+    "backtracking": "Backtracking",
+    "linked-lists": "Linked lists",
+    "sorting": "Sorting",
+    "static-storage": "Static storage",
+    "variadic-functions": "Variadic functions",
+    "processes": "Processes",
+    "pipes": "Pipes",
+    "signals": "Signals",
+    "file-descriptors": "File descriptors",
+    "sockets": "Sockets",
+    "io-multiplexing": "I/O multiplexing",
+    "stl-containers": "STL containers"
+  },
+  "auth": {
+    "login": "Log in",
+    "signUp": "Create an account",
+    "signIn": "Sign in",
+    "createAccount": "Create your account",
+    "email": "Email address",
+    "username": "Username",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "forgotPassword": "Forgot your password?",
+    "requestNewPassword": "Request a new password",
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Pick up where you left off.",
+    "signupTitle": "Create an account",
+    "signupSubtitle": "Start revising in seconds.",
+    "forgotTitle": "Forgot your password?",
+    "forgotSubtitle": "Enter your login and we'll send you a new password.",
+    "login42": "42 Login",
+    "login42Placeholder": "jdoe",
+    "emailPlaceholder": "firstname{'@'}student.42.fr",
+    "passwordPlaceholder": "••••••••",
+    "or": "or",
+    "providers": {
+      "github": "GitHub",
+      "google": "Google",
+      "intra42": "Intra 42",
+      "continueWith": "Continue with {provider}",
+      "signUpWith": "Sign up with {provider}"
+    },
+    "errors": {
+      "passwordTooShort": "Password must be at least 10 characters long",
+      "passwordMismatch": "Passwords do not match",
+      "invalidLogin": "Wrong email or password.",
+      "tooMany": "Too many attempts, try again later.",
+      "generic": "Something went wrong, try again.",
+      "emailTaken": "That email is already registered.",
+      "nameTaken": "That username is taken.",
+      "invalidInput": "Check the fields and try again.",
+      "passwordWeak": "This password is too common, choose another.",
+      "passwordIsEmail": "The password must be different from the email.",
+      "passwordNeedsLower": "The password needs a lowercase letter.",
+      "passwordNeedsUpper": "The password needs an uppercase letter.",
+      "passwordNeedsDigit": "The password needs a digit.",
+      "passwordNeedsSpecial": "The password needs a special character (e.g. ! ? # -)."
+    },
+    "signingIn": "Signing in…",
+    "creating": "Creating…",
+    "verify": "Verify",
+    "totpPrompt": "Enter the 6-digit code from your authenticator app.",
+    "totpCode": "Authentication code",
+    "acceptTerms": "I accept the {terms} and have read the {privacy}.",
+    "oauthTerms": "By continuing with GitHub, Google or 42, you accept the {terms} and acknowledge the {privacy}.",
+    "termsLink": "terms of service",
+    "privacyLink": "privacy policy",
+    "passwordHint": "At least 10 characters, with an uppercase letter, a lowercase letter, a digit and a special character."
+  },
+  "chat": {
+    "send": "Send",
+    "placeholder": "Write your message",
+    "read": "Read",
+    "loadOlder": "Load earlier messages",
+    "empty": "No messages yet with {name}.",
+    "typing": "{name} is typing…",
+    "noConversations": "No conversations yet.",
+    "pickConversation": "Select a conversation to start chatting.",
+    "sendBlocked": "You can't message this user.",
+    "sendFailed": "Message not sent, try again.",
+    "back": "Conversations"
+  },
+  "user": {
+    "level": "Lvl {n}."
+  },
+  "realtime": {
+    "idle": "Offline",
+    "connecting": "Connecting…",
+    "online": "Realtime on",
+    "offline": "Reconnecting…"
+  },
+  "presence": {
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "friends": {
+    "find": "Find people",
+    "searchPlaceholder": "Search by username…",
+    "add": "Add friend",
+    "alreadyLinked": "Linked",
+    "noResults": "No users found.",
+    "incoming": "Friend requests",
+    "outgoing": "Sent requests",
+    "accept": "Accept",
+    "decline": "Decline",
+    "cancel": "Cancel",
+    "pending": "Pending",
+    "yourFriends": "Your friends",
+    "none": "No friends yet.",
+    "message": "Message",
+    "remove": "Remove",
+    "block": "Block",
+    "errConflict": "Already done or not allowed.",
+    "errGeneric": "Action failed, try again."
+  },
+  "profile": {
+    "notFound": "This profile does not exist.",
+    "joined": "Joined {date}",
+    "noBio": "No bio yet.",
+    "friends": "Friends",
+    "unblock": "Unblock",
+    "edit": "Edit",
+    "viewPublic": "View my public profile",
+    "language": "Language"
+  },
+  "settings": {
+    "avatar": "Avatar",
+    "chooseImage": "Choose an image",
+    "uploading": "Uploading…",
+    "avatarRejected": "Image rejected (max 2 MB, PNG/JPEG/WebP).",
+    "profile": "Profile",
+    "bio": "Bio",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Changes saved.",
+    "saveError": "Could not save your changes.",
+    "twoFa": "Two-factor authentication",
+    "twoFaHint": "Protect your account with a time-based code.",
+    "twoFaOn": "Two-factor authentication is on.",
+    "twoFaOff": "Off",
+    "twoFaEnable": "Enable",
+    "twoFaScan": "Scan this QR code, then enter the code it shows.",
+    "twoFaConfirm": "Confirm",
+    "twoFaDone": "Two-factor authentication enabled.",
+    "twoFaDisable": "Disable",
+    "twoFaBadCode": "Invalid code.",
+    "backupCodes": "Save these backup codes somewhere safe:",
+    "session": "Session",
+    "logout": "Log out"
+  },
+  "multiplayer": {
+    "you": "you",
+    "leave": "Leave match",
+    "dismiss": "Dismiss",
+    "standings": "Standings",
+    "phase": {
+      "lobby": "Waiting room",
+      "playing": "Match in progress",
+      "finished": "Match over",
+      "setup": "Setup"
+    },
+    "offline": {
+      "title": "Connection lost",
+      "body": "Realtime is down. Your seat is kept for 60 seconds: reconnect to resume the match.",
+      "retry": "Reconnect"
+    },
+    "create": {
+      "title": "Create a match",
+      "intro": "Open a room and share its code with your friends.",
+      "size": "Maximum players",
+      "players": "{n} players",
+      "submit": "Create room",
+      "levels": "Levels played",
+      "levelsHint": "With no choice made, questions come from every level.",
+      "levelsLoading": "Loading the levels…",
+      "levelsFailed": "The levels could not be loaded: the match will take questions from every level.",
+      "selectedCount": "{n} questions available"
+    },
+    "join": {
+      "title": "Join a match",
+      "intro": "Got a code from a friend? Enter it here.",
+      "code": "Room code",
+      "submit": "Join"
+    },
+    "lobby": {
+      "code": "Room code",
+      "copy": "Copy code",
+      "copied": "Copied",
+      "share": "Share this code: each player enters it under “Join a match”.",
+      "needTwo": "At least two players are needed to start.",
+      "autoStart": "The match starts as soon as everyone is ready ({ready} / {total}).",
+      "players": "Players",
+      "emptySeat": "Open seat",
+      "ready": "Ready",
+      "notReady": "Not ready",
+      "imReady": "I'm ready",
+      "unready": "Not ready anymore",
+      "reconnecting": "Reconnecting…",
+      "questions": "{n} questions",
+      "allLevels": "Every level"
+    },
+    "round": {
+      "waiting": "Answer sent. Waiting for the other players ({n} / {total}).",
+      "hasAnswered": "Has answered",
+      "loading": "Next question…",
+      "correct": "Right answer.",
+      "wrong": "Wrong answer.",
+      "missed": "Time is up: no answer."
+    },
+    "result": {
+      "title": "Match over",
+      "won": "Victory!",
+      "winner": "{name} wins the match.",
+      "forfeit": "The other players left: victory by forfeit.",
+      "rank": "Your rank",
+      "score": "Your points",
+      "again": "New match"
+    },
+    "rules": {
+      "title": "Rules",
+      "same": "Every player gets the same question at the same time.",
+      "timer": "Each question lasts 20 seconds.",
+      "speed": "A right answer earns 10 points, plus a bonus for the fastest to find it: +5 for the 1st, +3 for the 2nd, +1 for the 3rd.",
+      "wrong": "A wrong or missing answer earns 0 points.",
+      "win": "Highest score after the last question wins. Being disconnected for over 60 seconds counts as a forfeit."
+    },
+    "errors": {
+      "generic": "Something went wrong. Try again.",
+      "MATCH_NOT_FOUND": "No match matches this code.",
+      "MATCH_ALREADY_STARTED": "This match has already started.",
+      "MATCH_FULL": "This match is full.",
+      "NO_QUESTIONS_AVAILABLE": "No questions available to start a match.",
+      "INVALID_MAX_PLAYERS": "Invalid number of players.",
+      "INVALID_MATCH_ID": "Invalid room code.",
+      "NOT_IN_MATCH": "You are not part of this match.",
+      "INVALID_STATE": "This action is not possible at this point of the match.",
+      "INVALID_QUESTION": "Invalid question received from the server.",
+      "INVALID_CHOICE": "Invalid answer."
+    },
+    "recap": {
+      "title": "Match detail",
+      "round": "Question {n}",
+      "correctAnswer": "Right answer",
+      "yourAnswer": "Your answer",
+      "answered": "{seconds} s · {points} pts",
+      "noAnswer": "No answer",
+      "loading": "Loading the detail…",
+      "failed": "The match detail could not be loaded."
+    }
+  },
+  "legal": {
+    "footer": {
+      "privacy": "Privacy",
+      "terms": "Terms of service",
+      "project": "42 student project · ft_transcendence"
+    },
+    "updated": "Last updated: September 29, 2026",
+    "back": "Back",
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "This page explains what data Maïa collects, why, how long it is kept and what your rights are. We only collect what the platform needs to work.",
+      "sections": {
+        "controller": {
+          "title": "Who we are",
+          "body": "Maïa is a practice platform for 42 exams, built by a team of students as part of the ft_transcendence project. It is neither a commercial service nor an official 42 service. The project team is responsible for the data processing described here."
+        },
+        "data": {
+          "title": "Data we collect",
+          "body": "• Account: email address, username, password (never stored in plain text, only hashed with Argon2), avatar, bio, preferred language.\n• Sign-in with GitHub, Google or the 42 intra: your account ID at that provider and the email address it sends us. We never receive your password for that provider.\n• Activity: your exercise answers, the feedback and grades you get, your training sessions and multiplayer matches.\n• Social: your friends list, blocked users and private messages.\n• Security: session tokens (stored hashed), your two-factor secret if you enable it (encrypted), last activity time and the IP address tied to some sensitive actions in the security log."
+        },
+        "purposes": {
+          "title": "Why we use it",
+          "body": "• To create and secure your account, sign you in and, if you want, enable two-factor authentication.\n• To grade your answers, track your progress and show your statistics.\n• To run chat, friends, online presence and multiplayer.\n• To protect the platform from abuse (attempt limits, security log).\nThis processing relies on providing the service you ask for when you create an account, and on our legitimate interest in keeping the platform secure. We do no advertising and no commercial profiling."
+        },
+        "ai": {
+          "title": "AI grading",
+          "body": "The answers you submit may be analysed by a language model to give you feedback. This model runs on the project infrastructure: your answers are not sold or used to train a model. AI feedback is educational and may contain mistakes."
+        },
+        "cookies": {
+          "title": "Cookies and local storage",
+          "body": "Maïa only uses strictly necessary cookies, with no advertising trackers or analytics:\n• access_token and refresh_token: keep you signed in (unreadable by JavaScript).\n• csrf_token: protects forms against forged requests.\n• mfa_token and OAuth state: last a few minutes, during a two-step or provider sign-in.\n• maia_locale: remembers your language.\nYour light or dark theme choice is kept in your browser local storage. Since these are essential, they do not require consent."
+        },
+        "sharing": {
+          "title": "Sharing",
+          "body": "We never sell or rent your data. Your username, avatar, bio, online presence and public results are visible to other signed-in users. Your private messages are only visible to you and the person you talk to. If you sign in with GitHub, Google or 42, that provider knows you signed in to Maïa, under its own privacy policy."
+        },
+        "retention": {
+          "title": "Retention",
+          "body": "Your data is kept as long as your account exists. Sessions expire automatically and revoked tokens can no longer be used. When your account is deleted, your personal data is erased, except security log entries which may be kept for a few months to investigate abuse."
+        },
+        "security": {
+          "title": "Security",
+          "body": "All traffic goes over HTTPS. Passwords and tokens are hashed, the two-factor secret is encrypted, and two-factor authentication is available in settings. No system is flawless, so please use a unique password."
+        },
+        "rights": {
+          "title": "Your rights",
+          "body": "Under the GDPR, you can access, correct, export or delete your data, and object to its processing. You can edit your profile directly in settings. For anything else, including deleting your account, contact the project team: we reply within one month. You can also file a complaint with the CNIL, the French data protection authority (cnil.fr)."
+        },
+        "changes": {
+          "title": "Changes",
+          "body": "If this policy changes significantly, the date at the top of the page will be updated and we will let you know on the platform."
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms of service",
+      "intro": "These terms govern the use of Maïa. By creating an account, you accept them. If you disagree, do not use the platform.",
+      "sections": {
+        "service": {
+          "title": "The service",
+          "body": "Maïa is a free practice platform for 42 exams: exercises, AI-assisted grading, timed sessions, multiplayer, chat and friends. It is a student project built as part of ft_transcendence and is not an official 42 service."
+        },
+        "account": {
+          "title": "Your account",
+          "body": "You must provide a valid email address and pick a username that does not impersonate someone else. You are responsible for keeping your password secret and for everything done with your account. An account is personal: do not share it. We recommend enabling two-factor authentication."
+        },
+        "conduct": {
+          "title": "Code of conduct",
+          "body": "You must not:\n• harass, insult, threaten or discriminate against other users, in chat, usernames, bios or avatars;\n• post illegal, hateful or pornographic content, or spam;\n• cheat in multiplayer or tamper with rankings;\n• try to access other people’s accounts, bypass protections, attack or overload the platform, or scrape it automatically.\nYou can block any user who bothers you."
+        },
+        "content": {
+          "title": "Your content",
+          "body": "You keep ownership of what you post (answers, messages, avatar, bio). You only allow us to store and display it to run the service. You guarantee you have the right to post it, including any image used as an avatar."
+        },
+        "ai": {
+          "title": "AI grading",
+          "body": "Feedback and hints generated by the AI are educational. They may be incomplete or wrong and do not replace official exam grading or human judgement. Grades earned on Maïa have no official value."
+        },
+        "availability": {
+          "title": "Availability",
+          "body": "The service is provided as is, with no guarantee of availability or long-term data retention. It may be interrupted, changed or shut down at any time, for example for maintenance or when the project ends."
+        },
+        "termination": {
+          "title": "Suspension and closure",
+          "body": "We may remove content or suspend an account that breaks these terms. You can stop using Maïa at any time and ask for your account to be deleted, as described in the privacy policy."
+        },
+        "liability": {
+          "title": "Liability",
+          "body": "To the extent permitted by law, the project team is not liable for indirect damage arising from use of the platform, nor for content posted by users."
+        },
+        "changes": {
+          "title": "Changes and governing law",
+          "body": "These terms may change: the date at the top of the page shows the latest version, and continuing to use Maïa after a change means you accept it. They are governed by French law."
+        }
+      }
+    }
+  },
+  "toast": {
+    "close": "Close notification",
+    "achievementUnlocked": "Achievement unlocked!"
+  }
+}

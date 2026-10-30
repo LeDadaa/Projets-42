@@ -1,0 +1,10 @@
+{
+   readline leaks
+   Memcheck:Leak
+   fun:malloc
+   fun:__libc_malloc
+   fun:realloc
+   fun:__libc_realloc
+   fun:readline
+   fun:add_history
+}

@@ -1,0 +1,494 @@
+# Exam Rank 05, level 0: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank05-l0-increment-operator-forms"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["operator-overloading"]
+key_points = [
+  "The postfix overload takes an extra, unused int parameter; that parameter is what tells the two overloads apart.",
+  "The prefix form increments the object and returns a reference to *this.",
+  "The postfix form must yield the value from before the increment, so it saves a copy and returns that copy by value.",
+]
+
+[questions.translations.en]
+title = "Prefix and postfix increment"
+stem = "In C++, a class can overload both `++x` and `x++`. How does the compiler tell the two overloads apart, and why does the postfix form usually return a copy while the prefix form returns a reference?"
+explanation = "For a class `T`, the postfix form is declared with an extra `int` parameter that is never used: `T operator++(int)`, while the prefix form is `T& operator++()`. The prefix form increments the object and returns `*this` by reference, so the result is the object itself. The postfix form must evaluate to the value the object had before the increment: it copies `*this`, increments the object, then returns the saved copy by value. That copy is why `++x` is preferred when the old value is not needed."
+
+[questions.translations.fr]
+title = "Incrémentation préfixée et postfixée"
+stem = "En C++, une classe peut surcharger `++x` et `x++`. Comment le compilateur distingue-t-il les deux surcharges, et pourquoi la forme postfixée renvoie-t-elle en général une copie alors que la forme préfixée renvoie une référence ?"
+explanation = "Pour une classe `T`, la forme postfixée se déclare avec un paramètre `int` supplémentaire, jamais utilisé : `T operator++(int)`, alors que la forme préfixée s'écrit `T& operator++()`. La forme préfixée incrémente l'objet et renvoie `*this` par référence : le résultat est l'objet lui-même. La forme postfixée doit valoir l'ancienne valeur de l'objet : elle copie `*this`, incrémente l'objet, puis renvoie la copie sauvegardée par valeur. Cette copie explique pourquoi on préfère `++x` quand l'ancienne valeur ne sert pas."
+
+[questions.translations.es]
+title = "Incremento prefijo y postfijo"
+stem = "En C++, una clase puede sobrecargar `++x` y `x++`. ¿Cómo distingue el compilador las dos sobrecargas, y por qué la forma postfija suele devolver una copia mientras que la prefija devuelve una referencia?"
+explanation = "Para una clase `T`, la forma postfija se declara con un parámetro `int` adicional que nunca se usa: `T operator++(int)`, mientras que la prefija es `T& operator++()`. La forma prefija incrementa el objeto y devuelve `*this` por referencia, así que el resultado es el propio objeto. La forma postfija debe valer lo que valía el objeto antes del incremento: copia `*this`, incrementa el objeto y devuelve la copia guardada por valor. Esa copia es la razón por la que se prefiere `++x` cuando el valor anterior no se necesita."
+
+[[questions.choices]]
+correct = true
+text = { en = "The postfix form takes an extra unused `int` parameter; it must yield the value from before, so it returns a copy, while the prefix form returns a reference to `*this`", fr = "La forme postfixée prend un paramètre `int` supplémentaire inutilisé ; elle doit rendre la valeur d'avant, donc elle renvoie une copie, tandis que la forme préfixée renvoie une référence sur `*this`", es = "La forma postfija toma un parámetro `int` extra sin usar; debe dar el valor anterior, así que devuelve una copia, mientras que la prefija devuelve una referencia a `*this`" }
+
+[[questions.choices]]
+text = { en = "The prefix form is the one taking the extra `int`, which marks it as coming first", fr = "C'est la forme préfixée qui prend l'`int` supplémentaire, ce qui marque qu'elle vient d'abord", es = "Es la forma prefija la que toma el `int` extra, lo que marca que va primero" }
+
+[[questions.choices]]
+text = { en = "The two overloads differ by their return type, which is enough for the compiler to tell them apart", fr = "Les deux surcharges diffèrent par leur type de retour, ce qui suffit au compilateur pour les distinguer", es = "Las dos sobrecargas difieren en el tipo de retorno, lo que basta al compilador para distinguirlas" }
+
+[[questions.choices]]
+text = { en = "Both return a reference to `*this`; the copy would be a needless cost", fr = "Les deux renvoient une référence sur `*this` ; la copie serait un coût inutile", es = "Las dos devuelven una referencia a `*this`; la copia sería un coste inútil" }
+
+[[questions]]
+slug = "rank05-l0-compound-and-binary-operators"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["operator-overloading"]
+key_points = [
+  "operator+= modifies its left operand in place and returns *this by reference, which avoids a copy and allows chaining.",
+  "operator+ must leave both operands unchanged, so it builds a new object and returns it by value.",
+  "operator+ must not return a reference: its result is a local object, destroyed when the function returns.",
+  "operator+ can copy its left operand, apply += to the copy and return it, so the arithmetic is written only once.",
+]
+
+[questions.translations.en]
+title = "Compound and binary operators"
+stem = "Why does `operator+=` usually return a reference to `*this`, while `operator+` returns a new object by value? How can one of them be written in terms of the other?"
+explanation = "`a += b` changes `a` itself, so the operator can return `*this` by reference: no copy is made, and an expression like `(a += b) += c` keeps working on `a`. `a + b` must leave both operands untouched, so its result is a new object; returning it by reference would hand back a reference to a local variable that is destroyed when the function returns. The usual way to avoid writing the arithmetic twice is to implement `+` with `+=`: copy the left operand, apply `+=` to the copy, and return the copy by value."
+
+[questions.translations.fr]
+title = "Opérateurs composés et binaires"
+stem = "Pourquoi `operator+=` renvoie-t-il en général une référence sur `*this`, alors que `operator+` renvoie un nouvel objet par valeur ? Comment écrire l'un à partir de l'autre ?"
+explanation = "`a += b` modifie `a` lui-même : l'opérateur peut donc renvoyer `*this` par référence, sans copie, et une expression comme `(a += b) += c` continue d'agir sur `a`. `a + b` ne doit modifier aucun des deux opérandes : son résultat est un nouvel objet. Le renvoyer par référence reviendrait à renvoyer une référence sur une variable locale, détruite à la sortie de la fonction. Pour ne pas écrire le calcul deux fois, on écrit `+` avec `+=` : on copie l'opérande de gauche, on applique `+=` à la copie, et on renvoie la copie par valeur."
+
+[questions.translations.es]
+title = "Operadores compuestos y binarios"
+stem = "¿Por qué `operator+=` suele devolver una referencia a `*this`, mientras que `operator+` devuelve un objeto nuevo por valor? ¿Cómo se puede escribir uno a partir del otro?"
+explanation = "`a += b` modifica el propio `a`, así que el operador puede devolver `*this` por referencia: no se hace ninguna copia y una expresión como `(a += b) += c` sigue actuando sobre `a`. `a + b` no debe modificar ninguno de los operandos, así que su resultado es un objeto nuevo; devolverlo por referencia sería devolver una referencia a una variable local que se destruye al salir de la función. Para no escribir el cálculo dos veces, se implementa `+` con `+=`: se copia el operando izquierdo, se aplica `+=` a la copia y se devuelve la copia por valor."
+
+[[questions.choices]]
+correct = true
+text = { en = "`+=` changes its left operand and returns `*this` by reference; `+` must leave both alone, so it returns a new object by value — a reference would point at a destroyed local", fr = "`+=` modifie son opérande gauche et renvoie `*this` par référence ; `+` doit les laisser intacts, donc il renvoie un nouvel objet par valeur — une référence pointerait sur une locale détruite", es = "`+=` cambia su operando izquierdo y devuelve `*this` por referencia; `+` debe dejarlos intactos, así que devuelve un objeto nuevo por valor — una referencia apuntaría a una local destruida" }
+
+[[questions.choices]]
+text = { en = "`+` can return a reference to its result, which avoids a copy", fr = "`+` peut renvoyer une référence sur son résultat, ce qui évite une copie", es = "`+` puede devolver una referencia a su resultado, lo que evita una copia" }
+
+[[questions.choices]]
+text = { en = "`+=` returns by value, since it produces a new value just like `+`", fr = "`+=` renvoie par valeur, puisqu'il produit une nouvelle valeur comme `+`", es = "`+=` devuelve por valor, ya que produce un valor nuevo igual que `+`" }
+
+[[questions.choices]]
+text = { en = "The two cannot be written in terms of each other: the arithmetic has to appear twice", fr = "Les deux ne peuvent pas s'écrire l'un à partir de l'autre : l'arithmétique doit figurer deux fois", es = "Los dos no pueden escribirse uno a partir del otro: la aritmética debe aparecer dos veces" }
+
+[[questions]]
+slug = "rank05-l0-operator-with-builtin-left-operand"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["operator-overloading"]
+key_points = [
+  "A member operator is called on its left operand, so the left operand must be an object of the class.",
+  "In 3 * x the left operand is an int, which has no member functions, so the member operator cannot be used.",
+  "The fix is a non-member function taking the int first and the object second; for a commutative operation it can reuse the member version.",
+]
+
+[questions.translations.en]
+title = "A built-in type left of an operator"
+stem = "Your class overloads `operator*` as a member function, so `x * 3` compiles. Why doesn't `3 * x` compile, and how do you make it work?"
+explanation = "A member operator is called on its left operand: `x * 3` means `x.operator*(3)`. In `3 * x` the left operand is an `int`, which has no member functions, so the compiler cannot use your member operator. The fix is a non-member function, declared outside the class, that takes the `int` first and the object second; for a commutative operation it can simply return `x * 3`. This is also why `operator<<` for printing is always a non-member: in `std::cout << x`, the left operand is the stream, not your object."
+
+[questions.translations.fr]
+title = "Un type natif à gauche d'un opérateur"
+stem = "Votre classe surcharge `operator*` comme fonction membre, donc `x * 3` compile. Pourquoi `3 * x` ne compile-t-il pas, et comment le faire fonctionner ?"
+explanation = "Un opérateur membre est appelé sur son opérande de gauche : `x * 3` signifie `x.operator*(3)`. Dans `3 * x`, l'opérande de gauche est un `int`, qui n'a pas de fonctions membres : le compilateur ne peut pas utiliser votre opérateur membre. La solution est une fonction non membre, déclarée hors de la classe, qui prend d'abord l'`int` puis l'objet ; pour une opération commutative, elle peut simplement renvoyer `x * 3`. C'est aussi pour cela que `operator<<` d'affichage est toujours non membre : dans `std::cout << x`, l'opérande de gauche est le flux, pas votre objet."
+
+[questions.translations.es]
+title = "Tipo nativo antes de un operador"
+stem = "Tu clase sobrecarga `operator*` como función miembro, así que `x * 3` compila. ¿Por qué no compila `3 * x`, y cómo se consigue que funcione?"
+explanation = "Un operador miembro se llama sobre su operando izquierdo: `x * 3` equivale a `x.operator*(3)`. En `3 * x` el operando izquierdo es un `int`, que no tiene funciones miembro, así que el compilador no puede usar tu operador miembro. La solución es una función no miembro, declarada fuera de la clase, que recibe primero el `int` y después el objeto; si la operación es conmutativa, puede limitarse a devolver `x * 3`. Por la misma razón `operator<<` para imprimir es siempre no miembro: en `std::cout << x` el operando izquierdo es el flujo, no tu objeto."
+
+[[questions.choices]]
+correct = true
+text = { en = "A member operator is called on its left operand, and an `int` has no members; the fix is a non-member function taking the `int` first", fr = "Un opérateur membre est appelé sur son opérande gauche, et un `int` n'a pas de membres ; la solution est une fonction non membre prenant l'`int` en premier", es = "Un operador miembro se llama sobre su operando izquierdo, y un `int` no tiene miembros; la solución es una función no miembro que tome el `int` primero" }
+
+[[questions.choices]]
+text = { en = "The compiler swaps the operands on its own when the operation is commutative", fr = "Le compilateur échange les opérandes tout seul quand l'opération est commutative", es = "El compilador intercambia los operandos por sí solo cuando la operación es conmutativa" }
+
+[[questions.choices]]
+text = { en = "It is enough to add a second member overload taking an `int` on the left", fr = "Il suffit d'ajouter une seconde surcharge membre prenant un `int` à gauche", es = "Basta con añadir una segunda sobrecarga miembro que tome un `int` a la izquierda" }
+
+[[questions.choices]]
+text = { en = "`3 * x` never compiles in C++, whatever is written: a built-in type cannot take part in an overload", fr = "`3 * x` ne compile jamais en C++, quoi qu'on écrive : un type de base ne peut pas participer à une surcharge", es = "`3 * x` nunca compila en C++, se escriba lo que se escriba: un tipo básico no puede participar en una sobrecarga" }
+
+[[questions]]
+slug = "rank05-l0-subscript-operator-overloads"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["operator-overloading", "const-correctness"]
+key_points = [
+  "The non-const overload returns a reference, so an element can be modified through it, as in x[1] = 12.",
+  "A const object can only call const member functions, so without a const overload, reading x[1] on a const object does not compile.",
+  "The const overload returns a value or a const reference, so elements cannot be modified through a const object.",
+  "The compiler picks the overload from the constness of the object it is called on.",
+]
+
+[questions.translations.en]
+title = "Const and non-const subscript"
+stem = "Why does a class often provide two versions of `operator[]`, one `const` and one non-`const`? What does each one return?"
+explanation = "The non-`const` version returns a reference to the element, such as `int&`, so that `x[1] = 12` modifies the object. On a `const` object, only `const` member functions can be called: with the non-`const` version alone, reading `x[1]` would not compile. The `const` version, declared with `const` after its parameter list, returns a value or a `const` reference, so the element can be read but not modified. The compiler chooses between the two from the constness of the object."
+
+[questions.translations.fr]
+title = "Indexation const et non const"
+stem = "Pourquoi une classe fournit-elle souvent deux versions de `operator[]`, l'une `const` et l'autre non ? Que renvoie chacune ?"
+explanation = "La version non `const` renvoie une référence sur l'élément, par exemple `int&`, pour que `x[1] = 12` modifie l'objet. Sur un objet `const`, seules les fonctions membres `const` peuvent être appelées : avec la seule version non `const`, lire `x[1]` ne compilerait pas. La version `const`, déclarée avec `const` après sa liste de paramètres, renvoie une valeur ou une référence `const` : l'élément se lit mais ne se modifie pas. Le compilateur choisit entre les deux selon que l'objet est `const` ou non."
+
+[questions.translations.es]
+title = "Índice const y no const"
+stem = "¿Por qué una clase suele ofrecer dos versiones de `operator[]`, una `const` y otra no? ¿Qué devuelve cada una?"
+explanation = "La versión no `const` devuelve una referencia al elemento, por ejemplo `int&`, para que `x[1] = 12` modifique el objeto. Sobre un objeto `const` solo se pueden llamar funciones miembro `const`: con la versión no `const` sola, leer `x[1]` no compilaría. La versión `const`, declarada con `const` después de su lista de parámetros, devuelve un valor o una referencia `const`, de modo que el elemento se puede leer pero no modificar. El compilador elige entre las dos según si el objeto es `const` o no."
+
+[[questions.choices]]
+correct = true
+text = { en = "The non-`const` one returns a reference, so an element can be changed; a `const` object can only call `const` members, and that overload returns a value or a `const` reference", fr = "La non-`const` renvoie une référence, donc un élément peut être modifié ; un objet `const` ne peut appeler que des membres `const`, et cette surcharge renvoie une valeur ou une référence `const`", es = "La no `const` devuelve una referencia, así que un elemento puede cambiarse; un objeto `const` solo puede llamar a miembros `const`, y esa sobrecarga devuelve un valor o una referencia `const`" }
+
+[[questions.choices]]
+text = { en = "The compiler picks the overload from what is done with the result: reading or writing", fr = "Le compilateur choisit la surcharge d'après ce qu'on fait du résultat : lire ou écrire", es = "El compilador elige la sobrecarga según lo que se haga con el resultado: leer o escribir" }
+
+[[questions.choices]]
+text = { en = "One single non-`const` overload is enough: a `const` object may call it to read", fr = "Une seule surcharge non `const` suffit : un objet `const` peut l'appeler pour lire", es = "Basta una sola sobrecarga no `const`: un objeto `const` puede llamarla para leer" }
+
+[[questions.choices]]
+text = { en = "The two overloads differ only by their return type, which is what makes them two overloads", fr = "Les deux surcharges ne diffèrent que par leur type de retour, c'est ce qui en fait deux surcharges", es = "Las dos sobrecargas solo difieren en el tipo de retorno, eso es lo que las hace dos sobrecargas" }
+
+[[questions]]
+slug = "rank05-l0-digit-sequence-addition"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["arbitrary-precision", "algorithms"]
+key_points = [
+  "Add digits of the same weight, starting from the least significant, together with the carry from the previous position.",
+  "Keep sum % 10 as the result digit and sum / 10 as the carry for the next position.",
+  "Continue while either number still has digits or a carry remains, treating missing digits as 0.",
+  "The time is linear in the number of digits of the longer number.",
+]
+
+[questions.translations.en]
+title = "Adding very large numbers"
+stem = "A non-negative integer too large for any built-in type is stored as a sequence of decimal digits. Describe how to add two such numbers, and give the time complexity of your method."
+explanation = "It is the addition taught at school. Start from the least significant digits and move towards the most significant: at each position, add the two digits and the carry from the previous position. The result digit is `sum % 10` and the new carry is `sum / 10`, which is 0 or 1. When one number is shorter, its missing digits count as 0, and a carry left after the last position becomes a new leading digit. Each position is visited once, so the time is O(max(n, m)) for numbers of n and m digits."
+
+[questions.translations.fr]
+title = "Additionner de très grands nombres"
+stem = "Un entier positif ou nul, trop grand pour tout type natif, est stocké sous forme de suite de chiffres décimaux. Décrivez comment additionner deux tels nombres, et donnez la complexité en temps de votre méthode."
+explanation = "C'est l'addition apprise à l'école. On part des chiffres de poids faible pour remonter vers les poids forts : à chaque position, on additionne les deux chiffres et la retenue de la position précédente. Le chiffre du résultat vaut `somme % 10` et la nouvelle retenue `somme / 10`, soit 0 ou 1. Quand un nombre est plus court, ses chiffres manquants comptent pour 0, et une retenue restante après la dernière position devient un nouveau chiffre de tête. Chaque position est traitée une fois : le temps est en O(max(n, m)) pour des nombres de n et m chiffres."
+
+[questions.translations.es]
+title = "Sumar números muy grandes"
+stem = "Un entero no negativo, demasiado grande para cualquier tipo nativo, se guarda como una secuencia de dígitos decimales. Describe cómo sumar dos números así e indica la complejidad temporal de tu método."
+explanation = "Es la suma que se aprende en la escuela. Se empieza por los dígitos menos significativos y se avanza hacia los más significativos: en cada posición se suman los dos dígitos y el acarreo de la posición anterior. El dígito del resultado es `suma % 10` y el nuevo acarreo es `suma / 10`, que vale 0 o 1. Si un número es más corto, los dígitos que le faltan cuentan como 0, y un acarreo que queda tras la última posición se convierte en un nuevo dígito inicial. Cada posición se recorre una vez, así que el tiempo es O(max(n, m)) para números de n y m dígitos."
+
+[[questions.choices]]
+correct = true
+text = { en = "Add the digits of the same weight from the least significant, with the carry; keep `sum % 10` and carry `sum / 10`, going on while digits or a carry remain: linear in the longer number", fr = "Additionner les chiffres de même poids en partant du moins significatif, avec la retenue ; garder `somme % 10` et reporter `somme / 10`, tant qu'il reste des chiffres ou une retenue : linéaire dans le plus long", es = "Sumar las cifras del mismo peso desde la menos significativa, con el acarreo; guardar `suma % 10` y llevar `suma / 10`, mientras queden cifras o acarreo: lineal en el más largo" }
+
+[[questions.choices]]
+text = { en = "Add from the most significant digit, which avoids having to carry anything", fr = "Additionner à partir du chiffre le plus significatif, ce qui évite d'avoir à reporter quoi que ce soit", es = "Sumar desde la cifra más significativa, lo que evita tener que llevar nada" }
+
+[[questions.choices]]
+text = { en = "Stop as soon as the shorter number runs out of digits", fr = "S'arrêter dès que le plus court n'a plus de chiffres", es = "Parar en cuanto al más corto se le acaban las cifras" }
+
+[[questions.choices]]
+text = { en = "The cost is quadratic, since each digit is compared with every digit of the other number", fr = "Le coût est quadratique, puisque chaque chiffre est comparé à tous ceux de l'autre nombre", es = "El coste es cuadrático, ya que cada cifra se compara con todas las del otro número" }
+
+[[questions]]
+slug = "rank05-l0-digit-sequence-comparison"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["arbitrary-precision", "algorithms"]
+key_points = [
+  "When neither number has leading zeros, the one with more digits is the larger.",
+  "With the same number of digits, compare from the most significant digit down; the first difference decides.",
+  "Leading zeros break the length rule: a number written with extra zeros in front has more digits without being larger.",
+  "Every operation must therefore keep its result normalized: no leading zeros, and zero written as a single 0.",
+]
+
+[questions.translations.en]
+title = "Comparing very large numbers"
+stem = "Two non-negative integers are stored as sequences of decimal digits. How can you compare them without converting them to a built-in type, and why does it matter that neither representation contains leading zeros?"
+explanation = "Without leading zeros, a number with more digits is always larger, so comparing lengths settles most cases at once. When the lengths are equal, compare the digits from the most significant one down: the first position where they differ decides, and if none differs the numbers are equal. Leading zeros break the length rule: `0042` has four digits but is smaller than `123`, and `042` would not be equal to `42` digit by digit. That is why every operation should normalize its result: remove leading zeros and represent zero as a single `0`."
+
+[questions.translations.fr]
+title = "Comparer de très grands nombres"
+stem = "Deux entiers positifs ou nuls sont stockés sous forme de suites de chiffres décimaux. Comment les comparer sans les convertir en type natif, et pourquoi importe-t-il qu'aucune représentation ne contienne de zéros en tête ?"
+explanation = "Sans zéros en tête, un nombre qui a plus de chiffres est toujours le plus grand : comparer les longueurs règle d'emblée la plupart des cas. À longueur égale, on compare les chiffres en partant du poids fort : la première position où ils diffèrent décide, et si aucune ne diffère, les nombres sont égaux. Les zéros en tête cassent la règle des longueurs : `0042` a quatre chiffres mais est plus petit que `123`, et `042` ne serait pas égal à `42` chiffre à chiffre. C'est pourquoi chaque opération doit normaliser son résultat : retirer les zéros en tête et représenter zéro par un seul `0`."
+
+[questions.translations.es]
+title = "Comparar números muy grandes"
+stem = "Dos enteros no negativos se guardan como secuencias de dígitos decimales. ¿Cómo se pueden comparar sin convertirlos a un tipo nativo, y por qué importa que ninguna representación tenga ceros a la izquierda?"
+explanation = "Sin ceros a la izquierda, un número con más dígitos siempre es mayor, así que comparar las longitudes resuelve la mayoría de los casos de inmediato. Si las longitudes son iguales, se comparan los dígitos empezando por el más significativo: la primera posición en la que difieren decide, y si ninguna difiere los números son iguales. Los ceros a la izquierda rompen la regla de la longitud: `0042` tiene cuatro dígitos pero es menor que `123`, y `042` no sería igual a `42` dígito a dígito. Por eso cada operación debe normalizar su resultado: quitar los ceros a la izquierda y representar el cero con un solo `0`."
+
+[[questions.choices]]
+correct = true
+text = { en = "With no leading zeros, more digits means larger; at equal length, the first differing digit from the left decides — which is why every result must stay normalized", fr = "Sans zéros de tête, plus de chiffres signifie plus grand ; à longueur égale, le premier chiffre qui diffère depuis la gauche décide — d'où l'obligation de garder tout résultat normalisé", es = "Sin ceros a la izquierda, más cifras significa mayor; a igual longitud, la primera cifra distinta desde la izquierda decide — por eso todo resultado debe quedar normalizado" }
+
+[[questions.choices]]
+text = { en = "Compare from the least significant digit, as when adding", fr = "Comparer à partir du chiffre le moins significatif, comme pour l'addition", es = "Comparar desde la cifra menos significativa, como al sumar" }
+
+[[questions.choices]]
+text = { en = "Leading zeros change nothing, since they add no value", fr = "Les zéros de tête ne changent rien, puisqu'ils n'ajoutent aucune valeur", es = "Los ceros a la izquierda no cambian nada, ya que no añaden valor" }
+
+[[questions.choices]]
+text = { en = "Summing the digits of each number and comparing the two totals is enough", fr = "Sommer les chiffres de chaque nombre et comparer les deux totaux suffit", es = "Basta con sumar las cifras de cada número y comparar los dos totales" }
+
+[[questions]]
+slug = "rank05-l0-single-argument-constructors"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["conversions", "operator-overloading"]
+key_points = [
+  "A constructor that can be called with a single argument also acts as an implicit conversion from that argument's type.",
+  "For x + 42, the compiler builds a temporary object from 42 and passes it to operator+.",
+  "The temporary can bind to the parameter only because it is a const reference; a non-const reference cannot bind to a temporary.",
+  "Declaring the constructor explicit forbids that implicit conversion, so x + 42 no longer compiles.",
+]
+
+[questions.translations.en]
+title = "Single-argument constructors"
+stem = "A class has a constructor taking an `unsigned int`, and a member `operator+` whose parameter is a `const` reference to the class. Why does `x + 42` compile? What would change if the constructor were declared `explicit`?"
+explanation = "A constructor callable with one argument is also a conversion: the compiler may use it silently to turn an `unsigned int` into an object of the class. In `x + 42` it builds a temporary object from `42` and passes it to `operator+`. That works because the parameter is a `const` reference: a temporary cannot bind to a non-`const` reference. With `explicit`, the constructor can only be called explicitly, so you must write `x + T(42)`, where `T` is the class. Note that `42 + x` still would not compile with a member `operator+`: the compiler never converts the left operand into an object of the class in order to call one of its member functions."
+
+[questions.translations.fr]
+title = "Constructeurs à un argument"
+stem = "Une classe a un constructeur qui prend un `unsigned int`, et un `operator+` membre dont le paramètre est une référence `const` sur la classe. Pourquoi `x + 42` compile-t-il ? Qu'est-ce qui changerait si le constructeur était déclaré `explicit` ?"
+explanation = "Un constructeur appelable avec un seul argument est aussi une conversion : le compilateur peut s'en servir en silence pour transformer un `unsigned int` en objet de la classe. Dans `x + 42`, il construit un objet temporaire à partir de `42` et le passe à `operator+`. Cela fonctionne parce que le paramètre est une référence `const` : un temporaire ne peut pas se lier à une référence non `const`. Avec `explicit`, le constructeur ne peut être appelé qu'explicitement : il faut écrire `x + T(42)`, où `T` est la classe. À noter : `42 + x` ne compilerait toujours pas avec un `operator+` membre, car le compilateur ne convertit jamais l'opérande de gauche en objet de la classe pour appeler l'une de ses fonctions membres."
+
+[questions.translations.es]
+title = "Constructores de un argumento"
+stem = "Una clase tiene un constructor que recibe un `unsigned int` y un `operator+` miembro cuyo parámetro es una referencia `const` a la clase. ¿Por qué compila `x + 42`? ¿Qué cambiaría si el constructor se declarase `explicit`?"
+explanation = "Un constructor que se puede llamar con un solo argumento es también una conversión: el compilador puede usarlo en silencio para convertir un `unsigned int` en un objeto de la clase. En `x + 42` construye un objeto temporal a partir de `42` y lo pasa a `operator+`. Funciona porque el parámetro es una referencia `const`: un temporal no puede enlazarse a una referencia no `const`. Con `explicit`, el constructor solo puede llamarse explícitamente, así que hay que escribir `x + T(42)`, donde `T` es la clase. Ojo: `42 + x` seguiría sin compilar con un `operator+` miembro, porque el compilador nunca convierte el operando izquierdo en un objeto de la clase para llamar a una de sus funciones miembro."
+
+[[questions.choices]]
+correct = true
+text = { en = "A one-argument constructor is also an implicit conversion: a temporary is built from 42 and binds to the `const` reference; `explicit` forbids it, and `x + 42` stops compiling", fr = "Un constructeur à un argument est aussi une conversion implicite : un temporaire est construit depuis 42 et se lie à la référence `const` ; `explicit` l'interdit, et `x + 42` ne compile plus", es = "Un constructor de un argumento es también una conversión implícita: se construye un temporal a partir de 42 que se liga a la referencia `const`; `explicit` lo prohíbe y `x + 42` deja de compilar" }
+
+[[questions.choices]]
+text = { en = "42 is converted because `operator+` accepts any type, `explicit` changing only the construction by hand", fr = "42 est converti parce que `operator+` accepte n'importe quel type, `explicit` ne changeant que la construction à la main", es = "42 se convierte porque `operator+` acepta cualquier tipo, y `explicit` solo cambia la construcción a mano" }
+
+[[questions.choices]]
+text = { en = "The temporary would bind to a non-`const` reference just as well", fr = "Le temporaire se lierait aussi bien à une référence non `const`", es = "El temporal se ligaría igual de bien a una referencia no `const`" }
+
+[[questions.choices]]
+text = { en = "`explicit` changes nothing here: it only applies to conversions towards the built-in types", fr = "`explicit` ne change rien ici : il ne s'applique qu'aux conversions vers les types de base", es = "`explicit` no cambia nada aquí: solo se aplica a las conversiones hacia los tipos básicos" }
+
+[[questions]]
+slug = "rank05-l0-copying-classes-that-own-memory"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["canonical-form", "memory"]
+key_points = [
+  "The orthodox canonical form declares a default constructor, a copy constructor, a copy assignment operator and a destructor.",
+  "The compiler-generated copy copies the pointer, not the memory it points to: a shallow copy.",
+  "Both objects then share the same memory: a change through one shows in the other, and both destructors free it, a double free.",
+  "A deep copy allocates new memory and copies the contents into it, in the copy constructor and in the copy assignment operator.",
+]
+
+[questions.translations.en]
+title = "Copying a class that owns memory"
+stem = "Which four member functions make up the orthodox canonical form of a class? When a class owns memory allocated with `new`, why must its copy constructor and copy assignment operator perform a deep copy?"
+explanation = "The orthodox canonical form declares a default constructor, a copy constructor, a copy assignment operator and a destructor. When the copy operations are not written, the compiler generates versions that copy each member as is: for a pointer, only the address is copied, not the memory it points to. The original and the copy then share the same block, so modifying one changes the other, and each destructor calls `delete` on the same address: a double free. A deep copy allocates a new block for the copy and copies the contents into it. The copy assignment operator must also release the memory the object already owned, and handle `a = a` without freeing the data it is about to copy."
+
+[questions.translations.fr]
+title = "Copier une classe qui alloue"
+stem = "Quelles sont les quatre fonctions membres de la forme canonique orthodoxe d'une classe ? Quand une classe possède de la mémoire allouée avec `new`, pourquoi son constructeur de copie et son opérateur d'affectation doivent-ils faire une copie profonde ?"
+explanation = "La forme canonique orthodoxe déclare un constructeur par défaut, un constructeur de copie, un opérateur d'affectation par copie et un destructeur. Quand on n'écrit pas les opérations de copie, le compilateur en génère qui recopient chaque membre tel quel : pour un pointeur, seule l'adresse est copiée, pas la mémoire pointée. L'original et la copie partagent alors le même bloc : modifier l'un modifie l'autre, et chaque destructeur appelle `delete` sur la même adresse, soit une double libération. Une copie profonde alloue un nouveau bloc pour la copie et y recopie le contenu. L'opérateur d'affectation doit en plus libérer la mémoire que l'objet possédait déjà, et gérer `a = a` sans libérer les données qu'il s'apprête à copier."
+
+[questions.translations.es]
+title = "Copiar una clase que posee memoria"
+stem = "¿Cuáles son las cuatro funciones miembro de la forma canónica ortodoxa de una clase? Cuando una clase posee memoria reservada con `new`, ¿por qué su constructor de copia y su operador de asignación deben hacer una copia profunda?"
+explanation = "La forma canónica ortodoxa declara un constructor por defecto, un constructor de copia, un operador de asignación por copia y un destructor. Si no se escriben las operaciones de copia, el compilador genera versiones que copian cada miembro tal cual: para un puntero solo se copia la dirección, no la memoria a la que apunta. El original y la copia comparten entonces el mismo bloque: modificar uno cambia el otro, y cada destructor llama a `delete` sobre la misma dirección, lo que provoca una doble liberación. Una copia profunda reserva un bloque nuevo para la copia y copia en él el contenido. El operador de asignación debe además liberar la memoria que el objeto ya poseía y gestionar `a = a` sin liberar los datos que va a copiar."
+
+[[questions.choices]]
+correct = true
+text = { en = "Default constructor, copy constructor, copy assignment, destructor; the generated copy duplicates the pointer, so both objects free the same memory — a double free", fr = "Constructeur par défaut, constructeur de copie, affectation par copie, destructeur ; la copie générée duplique le pointeur, donc les deux objets libèrent la même mémoire — double libération", es = "Constructor por defecto, constructor de copia, asignación por copia, destructor; la copia generada duplica el puntero, así que ambos objetos liberan la misma memoria — doble liberación" }
+
+[[questions.choices]]
+text = { en = "The compiler-generated copy already duplicates the pointed memory, so nothing needs writing", fr = "La copie générée par le compilateur duplique déjà la mémoire pointée, il n'y a donc rien à écrire", es = "La copia generada por el compilador ya duplica la memoria apuntada, así que no hay nada que escribir" }
+
+[[questions.choices]]
+text = { en = "A deep copy is only needed in the copy constructor; assignment reuses it", fr = "Une copie profonde n'est nécessaire que dans le constructeur de copie ; l'affectation le réutilise", es = "La copia profunda solo hace falta en el constructor de copia; la asignación lo reutiliza" }
+
+[[questions.choices]]
+text = { en = "The canonical form is made of the constructor and the destructor alone, the other two being optional", fr = "La forme canonique se limite au constructeur et au destructeur, les deux autres étant facultatifs", es = "La forma canónica se limita al constructor y al destructor, siendo los otros dos opcionales" }
+
+[[questions]]
+slug = "rank05-l0-polymorphic-base-destructor"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["polymorphism", "memory"]
+key_points = [
+  "Deleting a derived object through a pointer to its base runs the destructor chosen from the pointer's type unless that destructor is virtual.",
+  "The derived destructor is then skipped, so whatever the derived part owns is never released; the standard calls this undefined behavior.",
+  "A virtual destructor dispatches to the destructor of the actual object, which then runs the base destructors in turn.",
+]
+
+[questions.translations.en]
+title = "Destructor of a polymorphic base"
+stem = "Why must a base class have a virtual destructor as soon as objects of derived classes may be deleted through a pointer to the base?"
+explanation = "When the base destructor is not virtual, `delete basePtr` calls the destructor chosen from the static type of the pointer. For a derived object, the derived destructor is then skipped: whatever the derived part owns, such as memory or open files, is never released, and the standard classifies the whole operation as undefined behavior. Declaring the base destructor `virtual` makes `delete` go through dynamic dispatch: the destructor of the actual object runs first, then the base destructors are called automatically, from the most derived class down to the base."
+
+[questions.translations.fr]
+title = "Destructeur d'une base polymorphe"
+stem = "Pourquoi une classe de base doit-elle avoir un destructeur virtuel dès que des objets de classes dérivées peuvent être détruits à travers un pointeur sur la base ?"
+explanation = "Quand le destructeur de base n'est pas virtuel, `delete basePtr` appelle le destructeur choisi d'après le type statique du pointeur. Pour un objet dérivé, le destructeur de la classe dérivée est alors sauté : ce que possède la partie dérivée, mémoire ou fichiers ouverts, n'est jamais libéré, et la norme qualifie toute l'opération de comportement indéfini. Déclarer le destructeur de base `virtual` fait passer `delete` par la résolution dynamique : le destructeur de l'objet réel s'exécute d'abord, puis les destructeurs des classes de base sont appelés automatiquement, de la plus dérivée jusqu'à la base."
+
+[questions.translations.es]
+title = "Destructor de una base polimórfica"
+stem = "¿Por qué una clase base debe tener un destructor virtual en cuanto los objetos de sus clases derivadas puedan destruirse a través de un puntero a la base?"
+explanation = "Cuando el destructor de la base no es virtual, `delete basePtr` llama al destructor elegido según el tipo estático del puntero. Para un objeto derivado, el destructor de la clase derivada se omite: lo que posee la parte derivada, como memoria o archivos abiertos, nunca se libera, y el estándar considera toda la operación comportamiento indefinido. Declarar `virtual` el destructor de la base hace que `delete` use el despacho dinámico: primero se ejecuta el destructor del objeto real y después se llaman automáticamente los destructores de las clases base, de la más derivada a la base."
+
+[[questions.choices]]
+correct = true
+text = { en = "Without `virtual`, the destructor is chosen from the pointer's type, so the derived one is skipped and what it owns is never released — undefined behaviour", fr = "Sans `virtual`, le destructeur est choisi d'après le type du pointeur, donc celui de la classe dérivée est sauté et ce qu'il possède n'est jamais libéré — comportement indéfini", es = "Sin `virtual`, el destructor se elige según el tipo del puntero, así que el de la derivada se salta y lo que posee nunca se libera — comportamiento indefinido" }
+
+[[questions.choices]]
+text = { en = "Both destructors run anyway; `virtual` only changes the order in which they do", fr = "Les deux destructeurs s'exécutent quand même ; `virtual` ne change que leur ordre", es = "Los dos destructores se ejecutan igualmente; `virtual` solo cambia su orden" }
+
+[[questions.choices]]
+text = { en = "A virtual destructor is only needed when the base class has other virtual functions", fr = "Un destructeur virtuel n'est nécessaire que si la classe de base a d'autres fonctions virtuelles", es = "Un destructor virtual solo hace falta si la clase base tiene otras funciones virtuales" }
+
+[[questions.choices]]
+text = { en = "The derived destructor runs and then calls the base one only if it is virtual", fr = "Le destructeur dérivé s'exécute puis appelle celui de la base seulement s'il est virtuel", es = "El destructor derivado se ejecuta y luego llama al de la base solo si es virtual" }
+
+[[questions]]
+slug = "rank05-l0-pure-virtual-functions"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["polymorphism", "inheritance"]
+key_points = [
+  "A pure virtual function is declared with = 0; the class declaring it does not have to implement it.",
+  "A class with at least one pure virtual function is abstract and cannot be instantiated.",
+  "A derived class can be instantiated only once every pure virtual function has been overridden.",
+  "An abstract class defines an interface: code using it through pointers or references works with any implementation.",
+]
+
+[questions.translations.en]
+title = "Pure virtual functions"
+stem = "What is a pure virtual function? Why can't you create an object of a class that declares one, and what is such a class useful for?"
+explanation = "A pure virtual function is declared with `= 0`, as in `virtual void draw() const = 0;`. It states that every concrete class must provide this function, without the declaring class having to implement it. A class with at least one pure virtual function is abstract: creating an object of it does not compile, because the class is deliberately incomplete and leaves that function to its derived classes. A derived class can be instantiated once it overrides every pure virtual function. Abstract classes describe an interface: a function taking a reference or a pointer to the abstract class works with every implementation, chosen at runtime through virtual dispatch."
+
+[questions.translations.fr]
+title = "Fonctions virtuelles pures"
+stem = "Qu'est-ce qu'une fonction virtuelle pure ? Pourquoi ne peut-on pas créer d'objet d'une classe qui en déclare une, et à quoi sert une telle classe ?"
+explanation = "Une fonction virtuelle pure se déclare avec `= 0`, comme `virtual void draw() const = 0;`. Elle impose que toute classe concrète fournisse cette fonction, sans que la classe qui la déclare ait à l'implémenter. Une classe qui a au moins une fonction virtuelle pure est abstraite : créer un objet de cette classe ne compile pas, car elle est volontairement incomplète et laisse cette fonction à ses classes dérivées. Une classe dérivée devient instanciable une fois qu'elle redéfinit toutes les fonctions virtuelles pures. Les classes abstraites décrivent une interface : une fonction qui prend une référence ou un pointeur sur la classe abstraite fonctionne avec toutes les implémentations, choisies à l'exécution par la résolution dynamique."
+
+[questions.translations.es]
+title = "Funciones virtuales puras"
+stem = "¿Qué es una función virtual pura? ¿Por qué no se puede crear un objeto de una clase que declara una, y para qué sirve una clase así?"
+explanation = "Una función virtual pura se declara con `= 0`, como en `virtual void draw() const = 0;`. Indica que toda clase concreta debe proporcionar esa función, sin que la clase que la declara tenga que implementarla. Una clase con al menos una función virtual pura es abstracta: crear un objeto de ella no compila, porque la clase está incompleta a propósito y deja esa función a sus clases derivadas. Una clase derivada se puede instanciar cuando redefine todas las funciones virtuales puras. Las clases abstractas describen una interfaz: una función que recibe una referencia o un puntero a la clase abstracta funciona con todas las implementaciones, elegidas en tiempo de ejecución mediante el despacho dinámico."
+
+[[questions.choices]]
+correct = true
+text = { en = "Declared with `= 0`; its class is abstract and cannot be instantiated, and a derived class only can once every pure virtual function is overridden — it defines an interface", fr = "Déclarée avec `= 0` ; sa classe est abstraite et ne peut pas être instanciée, et une classe dérivée ne le peut qu'une fois toutes les fonctions virtuelles pures redéfinies — elle définit une interface", es = "Declarada con `= 0`; su clase es abstracta y no se puede instanciar, y una derivada solo puede cuando todas las funciones virtuales puras se han redefinido — define una interfaz" }
+
+[[questions.choices]]
+text = { en = "It is a function that cannot be overridden, which is what `= 0` means", fr = "C'est une fonction qui ne peut pas être redéfinie, c'est le sens de `= 0`", es = "Es una función que no se puede redefinir, ese es el sentido de `= 0`" }
+
+[[questions.choices]]
+text = { en = "Creating an object of such a class compiles and crashes when the function is called", fr = "Créer un objet d'une telle classe compile et plante au moment de l'appel de la fonction", es = "Crear un objeto de tal clase compila y falla en el momento de llamar a la función" }
+
+[[questions.choices]]
+text = { en = "A derived class can be instantiated even if it overrides none of them", fr = "Une classe dérivée peut être instanciée même si elle n'en redéfinit aucune", es = "Una clase derivada puede instanciarse aunque no redefina ninguna" }
+
+[[questions]]
+slug = "rank05-l0-two-paths-to-one-base"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["inheritance"]
+key_points = [
+  "Without virtual inheritance, the most derived object contains two separate copies of the common base.",
+  "Using a member of the common base, or converting to it, is then ambiguous, and the two copies can hold different states.",
+  "Declaring the intermediate inheritance as virtual, as in class B : virtual public A, makes the whole hierarchy share a single base subobject.",
+  "With a virtual base, the most derived class is the one that constructs it; the initializers written in the intermediate classes are ignored.",
+]
+
+[questions.translations.en]
+title = "Two paths to the same base"
+stem = "Class `D` inherits from `B` and `C`, and both `B` and `C` inherit from `A`. What problem does this create for `D`, and how does virtual inheritance solve it?"
+explanation = "With ordinary inheritance, a `D` object contains a `B` part and a `C` part, and each of them contains its own `A`: there are two copies of `A`. Accessing a member of `A` from `D`, or converting a `D*` to an `A*`, is ambiguous because the compiler cannot tell which copy you mean, and the two copies can drift apart. Writing `class B : virtual public A` and `class C : virtual public A` makes the whole hierarchy share a single `A` subobject. Since `B` and `C` no longer own that part, the constructor of the most derived class, `D`, is the one that initializes `A`: the initializers for `A` written in `B` and `C` are ignored when a `D` is built."
+
+[questions.translations.fr]
+title = "Deux chemins vers une même base"
+stem = "La classe `D` hérite de `B` et de `C`, et `B` comme `C` héritent de `A`. Quel problème cela pose-t-il pour `D`, et comment l'héritage virtuel le résout-il ?"
+explanation = "Avec un héritage ordinaire, un objet `D` contient une partie `B` et une partie `C`, qui contiennent chacune leur propre `A` : il y a deux copies de `A`. Accéder à un membre de `A` depuis `D`, ou convertir un `D*` en `A*`, est ambigu, car le compilateur ne sait pas de quelle copie il s'agit, et les deux copies peuvent diverger. Écrire `class B : virtual public A` et `class C : virtual public A` fait partager un unique sous-objet `A` à toute la hiérarchie. Comme `B` et `C` ne possèdent plus cette partie, c'est le constructeur de la classe la plus dérivée, `D`, qui initialise `A` : les initialisations de `A` écrites dans `B` et `C` sont ignorées quand on construit un `D`."
+
+[questions.translations.es]
+title = "Dos caminos hacia la misma base"
+stem = "La clase `D` hereda de `B` y de `C`, y tanto `B` como `C` heredan de `A`. ¿Qué problema crea esto para `D`, y cómo lo resuelve la herencia virtual?"
+explanation = "Con herencia normal, un objeto `D` contiene una parte `B` y una parte `C`, y cada una contiene su propio `A`: hay dos copias de `A`. Acceder a un miembro de `A` desde `D`, o convertir un `D*` en `A*`, es ambiguo, porque el compilador no sabe a qué copia te refieres, y las dos copias pueden divergir. Escribir `class B : virtual public A` y `class C : virtual public A` hace que toda la jerarquía comparta un único subobjeto `A`. Como `B` y `C` ya no poseen esa parte, es el constructor de la clase más derivada, `D`, el que inicializa `A`: las inicializaciones de `A` escritas en `B` y `C` se ignoran al construir un `D`."
+
+[[questions.choices]]
+correct = true
+text = { en = "`D` holds two copies of `A`, which makes its members ambiguous; `class B : virtual public A` shares a single subobject, and the most derived class is then the one constructing it", fr = "`D` contient deux copies de `A`, ce qui rend ses membres ambigus ; `class B : virtual public A` partage un seul sous-objet, et c'est alors la classe la plus dérivée qui le construit", es = "`D` contiene dos copias de `A`, lo que hace ambiguos sus miembros; `class B : virtual public A` comparte un único subobjeto, y entonces la clase más derivada es la que lo construye" }
+
+[[questions.choices]]
+text = { en = "`D` holds a single copy already: the compiler merges the identical bases on its own", fr = "`D` ne contient déjà qu'une copie : le compilateur fusionne tout seul les bases identiques", es = "`D` ya contiene una sola copia: el compilador fusiona por sí solo las bases idénticas" }
+
+[[questions.choices]]
+text = { en = "With a virtual base, the intermediate classes are the ones constructing it, each in turn", fr = "Avec une base virtuelle, ce sont les classes intermédiaires qui la construisent, chacune à son tour", es = "Con una base virtual, son las clases intermedias las que la construyen, cada una a su vez" }
+
+[[questions.choices]]
+text = { en = "The ambiguity is settled by naming the path, which makes virtual inheritance useless", fr = "L'ambiguïté se règle en nommant le chemin, ce qui rend l'héritage virtuel inutile", es = "La ambigüedad se resuelve nombrando el camino, lo que hace inútil la herencia virtual" }
+
+[[questions]]
+slug = "rank05-l0-searching-array-vs-tree"
+topic = "exam-rank-05-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["data-structures", "complexity"]
+key_points = [
+  "In an unsorted array, a search may have to check every element: O(n).",
+  "In a binary search tree, each comparison rules out one subtree, so a search follows a single path from the root: O(h), with h the height.",
+  "A balanced tree has a height close to log2(n), which makes the search far faster than in the array.",
+  "Inserting values in sorted order builds a degenerate tree shaped like a list: h becomes n and the search is O(n) again.",
+]
+
+[questions.translations.en]
+title = "Searching an array or a tree"
+stem = "Compare the cost of searching for a value in an unsorted array and in a binary search tree holding the same n values. In which situation does the tree lose its advantage?"
+explanation = "In an unsorted array nothing tells you where a value is, so a search may have to check every element: O(n). In a binary search tree, each node's left subtree holds smaller values and its right subtree larger ones, so each comparison lets you continue in a single subtree: a search follows one path from the root, which costs O(h) for a tree of height h. When the tree is balanced, h is about log2(n), around 20 steps for a million values. But the shape depends on the insertion order: inserting values in increasing order makes each new node the right child of the previous one, the tree degenerates into a list, h equals n, and searching is O(n) again. Self-balancing trees exist precisely to prevent this."
+
+[questions.translations.fr]
+title = "Chercher dans un tableau ou un arbre"
+stem = "Comparez le coût de la recherche d'une valeur dans un tableau non trié et dans un arbre binaire de recherche contenant les mêmes n valeurs. Dans quelle situation l'arbre perd-il son avantage ?"
+explanation = "Dans un tableau non trié, rien n'indique où se trouve une valeur : une recherche peut devoir examiner tous les éléments, soit O(n). Dans un arbre binaire de recherche, le sous-arbre gauche de chaque nœud contient les valeurs plus petites et le droit les plus grandes : chaque comparaison permet de poursuivre dans un seul sous-arbre. Une recherche suit donc un seul chemin depuis la racine, en O(h) pour un arbre de hauteur h. Quand l'arbre est équilibré, h vaut environ log2(n), soit une vingtaine d'étapes pour un million de valeurs. Mais la forme dépend de l'ordre d'insertion : insérer des valeurs croissantes fait de chaque nouveau nœud le fils droit du précédent, l'arbre dégénère en liste, h vaut n et la recherche redevient O(n). Les arbres auto-équilibrés existent précisément pour l'éviter."
+
+[questions.translations.es]
+title = "Buscar en un array o en un árbol"
+stem = "Compara el coste de buscar un valor en un array no ordenado y en un árbol binario de búsqueda que contienen los mismos n valores. ¿En qué situación pierde el árbol su ventaja?"
+explanation = "En un array no ordenado nada indica dónde está un valor, así que una búsqueda puede tener que revisar todos los elementos: O(n). En un árbol binario de búsqueda, el subárbol izquierdo de cada nodo contiene los valores menores y el derecho los mayores, así que cada comparación permite seguir por un solo subárbol. Una búsqueda sigue entonces un único camino desde la raíz, con un coste O(h) para un árbol de altura h. Si el árbol está equilibrado, h es aproximadamente log2(n), unos 20 pasos para un millón de valores. Pero la forma depende del orden de inserción: insertar valores crecientes convierte cada nodo nuevo en el hijo derecho del anterior, el árbol degenera en una lista, h vale n y la búsqueda vuelve a ser O(n). Los árboles autoequilibrados existen precisamente para evitarlo."
+
+[[questions.choices]]
+correct = true
+text = { en = "O(n) in the array, O(h) in the tree, with `h` close to log₂(n) when it is balanced; inserting sorted values builds a tree shaped like a list and brings the search back to O(n)", fr = "O(n) dans le tableau, O(h) dans l'arbre, avec `h` proche de log₂(n) s'il est équilibré ; insérer des valeurs triées construit un arbre en forme de liste et ramène la recherche à O(n)", es = "O(n) en el array, O(h) en el árbol, con `h` cercana a log₂(n) si está equilibrado; insertar valores ordenados construye un árbol con forma de lista y devuelve la búsqueda a O(n)" }
+
+[[questions.choices]]
+text = { en = "The tree is always O(log n), whatever the order the values were inserted in", fr = "L'arbre est toujours en O(log n), quel que soit l'ordre d'insertion des valeurs", es = "El árbol siempre es O(log n), sea cual sea el orden de inserción de los valores" }
+
+[[questions.choices]]
+text = { en = "The array is faster, since its cells are contiguous and no comparison is needed", fr = "Le tableau est plus rapide, puisque ses cases sont contiguës et qu'aucune comparaison n'est nécessaire", es = "El array es más rápido, ya que sus celdas son contiguas y no hace falta comparar" }
+
+[[questions.choices]]
+text = { en = "The tree loses its advantage when the values are inserted in a random order", fr = "L'arbre perd son avantage quand les valeurs sont insérées dans un ordre aléatoire", es = "El árbol pierde su ventaja cuando los valores se insertan en orden aleatorio" }

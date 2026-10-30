@@ -1,0 +1,536 @@
+# Exam Rank 06, level 0: questions on the notions this level tests.
+# Written from scratch. Exam subjects are confidential to 42 and never enter this
+# repository, not even rephrased: no statement, no exercise name, no file name.
+# Key points are in English, one grid for every language. Slugs are public, so
+# they name the topic of a question, never its answer.
+
+[[questions]]
+slug = "rank06-l0-listening-and-accepting"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["sockets", "file-descriptors"]
+key_points = [
+  "socket creates a communication endpoint, bind attaches it to an address and a port, and listen turns it into a listening socket that queues incoming connections.",
+  "accept takes one waiting connection and returns a new descriptor dedicated to that client, while the listening socket keeps waiting for others.",
+  "A server therefore holds one listening descriptor plus one descriptor per connected client, read and written like files.",
+  "If one of these calls fails before the server starts serving, the error is fatal: report it and exit with a failure status.",
+]
+
+[questions.translations.en]
+title = "Listening and accepting connections"
+stem = "A TCP server calls `socket`, `bind` and `listen`, then `accept`. What does each call do, what happens when one of them fails at startup, and how many descriptors does the server hold once three clients are connected?"
+explanation = "`socket` creates a communication endpoint, `bind` attaches it to an address and a port, and `listen` turns it into a listening socket, which queues the connections that arrive. `accept` takes one waiting connection and returns a brand new descriptor, dedicated to that client; the listening socket stays as it was and keeps waiting for other clients. With three clients connected, the server holds four descriptors: the listening one and one per client, all read and written like files. If one of these calls fails before the server starts serving, nothing useful can be done: the error is reported and the program exits with a failure status."
+
+[questions.translations.fr]
+title = "Écouter et accepter des connexions"
+stem = "Un serveur TCP appelle `socket`, `bind` et `listen`, puis `accept`. Que fait chaque appel, que se passe-t-il quand l'un d'eux échoue au démarrage, et combien de descripteurs le serveur détient-il une fois trois clients connectés ?"
+explanation = "`socket` crée un point de communication, `bind` l'attache à une adresse et à un port, et `listen` en fait une socket d'écoute, qui met en file les connexions qui arrivent. `accept` prend une connexion en attente et renvoie un tout nouveau descripteur, dédié à ce client ; la socket d'écoute reste telle quelle et continue d'attendre d'autres clients. Avec trois clients connectés, le serveur détient quatre descripteurs : celui d'écoute et un par client, tous lus et écrits comme des fichiers. Si l'un de ces appels échoue avant que le serveur ne commence à servir, rien d'utile n'est possible : l'erreur est signalée et le programme se termine avec un code d'échec."
+
+[questions.translations.es]
+title = "Escuchar y aceptar conexiones"
+stem = "Un servidor TCP llama a `socket`, `bind` y `listen`, y después a `accept`. ¿Qué hace cada llamada, qué pasa cuando una de ellas falla al arrancar y cuántos descriptores tiene el servidor cuando hay tres clientes conectados?"
+explanation = "`socket` crea un punto de comunicación, `bind` lo asocia a una dirección y un puerto, y `listen` lo convierte en un socket de escucha, que pone en cola las conexiones que llegan. `accept` toma una conexión en espera y devuelve un descriptor completamente nuevo, dedicado a ese cliente; el socket de escucha sigue igual y continúa esperando a otros clientes. Con tres clientes conectados, el servidor tiene cuatro descriptores: el de escucha y uno por cliente, todos leídos y escritos como ficheros. Si una de estas llamadas falla antes de que el servidor empiece a atender, no se puede hacer nada útil: se informa del error y el programa termina con un código de fallo."
+
+[[questions.choices]]
+correct = true
+text = { en = "`accept` returns a new descriptor per client while the listening one keeps waiting: with three clients the server holds four descriptors, and a failure at startup is fatal", fr = "`accept` renvoie un nouveau descripteur par client pendant que celui d'écoute continue d'attendre : avec trois clients le serveur en détient quatre, et un échec au démarrage est fatal", es = "`accept` devuelve un descriptor nuevo por cliente mientras el de escucha sigue esperando: con tres clientes el servidor tiene cuatro, y un fallo al arrancar es fatal" }
+
+[[questions.choices]]
+text = { en = "`accept` reuses the listening descriptor, so the server always holds just one", fr = "`accept` réutilise le descripteur d'écoute, donc le serveur n'en détient jamais qu'un", es = "`accept` reutiliza el descriptor de escucha, así que el servidor solo tiene uno" }
+
+[[questions.choices]]
+text = { en = "With three clients the server holds three descriptors: the listening one is closed after the first `accept`", fr = "Avec trois clients le serveur détient trois descripteurs : celui d'écoute est fermé après le premier `accept`", es = "Con tres clientes el servidor tiene tres descriptores: el de escucha se cierra tras el primer `accept`" }
+
+[[questions.choices]]
+text = { en = "`listen` is what takes the connections, `accept` only reading the data that follows", fr = "`listen` est ce qui prend les connexions, `accept` ne faisant que lire les données ensuite", es = "`listen` es lo que acepta las conexiones, y `accept` solo lee los datos que siguen" }
+
+[[questions]]
+slug = "rank06-l0-loopback-and-byte-order"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["sockets", "bitwise"]
+key_points = [
+  "127.0.0.1 is the loopback address: only programs on the same machine can reach it, whereas INADDR_ANY accepts connections on every network interface.",
+  "Addresses and ports are stored in network byte order, most significant byte first, whatever the byte order of the machine.",
+  "htonl converts a 32-bit address and htons a 16-bit port from the host order to the network order; 127.0.0.1 is the integer 2130706433 (0x7F000001) before conversion.",
+  "Forgetting the conversion on a little-endian machine silently binds to another port: 8080 stored as is becomes 36895.",
+]
+
+[questions.translations.en]
+title = "The loopback address and byte order"
+stem = "A server must accept connections only from the machine it runs on. Which address does it bind to, how does that differ from `INADDR_ANY`, and why must the address and the port go through `htonl` and `htons`?"
+explanation = "The loopback address, 127.0.0.1, can only be reached from the machine itself, whereas `INADDR_ANY` accepts connections arriving on every network interface, including from other machines. Addresses and ports are stored in network byte order, most significant byte first, whatever the machine. `htonl` converts a 32-bit address and `htons` a 16-bit port from the host order: 127.0.0.1 is the integer 2130706433, that is 0x7F000001, passed through `htonl`. On a little-endian machine, forgetting the conversion does not fail, it binds elsewhere: port 8080, 0x1F90, stored without `htons` is read as 0x901F, and the server listens on port 36895."
+
+[questions.translations.fr]
+title = "L'adresse de bouclage et l'ordre des octets"
+stem = "Un serveur ne doit accepter que des connexions venant de la machine où il tourne. À quelle adresse se lie-t-il, en quoi est-ce différent de `INADDR_ANY`, et pourquoi l'adresse et le port doivent-ils passer par `htonl` et `htons` ?"
+explanation = "L'adresse de bouclage, 127.0.0.1, n'est joignable que depuis la machine elle-même, alors que `INADDR_ANY` accepte les connexions arrivant sur toutes les interfaces réseau, y compris depuis d'autres machines. Les adresses et les ports sont rangés dans l'ordre réseau, octet de poids fort en premier, quelle que soit la machine. `htonl` convertit une adresse de 32 bits et `htons` un port de 16 bits depuis l'ordre de la machine : 127.0.0.1 est l'entier 2130706433, soit 0x7F000001, passé par `htonl`. Sur une machine petit-boutiste, oublier la conversion n'échoue pas, cela lie ailleurs : le port 8080, 0x1F90, rangé sans `htons`, est lu comme 0x901F, et le serveur écoute sur le port 36895."
+
+[questions.translations.es]
+title = "La dirección de bucle local y el orden de bytes"
+stem = "Un servidor solo debe aceptar conexiones de la máquina en la que se ejecuta. ¿A qué dirección se asocia, en qué se diferencia de `INADDR_ANY` y por qué la dirección y el puerto deben pasar por `htonl` y `htons`?"
+explanation = "La dirección de bucle local, 127.0.0.1, solo es accesible desde la propia máquina, mientras que `INADDR_ANY` acepta las conexiones que llegan por todas las interfaces de red, también desde otras máquinas. Las direcciones y los puertos se guardan en el orden de red, con el byte más significativo primero, sea cual sea la máquina. `htonl` convierte una dirección de 32 bits y `htons` un puerto de 16 bits desde el orden de la máquina: 127.0.0.1 es el entero 2130706433, es decir, 0x7F000001, pasado por `htonl`. En una máquina little-endian, olvidar la conversión no falla, sino que asocia a otro sitio: el puerto 8080, 0x1F90, guardado sin `htons`, se lee como 0x901F, y el servidor escucha en el puerto 36895."
+
+[[questions.choices]]
+correct = true
+text = { en = "127.0.0.1, the loopback, unlike `INADDR_ANY` which listens on every interface; `htonl` and `htons` put the address and the port in network order, and forgetting it turns 8080 into 36895", fr = "127.0.0.1, la boucle locale, contrairement à `INADDR_ANY` qui écoute sur toutes les interfaces ; `htonl` et `htons` mettent l'adresse et le port en ordre réseau, et l'oublier transforme 8080 en 36895", es = "127.0.0.1, el bucle local, al contrario que `INADDR_ANY` que escucha en todas las interfaces; `htonl` y `htons` ponen la dirección y el puerto en orden de red, y olvidarlo convierte 8080 en 36895" }
+
+[[questions.choices]]
+text = { en = "`INADDR_ANY` is the loopback address, and 127.0.0.1 opens the server to the network", fr = "`INADDR_ANY` est l'adresse de boucle locale, et 127.0.0.1 ouvre le serveur au réseau", es = "`INADDR_ANY` es la dirección de bucle local, y 127.0.0.1 abre el servidor a la red" }
+
+[[questions.choices]]
+text = { en = "The conversion is only useful on a big-endian machine; elsewhere it changes nothing", fr = "La conversion n'est utile que sur une machine gros-boutiste ; ailleurs elle ne change rien", es = "La conversión solo sirve en una máquina big-endian; en otras no cambia nada" }
+
+[[questions.choices]]
+text = { en = "Forgetting `htons` makes `bind` fail with an error, which catches the mistake at once", fr = "Oublier `htons` fait échouer `bind` avec une erreur, ce qui attrape la faute tout de suite", es = "Olvidar `htons` hace fallar `bind` con un error, lo que detecta el fallo en seguida" }
+
+[[questions]]
+slug = "rank06-l0-waiting-with-select"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["io-multiplexing", "file-descriptors"]
+key_points = [
+  "select blocks until at least one descriptor of the given sets is ready, so a single thread can serve every client without blocking on any one of them.",
+  "Its first argument is the highest descriptor number plus one, not the number of descriptors; a descriptor above that bound is never checked.",
+  "select overwrites the sets with only the ready descriptors, so the program keeps a master set and copies it before every call.",
+  "The listening socket is reported readable when a connection is waiting, so accept will not block; a client socket is readable when data, or the end of the connection, has arrived.",
+]
+
+[questions.translations.en]
+title = "Waiting on many sockets with select"
+stem = "A server with many clients waits for activity with `select`. What does `select` wait for, what is its first argument, why must the sets be rebuilt before each call, and what does being readable mean for the listening socket and for a client socket?"
+explanation = "`select` blocks until at least one descriptor of the sets it receives is ready, which lets a single thread serve every client without ever waiting on one in particular. Its first argument is the highest descriptor number plus one, not a count: a descriptor at or above that bound is simply not checked, and forgetting the plus one makes the server deaf to its highest descriptor. On return, the sets only contain the descriptors that are ready, so the program keeps a master set of every descriptor it watches and copies it before each call. The listening socket is readable when a connection is waiting, so `accept` returns at once; a client socket is readable when data has arrived, or when the client has closed its side."
+
+[questions.translations.fr]
+title = "Attendre sur plusieurs sockets avec select"
+stem = "Un serveur avec de nombreux clients attend l'activité avec `select`. Qu'attend `select`, quel est son premier argument, pourquoi faut-il reconstruire les ensembles avant chaque appel, et que signifie « prêt en lecture » pour la socket d'écoute et pour la socket d'un client ?"
+explanation = "`select` bloque jusqu'à ce qu'au moins un descripteur des ensembles qu'il reçoit soit prêt, ce qui permet à un seul fil d'exécution de servir tous les clients sans jamais attendre l'un d'eux en particulier. Son premier argument est le plus grand numéro de descripteur plus un, pas un nombre de descripteurs : un descripteur égal ou supérieur à cette borne n'est tout simplement pas surveillé, et oublier le plus un rend le serveur sourd à son plus grand descripteur. Au retour, les ensembles ne contiennent plus que les descripteurs prêts : le programme garde donc un ensemble de référence de tout ce qu'il surveille et le copie avant chaque appel. La socket d'écoute est prête en lecture quand une connexion attend, et `accept` revient alors tout de suite ; la socket d'un client est prête quand des données sont arrivées, ou quand le client a fermé son côté."
+
+[questions.translations.es]
+title = "Esperar en varios sockets con select"
+stem = "Un servidor con muchos clientes espera la actividad con `select`. ¿Qué espera `select`, cuál es su primer argumento, por qué hay que reconstruir los conjuntos antes de cada llamada y qué significa estar listo para lectura para el socket de escucha y para el socket de un cliente?"
+explanation = "`select` se bloquea hasta que al menos un descriptor de los conjuntos que recibe está listo, lo que permite a un solo hilo atender a todos los clientes sin esperar nunca a uno en concreto. Su primer argumento es el número de descriptor más alto más uno, no una cantidad: un descriptor igual o superior a ese límite simplemente no se vigila, y olvidar el más uno deja al servidor sordo a su descriptor más alto. Al volver, los conjuntos solo contienen los descriptores listos, así que el programa guarda un conjunto de referencia con todo lo que vigila y lo copia antes de cada llamada. El socket de escucha está listo para lectura cuando hay una conexión esperando, y `accept` vuelve entonces enseguida; el socket de un cliente está listo cuando han llegado datos, o cuando el cliente ha cerrado su lado."
+
+[[questions.choices]]
+correct = true
+text = { en = "Its first argument is the highest descriptor **plus one**; it overwrites the sets, so a master set is copied before each call; the listening socket readable means a connection waits", fr = "Son premier argument est le plus grand descripteur **plus un** ; il écrase les ensembles, donc on recopie un ensemble maître avant chaque appel ; la socket d'écoute lisible signifie qu'une connexion attend", es = "Su primer argumento es el mayor descriptor **más uno**; sobrescribe los conjuntos, así que se copia un conjunto maestro antes de cada llamada; el socket de escucha legible significa que espera una conexión" }
+
+[[questions.choices]]
+text = { en = "Its first argument is the number of descriptors being watched", fr = "Son premier argument est le nombre de descripteurs surveillés", es = "Su primer argumento es el número de descriptores vigilados" }
+
+[[questions.choices]]
+text = { en = "The sets are left untouched, so they can be reused from one call to the next", fr = "Les ensembles sont laissés intacts, on peut donc les réutiliser d'un appel à l'autre", es = "Los conjuntos quedan intactos, así que se pueden reutilizar de una llamada a otra" }
+
+[[questions.choices]]
+text = { en = "A readable listening socket means a client has sent data, which `recv` will read", fr = "Une socket d'écoute lisible signifie qu'un client a envoyé des données, que `recv` va lire", es = "Un socket de escucha legible significa que un cliente ha enviado datos, que `recv` leerá" }
+
+[[questions]]
+slug = "rank06-l0-clients-that-stop-reading"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["io-multiplexing", "sockets"]
+key_points = [
+  "The kernel buffers what is sent, but the buffers are finite: once a client stops reading and they are full, a blocking send waits, and a single-threaded server stops serving everyone.",
+  "The server also asks select for write readiness, and sends to a client only when its descriptor is in the ready write set.",
+  "A client that reads slowly or not at all is not disconnected: the data for it is skipped or kept for later, while the other clients keep being served.",
+  "recv and send are only called on descriptors that select reported ready, so neither call ever blocks.",
+]
+
+[questions.translations.en]
+title = "Clients that stop reading"
+stem = "A client connects to a chat server but never reads what it receives. Why can this eventually freeze a single-threaded server that uses a blocking `send`, and how does `select` avoid it without disconnecting that client?"
+explanation = "What the server sends is first stored in kernel buffers, which are large but finite. When a client never reads, they fill up, and a blocking `send` then waits for room that never comes: the whole server, which has only one thread, stops serving everyone. The fix is to also watch write readiness with `select` and to send to a client only when its descriptor is in the ready write set. A slow client is not a reason to disconnect it: the data meant for it is skipped or kept to be sent later, and the others are served normally. More generally, `recv` and `send` are only called on descriptors that `select` has reported ready, so neither can block."
+
+[questions.translations.fr]
+title = "Les clients qui arrêtent de lire"
+stem = "Un client se connecte à un serveur de discussion mais ne lit jamais ce qu'il reçoit. Pourquoi cela peut-il finir par figer un serveur à un seul fil d'exécution qui utilise un `send` bloquant, et comment `select` l'évite-t-il sans déconnecter ce client ?"
+explanation = "Ce que le serveur envoie est d'abord rangé dans des tampons du noyau, grands mais finis. Quand un client ne lit jamais, ils se remplissent, et un `send` bloquant attend alors une place qui ne vient pas : tout le serveur, qui n'a qu'un fil d'exécution, cesse de servir tout le monde. La solution est de surveiller aussi la disponibilité en écriture avec `select` et de n'envoyer à un client que lorsque son descripteur figure dans l'ensemble des prêts en écriture. Un client lent n'est pas une raison de le déconnecter : les données qui lui sont destinées sont sautées ou gardées pour plus tard, et les autres sont servis normalement. Plus généralement, `recv` et `send` ne sont appelés que sur des descripteurs que `select` a signalés prêts, si bien qu'aucun des deux ne peut bloquer."
+
+[questions.translations.es]
+title = "Los clientes que dejan de leer"
+stem = "Un cliente se conecta a un servidor de chat pero nunca lee lo que recibe. ¿Por qué puede esto acabar bloqueando un servidor de un solo hilo que usa un `send` bloqueante, y cómo lo evita `select` sin desconectar a ese cliente?"
+explanation = "Lo que el servidor envía se guarda primero en búferes del núcleo, grandes pero finitos. Cuando un cliente no lee nunca, se llenan, y un `send` bloqueante espera entonces un hueco que no llega: todo el servidor, que solo tiene un hilo, deja de atender a todos. La solución es vigilar también la disponibilidad para escritura con `select` y enviar a un cliente solo cuando su descriptor está en el conjunto de listos para escritura. Un cliente lento no es motivo para desconectarlo: los datos que le corresponden se saltan o se guardan para después, y los demás se atienden con normalidad. En general, `recv` y `send` solo se llaman sobre descriptores que `select` ha señalado como listos, así que ninguno de los dos puede bloquearse."
+
+[[questions.choices]]
+correct = true
+text = { en = "The kernel buffers are finite: once full, a blocking `send` waits and the single thread stops serving everyone. Asking `select` for write readiness sends only to clients that can take it", fr = "Les tampons du noyau sont finis : une fois pleins, un `send` bloquant attend et le fil unique cesse de servir tout le monde. Demander à `select` la disponibilité en écriture n'envoie qu'aux clients qui peuvent recevoir", es = "Los búferes del núcleo son finitos: una vez llenos, un `send` bloqueante espera y el hilo único deja de servir a todos. Pedir a `select` la disponibilidad de escritura envía solo a los clientes que pueden recibir" }
+
+[[questions.choices]]
+text = { en = "The kernel buffers are unbounded, so `send` never blocks on a socket", fr = "Les tampons du noyau sont sans limite, donc `send` ne bloque jamais sur une socket", es = "Los búferes del núcleo no tienen límite, así que `send` nunca bloquea en un socket" }
+
+[[questions.choices]]
+text = { en = "The only fix is to disconnect a client that does not read", fr = "La seule solution est de déconnecter un client qui ne lit pas", es = "La única solución es desconectar a un cliente que no lee" }
+
+[[questions.choices]]
+text = { en = "`select` only reports readability; write readiness is not something it can answer", fr = "`select` ne signale que la lisibilité ; la disponibilité en écriture n'est pas de son ressort", es = "`select` solo informa de la legibilidad; la disponibilidad de escritura no es cosa suya" }
+
+[[questions]]
+slug = "rank06-l0-detecting-a-disconnection"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["sockets", "memory"]
+key_points = [
+  "When a client closes the connection, its socket becomes readable and recv returns 0 once any pending data has been read.",
+  "recv can also return -1, for instance when the connection is reset because the client closed with data still unread; the client is treated as gone in that case too.",
+  "The server then removes the descriptor from its master set, closes it, frees what it kept for that client, and informs the other clients if needed.",
+  "The number must not be used after close, since the next accept can return the same number for a new client.",
+]
+
+[questions.translations.en]
+title = "Detecting that a client has left"
+stem = "How does a server notice that a client has disconnected? What do the return values 0 and -1 of `recv` mean here, and what must be cleaned up so that no descriptor or memory leaks?"
+explanation = "When a client closes its connection, its socket becomes readable, and `recv` returns 0 once any data still pending has been read: that is the normal end of the connection. `recv` can also return -1, for instance when the connection is reset because the client closed while data sent to it was still unread; the client is gone in that case too. The server then removes the descriptor from its master set, closes it, frees everything it kept for that client, such as its input buffer, and tells the other clients if the program needs to. The number must not be used after `close`: the next `accept` can return the very same number for a new client."
+
+[questions.translations.fr]
+title = "Détecter le départ d'un client"
+stem = "Comment un serveur remarque-t-il qu'un client s'est déconnecté ? Que signifient ici les valeurs de retour 0 et -1 de `recv`, et que faut-il nettoyer pour ne perdre ni descripteur ni mémoire ?"
+explanation = "Quand un client ferme sa connexion, sa socket devient prête en lecture, et `recv` renvoie 0 une fois lues les données encore en attente : c'est la fin normale de la connexion. `recv` peut aussi renvoyer -1, par exemple quand la connexion est réinitialisée parce que le client a fermé alors que des données qui lui étaient envoyées n'avaient pas été lues ; le client est parti dans ce cas aussi. Le serveur retire alors le descripteur de son ensemble de référence, le ferme, libère tout ce qu'il gardait pour ce client, comme son tampon d'entrée, et prévient les autres clients si le programme le demande. Le numéro ne doit plus servir après `close` : le prochain `accept` peut renvoyer exactement le même numéro pour un nouveau client."
+
+[questions.translations.es]
+title = "Detectar que un cliente se ha ido"
+stem = "¿Cómo se da cuenta un servidor de que un cliente se ha desconectado? ¿Qué significan aquí los valores de retorno 0 y -1 de `recv`, y qué hay que limpiar para no perder ni descriptores ni memoria?"
+explanation = "Cuando un cliente cierra su conexión, su socket queda listo para lectura, y `recv` devuelve 0 una vez leídos los datos que aún estaban pendientes: es el final normal de la conexión. `recv` también puede devolver -1, por ejemplo cuando la conexión se reinicia porque el cliente cerró mientras había datos enviados a él sin leer; en ese caso el cliente también se ha ido. El servidor quita entonces el descriptor de su conjunto de referencia, lo cierra, libera todo lo que guardaba para ese cliente, como su búfer de entrada, y avisa a los demás clientes si el programa lo requiere. El número no debe usarse después de `close`: el siguiente `accept` puede devolver exactamente el mismo número para un cliente nuevo."
+
+[[questions.choices]]
+correct = true
+text = { en = "`recv` returns 0 once pending data is read, and -1 when the connection was reset; the server removes the descriptor from its set, closes it, frees what it kept, and never reuses the number", fr = "`recv` renvoie 0 une fois les données en attente lues, et -1 quand la connexion a été réinitialisée ; le serveur retire le descripteur de son ensemble, le ferme, libère ce qu'il gardait, et ne réutilise jamais le numéro", es = "`recv` devuelve 0 una vez leídos los datos pendientes, y -1 cuando la conexión se reinició; el servidor quita el descriptor de su conjunto, lo cierra, libera lo que guardaba y nunca reutiliza el número" }
+
+[[questions.choices]]
+text = { en = "`recv` returns -1 on a clean disconnection and 0 on an error, the other way round", fr = "`recv` renvoie -1 sur une déconnexion propre et 0 sur une erreur, dans l'autre sens", es = "`recv` devuelve -1 en una desconexión limpia y 0 en un error, al revés" }
+
+[[questions.choices]]
+text = { en = "Closing the descriptor is enough: removing it from the set is only tidiness", fr = "Fermer le descripteur suffit : le retirer de l'ensemble n'est que de la propreté", es = "Cerrar el descriptor basta: quitarlo del conjunto es solo limpieza" }
+
+[[questions.choices]]
+text = { en = "A closed descriptor number is never given out again, so it can go on being used", fr = "Un numéro de descripteur fermé n'est jamais redistribué, on peut donc continuer à s'en servir", es = "Un número de descriptor cerrado nunca se vuelve a repartir, así que puede seguir usándose" }
+
+[[questions]]
+slug = "rank06-l0-two-sends-one-recv"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["sockets", "strings"]
+key_points = [
+  "TCP delivers a stream of bytes and keeps no message boundaries: two sends can arrive in one recv, and one send can be split over several recv calls.",
+  "A server that works line by line keeps a buffer per client, appends each received chunk to it, and extracts only the complete lines, those ending with '\\n'.",
+  "The incomplete end stays in the buffer until the rest arrives; the buffer grows as needed and is freed when the client leaves.",
+  "Treating each recv as exactly one message breaks as soon as the client sends quickly or the data is large.",
+]
+
+[questions.translations.en]
+title = "Two sends, one recv"
+stem = "A client sends `one\\n` then `two\\nthr` in two separate calls. The server receives `one\\ntwo\\nthr` in a single `recv`. Why, and how should a server that processes its input line by line handle it?"
+explanation = "TCP carries a stream of bytes and keeps no trace of how they were sent: two sends can come out of a single `recv`, as here, and one send can just as well be split across several `recv` calls. The server therefore cannot treat each `recv` as one message. It keeps a buffer per client, appends every chunk it receives to it, and extracts only the complete lines, those that end with `\\n`: here `one` and `two`. The incomplete end, `thr`, stays in the buffer until the rest of its line arrives. The buffer grows as needed, and it is freed when the client leaves."
+
+[questions.translations.fr]
+title = "Deux envois, un seul recv"
+stem = "Un client envoie `one\\n` puis `two\\nthr` en deux appels séparés. Le serveur reçoit `one\\ntwo\\nthr` en un seul `recv`. Pourquoi, et comment un serveur qui traite son entrée ligne par ligne doit-il s'y prendre ?"
+explanation = "TCP transporte un flux d'octets et ne garde aucune trace de la façon dont ils ont été envoyés : deux envois peuvent ressortir d'un seul `recv`, comme ici, et un envoi peut tout aussi bien être découpé sur plusieurs appels à `recv`. Le serveur ne peut donc pas traiter chaque `recv` comme un message. Il garde un tampon par client, y ajoute chaque morceau reçu et n'en extrait que les lignes complètes, celles qui se terminent par `\\n` : ici `one` et `two`. La fin incomplète, `thr`, reste dans le tampon jusqu'à ce que la suite de sa ligne arrive. Le tampon grandit au besoin, et il est libéré quand le client part."
+
+[questions.translations.es]
+title = "Dos envíos, un solo recv"
+stem = "Un cliente envía `one\\n` y después `two\\nthr` en dos llamadas separadas. El servidor recibe `one\\ntwo\\nthr` en un solo `recv`. ¿Por qué, y cómo debe tratarlo un servidor que procesa su entrada línea por línea?"
+explanation = "TCP transporta un flujo de bytes y no guarda rastro de cómo se enviaron: dos envíos pueden salir de un solo `recv`, como aquí, y un envío puede igualmente repartirse entre varias llamadas a `recv`. Por eso el servidor no puede tratar cada `recv` como un mensaje. Guarda un búfer por cliente, le añade cada trozo recibido y solo extrae las líneas completas, las que terminan en `\\n`: aquí `one` y `two`. El final incompleto, `thr`, se queda en el búfer hasta que llega el resto de su línea. El búfer crece según haga falta y se libera cuando el cliente se va."
+
+[[questions.choices]]
+correct = true
+text = { en = "TCP is a stream with no message boundaries: keep a buffer per client, append each chunk and take out only the lines ending with `\\n`, leaving the incomplete end for later", fr = "TCP est un flux sans frontières de messages : garder un tampon par client, y ajouter chaque morceau et n'en sortir que les lignes finies par `\\n`, en laissant la fin incomplète pour plus tard", es = "TCP es un flujo sin fronteras de mensajes: guardar un búfer por cliente, añadir cada trozo y sacar solo las líneas acabadas en `\\n`, dejando el final incompleto para luego" }
+
+[[questions.choices]]
+text = { en = "One `recv` always matches one `send`, so this can only come from a bug in the client", fr = "Un `recv` correspond toujours à un `send`, donc cela ne peut venir que d'un bug du client", es = "Un `recv` siempre corresponde a un `send`, así que esto solo puede venir de un fallo del cliente" }
+
+[[questions.choices]]
+text = { en = "Making the buffer as large as the longest line is enough to get one line per `recv`", fr = "Prendre un tampon aussi grand que la ligne la plus longue suffit à recevoir une ligne par `recv`", es = "Tomar un búfer tan grande como la línea más larga basta para recibir una línea por `recv`" }
+
+[[questions.choices]]
+text = { en = "The incomplete end must be dropped, since the rest will arrive in a complete chunk", fr = "La fin incomplète doit être jetée, puisque le reste arrivera dans un morceau complet", es = "El final incompleto debe tirarse, ya que el resto llegará en un trozo completo" }
+
+[[questions]]
+slug = "rank06-l0-client-ids-and-broadcast"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["io-multiplexing", "data-structures"]
+key_points = [
+  "Each client gets an identifier from a counter that only increases, and a table indexed by descriptor maps each descriptor to the identifier of its client.",
+  "The identifier cannot be the descriptor itself: a closed descriptor number is reused by the next accept, and the new client would take the identity of the old one.",
+  "Relaying means sending to every connected client except the sender and the listening socket, walking the descriptors up to the highest one.",
+  "The label naming the sender goes in front of each line, not once per recv, since one recv can hold several lines.",
+]
+
+[questions.translations.en]
+title = "Client numbers and relaying messages"
+stem = "In a chat server, each client gets a number, and every line a client sends is relayed to all the others with that number in front. Why not use the descriptor as the number, how is the relaying done, and where does the label go when one `recv` contains several lines?"
+explanation = "The number comes from a counter that only goes up, and a table indexed by descriptor gives, for each descriptor, the number of its client. The descriptor itself would not work: once closed, its number is handed out again by the next `accept`, and the newcomer would take the identity of the client who left. Relaying means walking the descriptors up to the highest one and sending to each connected client, except the sender and the listening socket. Since a single `recv` can hold several lines, the label naming the sender goes in front of each line, not once per chunk received."
+
+[questions.translations.fr]
+title = "Numéros de clients et relais des messages"
+stem = "Dans un serveur de discussion, chaque client reçoit un numéro, et chaque ligne envoyée par un client est relayée à tous les autres précédée de ce numéro. Pourquoi ne pas utiliser le descripteur comme numéro, comment se fait le relais, et où va l'étiquette quand un seul `recv` contient plusieurs lignes ?"
+explanation = "Le numéro vient d'un compteur qui ne fait qu'augmenter, et une table indexée par descripteur donne, pour chaque descripteur, le numéro de son client. Le descripteur lui-même ne conviendrait pas : une fois fermé, son numéro est redistribué par le prochain `accept`, et le nouveau venu prendrait l'identité du client parti. Relayer consiste à parcourir les descripteurs jusqu'au plus grand et à envoyer à chaque client connecté, sauf l'expéditeur et la socket d'écoute. Comme un seul `recv` peut contenir plusieurs lignes, l'étiquette qui nomme l'expéditeur se place devant chaque ligne, et non une fois par morceau reçu."
+
+[questions.translations.es]
+title = "Números de clientes y reenvío de mensajes"
+stem = "En un servidor de chat, cada cliente recibe un número, y cada línea que envía un cliente se reenvía a todos los demás precedida de ese número. ¿Por qué no usar el descriptor como número, cómo se hace el reenvío y dónde va la etiqueta cuando un solo `recv` contiene varias líneas?"
+explanation = "El número sale de un contador que solo aumenta, y una tabla indexada por descriptor da, para cada descriptor, el número de su cliente. El propio descriptor no serviría: una vez cerrado, el siguiente `accept` vuelve a repartir su número, y el recién llegado tomaría la identidad del cliente que se fue. Reenviar consiste en recorrer los descriptores hasta el más alto y enviar a cada cliente conectado, salvo al remitente y al socket de escucha. Como un solo `recv` puede contener varias líneas, la etiqueta que nombra al remitente va delante de cada línea, y no una vez por trozo recibido."
+
+[[questions.choices]]
+correct = true
+text = { en = "An ever-increasing counter, mapped by a table indexed by descriptor: a closed descriptor number is reused by the next `accept`, and the label goes in front of **each** line, not each `recv`", fr = "Un compteur toujours croissant, relié par une table indexée par descripteur : un numéro de descripteur fermé est réutilisé par le prochain `accept`, et l'étiquette précède **chaque** ligne, pas chaque `recv`", es = "Un contador siempre creciente, ligado por una tabla indexada por descriptor: un número de descriptor cerrado lo reutiliza el siguiente `accept`, y la etiqueta va delante de **cada** línea, no de cada `recv`" }
+
+[[questions.choices]]
+text = { en = "The descriptor makes a fine identifier: it is unique for the whole life of the server", fr = "Le descripteur fait un bon identifiant : il est unique pour toute la vie du serveur", es = "El descriptor sirve de identificador: es único durante toda la vida del servidor" }
+
+[[questions.choices]]
+text = { en = "The label is written once per `recv`, in front of everything it contained", fr = "L'étiquette est écrite une fois par `recv`, devant tout ce qu'il contenait", es = "La etiqueta se escribe una vez por `recv`, delante de todo lo que contenía" }
+
+[[questions.choices]]
+text = { en = "Relaying sends to every descriptor, the sender and the listening socket included", fr = "Le relais envoie à tous les descripteurs, l'émetteur et la socket d'écoute compris", es = "El relevo envía a todos los descriptores, incluidos el emisor y el socket de escucha" }
+
+[[questions]]
+slug = "rank06-l0-sending-to-a-closed-connection"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["signals", "sockets"]
+key_points = [
+  "Writing to a connection the other side has closed raises SIGPIPE, whose default action terminates the whole server without any message.",
+  "A server relaying to many clients can send to one that has just left before select and recv have reported the disconnection.",
+  "Passing MSG_NOSIGNAL to send, or ignoring SIGPIPE, turns this into an error return with errno set to EPIPE, which the server treats as a disconnection.",
+]
+
+[questions.translations.en]
+title = "Sending to a closed connection"
+stem = "A server relays a message to a client that has just closed its connection, and the whole server stops, with no error message at all. What happened, and how can it be prevented?"
+explanation = "Writing to a connection that the other side has closed raises the `SIGPIPE` signal, whose default action terminates the process: the server dies without printing anything. The first write after the close may still be accepted, the other side answers it with a reset, and the next one triggers the signal. A server that relays to many clients can easily do this, sending to a client that has just left before `select` and `recv` have told it so. Passing the `MSG_NOSIGNAL` flag to `send`, or ignoring `SIGPIPE`, replaces the signal with an error return, `errno` being set to `EPIPE`, which the server handles as a disconnection."
+
+[questions.translations.fr]
+title = "Envoyer sur une connexion fermée"
+stem = "Un serveur relaie un message à un client qui vient de fermer sa connexion, et tout le serveur s'arrête, sans le moindre message d'erreur. Que s'est-il passé, et comment l'éviter ?"
+explanation = "Écrire sur une connexion que l'autre côté a fermée déclenche le signal `SIGPIPE`, dont l'action par défaut termine le processus : le serveur meurt sans rien afficher. La première écriture après la fermeture peut encore être acceptée, l'autre côté y répond par une réinitialisation, et la suivante déclenche le signal. Un serveur qui relaie vers de nombreux clients peut facilement le faire, en envoyant à un client qui vient de partir avant que `select` et `recv` ne le lui aient signalé. Passer l'option `MSG_NOSIGNAL` à `send`, ou ignorer `SIGPIPE`, remplace le signal par un retour d'erreur, `errno` valant `EPIPE`, que le serveur traite comme une déconnexion."
+
+[questions.translations.es]
+title = "Enviar por una conexión cerrada"
+stem = "Un servidor reenvía un mensaje a un cliente que acaba de cerrar su conexión, y todo el servidor se detiene, sin ningún mensaje de error. ¿Qué ha pasado y cómo se evita?"
+explanation = "Escribir en una conexión que el otro lado ha cerrado provoca la señal `SIGPIPE`, cuya acción por defecto termina el proceso: el servidor muere sin mostrar nada. La primera escritura después del cierre todavía puede aceptarse, el otro lado responde con un reinicio, y la siguiente provoca la señal. Un servidor que reenvía a muchos clientes puede hacerlo con facilidad, enviando a un cliente que acaba de irse antes de que `select` y `recv` se lo hayan indicado. Pasar la opción `MSG_NOSIGNAL` a `send`, o ignorar `SIGPIPE`, sustituye la señal por un retorno de error, con `errno` igual a `EPIPE`, que el servidor trata como una desconexión."
+
+[[questions.choices]]
+correct = true
+text = { en = "`SIGPIPE`, whose default action kills the whole server silently; `MSG_NOSIGNAL` on `send`, or ignoring the signal, turns it into a -1 with `EPIPE` the server treats as a disconnection", fr = "`SIGPIPE`, dont l'action par défaut tue tout le serveur en silence ; `MSG_NOSIGNAL` sur `send`, ou ignorer le signal, en fait un -1 avec `EPIPE` que le serveur traite comme une déconnexion", es = "`SIGPIPE`, cuya acción por defecto mata todo el servidor en silencio; `MSG_NOSIGNAL` en `send`, o ignorar la señal, lo convierte en un -1 con `EPIPE` que el servidor trata como desconexión" }
+
+[[questions.choices]]
+text = { en = "The server ran out of memory, which ends it without a message", fr = "Le serveur a manqué de mémoire, ce qui le termine sans message", es = "Al servidor le faltó memoria, lo que lo termina sin mensaje" }
+
+[[questions.choices]]
+text = { en = "`select` cannot report a client that has just left, so this case is unavoidable", fr = "`select` ne peut pas signaler un client qui vient de partir, ce cas est donc inévitable", es = "`select` no puede avisar de un cliente que acaba de irse, así que este caso es inevitable" }
+
+[[questions.choices]]
+text = { en = "`send` to a closed connection returns 0, which the server must test", fr = "`send` vers une connexion fermée renvoie 0, ce que le serveur doit tester", es = "`send` hacia una conexión cerrada devuelve 0, lo que el servidor debe comprobar" }
+
+[[questions]]
+slug = "rank06-l0-key-value-store"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["stl-containers", "complexity"]
+key_points = [
+  "std::map keeps its keys sorted in a balanced tree: lookup, insertion and removal take logarithmic time.",
+  "std::unordered_map, available since C++11, uses a hash table: constant time on average, with no order between keys.",
+  "find looks a key up without changing the container, whereas operator[] inserts an empty value when the key is absent.",
+  "erase(key) returns the number of elements removed, 0 or 1, which says directly whether the key existed.",
+]
+
+[questions.translations.en]
+title = "Storing key/value pairs in C++"
+stem = "A server keeps key/value pairs in memory and must answer lookups quickly. Compare `std::map` and `std::unordered_map`, then explain why a lookup should use `find` rather than `operator[]`, and what `erase(key)` returns."
+explanation = "`std::map` keeps its keys sorted in a balanced tree, so looking up, inserting and removing take logarithmic time, and the pairs come out in key order. `std::unordered_map`, available since C++11, uses a hash table: constant time on average, but no order between the keys. For a lookup, `find` returns an iterator, equal to `end()` when the key is absent, without changing anything; `operator[]` on a missing key inserts it with an empty value, so a simple read would make the key exist. `erase(key)` returns the number of elements removed, 0 or 1 for these containers, which tells directly whether the key was there."
+
+[questions.translations.fr]
+title = "Ranger des paires clé/valeur en C++"
+stem = "Un serveur garde des paires clé/valeur en mémoire et doit répondre vite aux recherches. Comparez `std::map` et `std::unordered_map`, puis expliquez pourquoi une recherche doit utiliser `find` plutôt que `operator[]`, et ce que renvoie `erase(key)`."
+explanation = "`std::map` garde ses clés triées dans un arbre équilibré : rechercher, insérer et supprimer prennent un temps logarithmique, et les paires sortent dans l'ordre des clés. `std::unordered_map`, disponible depuis C++11, utilise une table de hachage : temps constant en moyenne, mais aucun ordre entre les clés. Pour une recherche, `find` renvoie un itérateur, égal à `end()` quand la clé est absente, sans rien modifier ; `operator[]` sur une clé absente l'insère avec une valeur vide, si bien qu'une simple lecture ferait exister la clé. `erase(key)` renvoie le nombre d'éléments supprimés, 0 ou 1 pour ces conteneurs, ce qui dit directement si la clé était là."
+
+[questions.translations.es]
+title = "Guardar pares clave/valor en C++"
+stem = "Un servidor guarda pares clave/valor en memoria y debe responder rápido a las búsquedas. Compara `std::map` y `std::unordered_map`, y después explica por qué una búsqueda debe usar `find` en lugar de `operator[]`, y qué devuelve `erase(key)`."
+explanation = "`std::map` mantiene sus claves ordenadas en un árbol equilibrado: buscar, insertar y eliminar llevan un tiempo logarítmico, y los pares salen en el orden de las claves. `std::unordered_map`, disponible desde C++11, usa una tabla hash: tiempo constante de media, pero sin orden entre las claves. Para buscar, `find` devuelve un iterador, igual a `end()` cuando la clave no está, sin modificar nada; `operator[]` sobre una clave ausente la inserta con un valor vacío, así que una simple lectura haría existir la clave. `erase(key)` devuelve el número de elementos eliminados, 0 o 1 en estos contenedores, lo que indica directamente si la clave estaba."
+
+[[questions.choices]]
+correct = true
+text = { en = "`std::map` is a sorted tree with logarithmic operations, `std::unordered_map` a hash table with constant time on average; `find` does not insert whereas `operator[]` does, and `erase(key)` returns 0 or 1", fr = "`std::map` est un arbre trié aux opérations logarithmiques, `std::unordered_map` une table de hachage en temps constant en moyenne ; `find` n'insère pas alors que `operator[]` le fait, et `erase(cle)` renvoie 0 ou 1", es = "`std::map` es un árbol ordenado con operaciones logarítmicas, `std::unordered_map` una tabla hash de tiempo constante en media; `find` no inserta mientras que `operator[]` sí, y `erase(clave)` devuelve 0 o 1" }
+
+[[questions.choices]]
+text = { en = "`operator[]` is the right one for a lookup: it returns a default value when the key is absent and changes nothing", fr = "`operator[]` est le bon choix pour une recherche : il renvoie une valeur par défaut si la clé manque et ne change rien", es = "`operator[]` es el adecuado para buscar: devuelve un valor por defecto si la clave falta y no cambia nada" }
+
+[[questions.choices]]
+text = { en = "`std::unordered_map` keeps its keys sorted too, only faster", fr = "`std::unordered_map` garde aussi ses clés triées, simplement plus vite", es = "`std::unordered_map` también mantiene sus claves ordenadas, solo que más rápido" }
+
+[[questions.choices]]
+text = { en = "`erase(key)` returns the value that was removed, or throws when the key is absent", fr = "`erase(cle)` renvoie la valeur retirée, ou lève une exception si la clé manque", es = "`erase(clave)` devuelve el valor quitado, o lanza una excepción si la clave falta" }
+
+[[questions]]
+slug = "rank06-l0-parsing-a-request-line"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1200
+tags = ["input-parsing", "strings"]
+key_points = [
+  "std::istringstream with >> splits a line into words, skipping any amount of spaces, tabs and the final newline.",
+  "Reading into command, key and value leaves the missing ones empty, so which strings are empty tells which form the request has.",
+  "One more read attempt that succeeds reveals a request with too many words.",
+  "A line that does not match a known command with the right number of words gets the error answer, and the server keeps running.",
+]
+
+[questions.translations.en]
+title = "Parsing a request line"
+stem = "A server receives text requests made of a command word, a key and sometimes a value, such as `SET color blue` or `GET color`. How can C++ split such a line into words, and how does the code recognise a request with a word missing or one too many?"
+explanation = "A `std::istringstream` built from the line, read with `>>`, gives one word at a time, skipping any number of spaces, tabs and the final newline. Reading into three strings, command, key and value, leaves the missing ones empty: `GET color` fills the first two, and a bare `GET` only the first. One more read, into a fourth string, fails normally; if it succeeds, the request has too many words, as in `SET color blue green`. A line that does not match a known command with the right number of words gets the error answer, and the server goes on serving."
+
+[questions.translations.fr]
+title = "Analyser une ligne de requête"
+stem = "Un serveur reçoit des requêtes textuelles faites d'un mot de commande, d'une clé et parfois d'une valeur, comme `SET color blue` ou `GET color`. Comment découper une telle ligne en mots en C++, et comment le code reconnaît-il une requête à laquelle il manque un mot, ou qui en a un de trop ?"
+explanation = "Un `std::istringstream` construit à partir de la ligne et lu avec `>>` donne un mot à la fois, en sautant n'importe quel nombre d'espaces, de tabulations et le saut de ligne final. Lire dans trois chaînes, commande, clé et valeur, laisse vides celles qui manquent : `GET color` remplit les deux premières, et un `GET` seul uniquement la première. Une lecture de plus, dans une quatrième chaîne, échoue normalement ; si elle réussit, la requête a trop de mots, comme `SET color blue green`. Une ligne qui ne correspond à aucune commande connue avec le bon nombre de mots reçoit la réponse d'erreur, et le serveur continue de servir."
+
+[questions.translations.es]
+title = "Analizar una línea de petición"
+stem = "Un servidor recibe peticiones de texto formadas por una palabra de comando, una clave y a veces un valor, como `SET color blue` o `GET color`. ¿Cómo se divide una línea así en palabras en C++, y cómo reconoce el código una petición a la que le falta una palabra o que tiene una de más?"
+explanation = "Un `std::istringstream` construido a partir de la línea y leído con `>>` da una palabra cada vez, saltándose cualquier cantidad de espacios, tabulaciones y el salto de línea final. Leer en tres cadenas, comando, clave y valor, deja vacías las que faltan: `GET color` rellena las dos primeras, y un `GET` solo, únicamente la primera. Una lectura más, en una cuarta cadena, normalmente falla; si tiene éxito, la petición tiene demasiadas palabras, como `SET color blue green`. Una línea que no corresponde a ningún comando conocido con el número correcto de palabras recibe la respuesta de error, y el servidor sigue atendiendo."
+
+[[questions.choices]]
+correct = true
+text = { en = "`std::istringstream` with `>>` splits on any amount of blanks; the strings left empty tell which form the request has, and one extra successful read reveals a word too many", fr = "`std::istringstream` avec `>>` découpe sur n'importe quelle quantité de blancs ; les chaînes restées vides disent quelle forme a la requête, et une lecture supplémentaire réussie révèle un mot en trop", es = "`std::istringstream` con `>>` corta con cualquier cantidad de blancos; las cadenas que quedan vacías dicen qué forma tiene la petición, y una lectura extra con éxito revela una palabra de más" }
+
+[[questions.choices]]
+text = { en = "`>>` stops at the first space only, so several spaces give empty words", fr = "`>>` s'arrête à la première espace seulement, donc plusieurs espaces donnent des mots vides", es = "`>>` se para solo en el primer espacio, así que varios espacios dan palabras vacías" }
+
+[[questions.choices]]
+text = { en = "A request with a word too many cannot be told apart, since the extra words are simply ignored", fr = "Une requête avec un mot en trop ne peut pas être distinguée, puisque les mots en trop sont simplement ignorés", es = "Una petición con una palabra de más no se puede distinguir, ya que las palabras extra se ignoran" }
+
+[[questions.choices]]
+text = { en = "A malformed line must end the server, since the protocol has been broken", fr = "Une ligne mal formée doit terminer le serveur, puisque le protocole a été rompu", es = "Una línea mal formada debe terminar el servidor, ya que se ha roto el protocolo" }
+
+[[questions]]
+slug = "rank06-l0-saving-on-a-signal"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["signals", "file-io"]
+key_points = [
+  "A signal handler may only call async-signal-safe functions, and writing a file through streams or allocating memory is not safe there.",
+  "The handler only sets a flag of type volatile sig_atomic_t, and the main loop checks it, then saves the data, releases everything and exits.",
+  "A signal arriving while the server waits in select makes select return -1 with errno set to EINTR, even with SA_RESTART, so the loop wakes up and sees the flag.",
+  "An EINTR from select is therefore expected and must not be treated as a fatal error.",
+]
+
+[questions.translations.en]
+title = "Saving the data on a signal"
+stem = "A server must save its data to a file when it receives `SIGINT`, then exit. Why not write the file directly inside the signal handler, and how does the main loop, blocked in `select`, find out that the signal arrived?"
+explanation = "A handler can run at any moment, in the middle of a `malloc` or of a stream operation, so it may only call async-signal-safe functions; writing a file through streams or allocating memory is not among them. The handler therefore only sets a flag of type `volatile sig_atomic_t`. The main loop reads that flag and does the real work: saving the data, releasing its resources and exiting. The loop does wake up, because a signal arriving during `select` makes it return -1 with `errno` set to `EINTR`, and `select` is not restarted even with `SA_RESTART`. That `EINTR` is expected: treating it as a fatal error would make the server exit without saving."
+
+[questions.translations.fr]
+title = "Sauvegarder les données sur un signal"
+stem = "Un serveur doit sauvegarder ses données dans un fichier quand il reçoit `SIGINT`, puis se terminer. Pourquoi ne pas écrire le fichier directement dans le gestionnaire de signal, et comment la boucle principale, bloquée dans `select`, apprend-elle que le signal est arrivé ?"
+explanation = "Un gestionnaire peut s'exécuter à n'importe quel moment, au milieu d'un `malloc` ou d'une opération sur un flux : il ne doit donc appeler que des fonctions sûres pour les signaux (async-signal-safe), et écrire un fichier par des flux ou allouer de la mémoire n'en font pas partie. Le gestionnaire se contente de lever un drapeau de type `volatile sig_atomic_t`. La boucle principale lit ce drapeau et fait le vrai travail : sauvegarder les données, libérer ses ressources et se terminer. La boucle se réveille bien, car un signal qui arrive pendant `select` le fait revenir avec -1 et `errno` égal à `EINTR`, et `select` n'est pas relancé, même avec `SA_RESTART`. Ce `EINTR` est attendu : le traiter comme une erreur fatale ferait quitter le serveur sans sauvegarder."
+
+[questions.translations.es]
+title = "Guardar los datos al recibir una señal"
+stem = "Un servidor debe guardar sus datos en un fichero cuando recibe `SIGINT`, y después terminar. ¿Por qué no escribir el fichero directamente en el manejador de la señal, y cómo se entera el bucle principal, bloqueado en `select`, de que ha llegado la señal?"
+explanation = "Un manejador puede ejecutarse en cualquier momento, en medio de un `malloc` o de una operación sobre un flujo, así que solo debe llamar a funciones seguras para señales (async-signal-safe), y escribir un fichero mediante flujos o reservar memoria no lo son. El manejador se limita a activar una bandera de tipo `volatile sig_atomic_t`. El bucle principal lee esa bandera y hace el trabajo real: guardar los datos, liberar sus recursos y terminar. El bucle sí se despierta, porque una señal que llega durante `select` hace que devuelva -1 con `errno` igual a `EINTR`, y `select` no se reanuda ni siquiera con `SA_RESTART`. Ese `EINTR` es esperado: tratarlo como un error fatal haría que el servidor saliera sin guardar."
+
+[[questions.choices]]
+correct = true
+text = { en = "A handler may only call async-signal-safe functions; it sets a `volatile sig_atomic_t` flag, and the signal makes `select` return -1 with `EINTR`, which the loop must not treat as fatal", fr = "Un gestionnaire ne peut appeler que des fonctions sûres vis-à-vis des signaux ; il positionne un drapeau `volatile sig_atomic_t`, et le signal fait revenir `select` avec -1 et `EINTR`, que la boucle ne doit pas prendre pour une erreur fatale", es = "Un manejador solo puede llamar a funciones seguras ante señales; pone una marca `volatile sig_atomic_t`, y la señal hace que `select` vuelva con -1 y `EINTR`, que el bucle no debe tomar por un error fatal" }
+
+[[questions.choices]]
+text = { en = "Writing the file in the handler is fine: it runs while the program is stopped anyway", fr = "Écrire le fichier dans le gestionnaire convient : il s'exécute pendant que le programme est de toute façon arrêté", es = "Escribir el fichero en el manejador vale: se ejecuta mientras el programa está parado de todos modos" }
+
+[[questions.choices]]
+text = { en = "`select` carries on waiting through the signal, so the loop only sees the flag at the next event", fr = "`select` continue d'attendre malgré le signal, donc la boucle ne voit le drapeau qu'au prochain événement", es = "`select` sigue esperando pese a la señal, así que el bucle solo ve la marca en el siguiente evento" }
+
+[[questions.choices]]
+text = { en = "An `EINTR` from `select` is an error like any other and must end the server", fr = "Un `EINTR` de `select` est une erreur comme une autre et doit terminer le serveur", es = "Un `EINTR` de `select` es un error como otro y debe terminar el servidor" }
+
+[[questions]]
+slug = "rank06-l0-reloading-saved-data"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1000
+tags = ["file-io", "error-handling"]
+key_points = [
+  "At startup the server tries to open the save file; a missing file is normal on the first run and simply means starting with no data.",
+  "When keys and values never contain spaces, one pair per line, the key, a space, then the value, can be read back without ambiguity.",
+  "Reading in a loop such as while (in >> key >> value) stops cleanly at the end of the file.",
+  "Saving then reloading must give back exactly the same pairs, which is easy to test.",
+]
+
+[questions.translations.en]
+title = "Reloading saved data at startup"
+stem = "A server saves its key/value pairs to a file and reloads them when it starts again. What file format is enough when keys and values never contain spaces, how is the file read back, and what should happen when it does not exist?"
+explanation = "Since neither keys nor values contain spaces, one pair per line, the key, a space, then the value, is enough: nothing can be mistaken for a separator. At startup, the server tries to open the file; if it does not exist, as on the very first run, it simply starts with no data, which is not an error. Otherwise a loop such as `while (in >> key >> value)` reads the pairs one by one and stops cleanly at the end of the file. Saving then reloading must give back exactly the same pairs, which is an easy thing to test."
+
+[questions.translations.fr]
+title = "Recharger les données au démarrage"
+stem = "Un serveur sauvegarde ses paires clé/valeur dans un fichier et les recharge quand il redémarre. Quel format de fichier suffit quand les clés et les valeurs ne contiennent jamais d'espace, comment relire le fichier, et que faire quand il n'existe pas ?"
+explanation = "Comme ni les clés ni les valeurs ne contiennent d'espace, une paire par ligne, la clé, une espace, puis la valeur, suffit : rien ne peut être confondu avec un séparateur. Au démarrage, le serveur essaie d'ouvrir le fichier ; s'il n'existe pas, comme au tout premier lancement, il démarre simplement sans données, ce qui n'est pas une erreur. Sinon, une boucle comme `while (in >> key >> value)` lit les paires une à une et s'arrête proprement à la fin du fichier. Sauvegarder puis recharger doit redonner exactement les mêmes paires, ce qui se teste facilement."
+
+[questions.translations.es]
+title = "Recargar los datos al arrancar"
+stem = "Un servidor guarda sus pares clave/valor en un fichero y los vuelve a cargar cuando arranca de nuevo. ¿Qué formato de fichero basta cuando las claves y los valores nunca contienen espacios, cómo se vuelve a leer el fichero y qué hacer cuando no existe?"
+explanation = "Como ni las claves ni los valores contienen espacios, un par por línea, la clave, un espacio y después el valor, basta: nada puede confundirse con un separador. Al arrancar, el servidor intenta abrir el fichero; si no existe, como en el primerísimo arranque, simplemente empieza sin datos, lo que no es un error. Si existe, un bucle como `while (in >> key >> value)` lee los pares uno a uno y se detiene limpiamente al final del fichero. Guardar y después recargar debe devolver exactamente los mismos pares, algo fácil de probar."
+
+[[questions.choices]]
+correct = true
+text = { en = "One pair per line, key then a space then the value, read back with `while (in >> key >> value)`; a missing file is normal on the first run and simply means starting empty", fr = "Une paire par ligne, la clé puis une espace puis la valeur, relue par `while (in >> cle >> valeur)` ; un fichier absent est normal au premier lancement et signifie simplement démarrer à vide", es = "Un par por línea, la clave, un espacio y el valor, releído con `while (in >> clave >> valor)`; un fichero que falta es normal en el primer arranque y solo significa empezar vacío" }
+
+[[questions.choices]]
+text = { en = "A missing file is an error that must stop the server at startup", fr = "Un fichier absent est une erreur qui doit arrêter le serveur au démarrage", es = "Un fichero que falta es un error que debe parar el servidor al arrancar" }
+
+[[questions.choices]]
+text = { en = "A separator other than a space is required, since `>>` cannot split a line", fr = "Un séparateur autre que l'espace est nécessaire, puisque `>>` ne sait pas découper une ligne", es = "Hace falta un separador distinto del espacio, ya que `>>` no sabe cortar una línea" }
+
+[[questions.choices]]
+text = { en = "The loop must count the lines beforehand, as `>>` gives no way of knowing the file has ended", fr = "La boucle doit compter les lignes au préalable, car `>>` ne permet pas de savoir que le fichier est fini", es = "El bucle debe contar las líneas de antemano, ya que `>>` no permite saber que el fichero terminó" }
+
+[[questions]]
+slug = "rank06-l0-restarting-on-the-same-port"
+topic = "exam-rank-06-level-0"
+kind = "free_text"
+difficulty = 1400
+tags = ["sockets", "error-handling"]
+key_points = [
+  "The side that closes a TCP connection first keeps it in the TIME_WAIT state for a while, about a minute on Linux; when a server with connected clients is stopped, that side is the server.",
+  "During that time, bind on the same port fails with EADDRINUSE, even though no program is listening on it.",
+  "Setting the SO_REUSEADDR option with setsockopt before bind allows binding again right away.",
+]
+
+[questions.translations.en]
+title = "Restarting on the same port"
+stem = "A server that had clients connected is stopped and restarted right away on the same port, and `bind` fails with `Address already in use`, although no other program is listening on it. Why, and how is it avoided?"
+explanation = "The side that closes a TCP connection first keeps it in the `TIME_WAIT` state for a while, about a minute on Linux, so that late packets of the old connection cannot be mistaken for a new one. When a server with connected clients is stopped, the server is that side. As long as those connections remain, `bind` on the same port fails with `EADDRINUSE`, even though nothing is listening. Setting the `SO_REUSEADDR` option with `setsockopt`, before `bind`, allows the address to be bound again at once, and the restarted server starts normally."
+
+[questions.translations.fr]
+title = "Redémarrer sur le même port"
+stem = "Un serveur qui avait des clients connectés est arrêté puis relancé aussitôt sur le même port, et `bind` échoue avec `Address already in use`, alors qu'aucun autre programme n'écoute sur ce port. Pourquoi, et comment l'éviter ?"
+explanation = "Le côté qui ferme une connexion TCP en premier la garde dans l'état `TIME_WAIT` pendant un moment, environ une minute sous Linux, pour que des paquets en retard de l'ancienne connexion ne soient pas pris pour ceux d'une nouvelle. Quand on arrête un serveur qui a des clients connectés, ce côté-là, c'est le serveur. Tant que ces connexions subsistent, `bind` sur le même port échoue avec `EADDRINUSE`, alors que rien n'écoute. Activer l'option `SO_REUSEADDR` avec `setsockopt`, avant `bind`, permet de lier de nouveau l'adresse tout de suite, et le serveur relancé démarre normalement."
+
+[questions.translations.es]
+title = "Volver a arrancar en el mismo puerto"
+stem = "Un servidor que tenía clientes conectados se detiene y se vuelve a lanzar enseguida en el mismo puerto, y `bind` falla con `Address already in use`, aunque ningún otro programa escucha en ese puerto. ¿Por qué, y cómo se evita?"
+explanation = "El lado que cierra primero una conexión TCP la mantiene en el estado `TIME_WAIT` durante un tiempo, alrededor de un minuto en Linux, para que los paquetes retrasados de la conexión antigua no se confundan con los de una nueva. Cuando se detiene un servidor con clientes conectados, ese lado es el servidor. Mientras esas conexiones existen, `bind` en el mismo puerto falla con `EADDRINUSE`, aunque nada esté escuchando. Activar la opción `SO_REUSEADDR` con `setsockopt`, antes de `bind`, permite volver a asociar la dirección de inmediato, y el servidor relanzado arranca con normalidad."
+
+[[questions.choices]]
+correct = true
+text = { en = "The side that closes first keeps the connection in `TIME_WAIT` for about a minute, and that side is the server; `SO_REUSEADDR` set with `setsockopt` before `bind` allows binding again at once", fr = "Le côté qui ferme en premier garde la connexion en `TIME_WAIT` une minute environ, et ce côté est le serveur ; `SO_REUSEADDR` posé par `setsockopt` avant `bind` permet de se lier à nouveau tout de suite", es = "El lado que cierra primero mantiene la conexión en `TIME_WAIT` cerca de un minuto, y ese lado es el servidor; `SO_REUSEADDR` puesto con `setsockopt` antes de `bind` permite ligarse de nuevo en seguida" }
+
+[[questions.choices]]
+text = { en = "Another program is still holding the port, and it has to be found and killed", fr = "Un autre programme tient encore le port, il faut le trouver et le tuer", es = "Otro programa sigue ocupando el puerto, hay que encontrarlo y matarlo" }
+
+[[questions.choices]]
+text = { en = "`SO_REUSEADDR` is set after `bind`, once the address is known", fr = "`SO_REUSEADDR` se pose après `bind`, une fois l'adresse connue", es = "`SO_REUSEADDR` se pone después de `bind`, una vez conocida la dirección" }
+
+[[questions.choices]]
+text = { en = "It is the client that stays in `TIME_WAIT`, which is why only the server side is affected", fr = "C'est le client qui reste en `TIME_WAIT`, c'est pourquoi seul le côté serveur est touché", es = "Es el cliente el que queda en `TIME_WAIT`, por eso solo el lado servidor se ve afectado" }
