@@ -1,6 +1,6 @@
+![42 School — Project Portfolio](banner.png)
 <div align="center">
 
-# 42 School — Project Portfolio
 https://github.com/LeDadaa/Projets-42/blob/main/README.md
 **From C fundamentals to systems programming, networking and full-stack development.**
 
