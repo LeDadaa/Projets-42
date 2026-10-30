@@ -1,7 +1,6 @@
 ![42 School — Project Portfolio](banner.png)
 <div align="center">
 
-https://github.com/LeDadaa/Projets-42/blob/main/README.md
 **From C fundamentals to systems programming, networking and full-stack development.**
 
 [![42 School](https://img.shields.io/badge/42-School-000000?style=flat-square)](https://42.fr/)
